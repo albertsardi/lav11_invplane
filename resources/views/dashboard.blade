@@ -1,0 +1,2291 @@
+<!DOCTYPE html>
+
+<!--[if lt IE 7]>
+<html class="no-js ie6 oldie" lang="en"> <![endif]-->
+<!--[if IE 7]>
+<html class="no-js ie7 oldie" lang="en"> <![endif]-->
+<!--[if IE 8]>
+<html class="no-js ie8 oldie" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="en"> <!--<![endif]-->
+
+<head>
+    <title>ATON CRM</title>
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="NOINDEX,NOFOLLOW">
+
+<link rel="icon" type="image/png" href="https://demo.invoiceplane.com/assets/core/img/favicon.png">
+
+<link rel="stylesheet" href="https://demo.invoiceplane.com/assets/invoiceplane/css/style.css?v=1.6.1">
+<link rel="stylesheet" href="https://demo.invoiceplane.com/assets/core/css/custom.css?v=1.6.1">
+
+    <link rel="stylesheet" href="https://demo.invoiceplane.com/assets/invoiceplane/css/monospace.css?v=1.6.1">
+
+<!--[if lt IE 9]>
+<script src="https://demo.invoiceplane.com/assets/core/js/legacy.min.js?v=1.6.1"></script>
+<![endif]-->
+
+<script src="https://demo.invoiceplane.com/assets/core/js/dependencies.min.js?v=1.6.1"></script>
+
+<script>
+    Dropzone.autoDiscover = false;
+
+    
+    $(function () {
+        $('.nav-tabs').tab();
+        $('.tip').tooltip();
+
+        $('body').on('focus', '.datepicker', function () {
+            $(this).datepicker({
+                autoclose: true,
+                format: 'dd.mm.yyyy',
+                language: 'en',
+                weekStart: '1',
+                todayBtn: "linked"
+            });
+        });
+
+        $(document).on('click', '.create-invoice', function () {
+            $('#modal-placeholder').load("https://demo.invoiceplane.com/invoices/ajax/modal_create_invoice");
+        });
+
+        $(document).on('click', '.create-quote', function () {
+            $('#modal-placeholder').load("https://demo.invoiceplane.com/quotes/ajax/modal_create_quote");
+        });
+
+        $(document).on('click', '#btn_quote_to_invoice', function () {
+            var quote_id = $(this).data('quote-id');
+            $('#modal-placeholder').load("https://demo.invoiceplane.com/quotes/ajax/modal_quote_to_invoice/" + quote_id);
+        });
+
+        $(document).on('click', '#btn_copy_invoice', function () {
+            var invoice_id = $(this).data('invoice-id');
+            $('#modal-placeholder').load("https://demo.invoiceplane.com/invoices/ajax/modal_copy_invoice", {invoice_id: invoice_id});
+        });
+
+        $(document).on('click', '#btn_create_credit', function () {
+            var invoice_id = $(this).data('invoice-id');
+            $('#modal-placeholder').load("https://demo.invoiceplane.com/invoices/ajax/modal_create_credit", {invoice_id: invoice_id});
+        });
+
+        $(document).on('click', '#btn_copy_quote', function () {
+            var quote_id = $(this).data('quote-id');
+            var client_id = $(this).data('client-id');
+            $('#modal-placeholder').load("https://demo.invoiceplane.com/quotes/ajax/modal_copy_quote", {
+                quote_id: quote_id,
+                client_id: client_id
+            });
+        });
+
+        $(document).on('click', '.client-create-invoice', function () {
+            var client_id = $(this).data('client-id');
+            $('#modal-placeholder').load("https://demo.invoiceplane.com/invoices/ajax/modal_create_invoice", {client_id: client_id});
+        });
+
+        $(document).on('click', '.client-create-quote', function () {
+            var client_id = $(this).data('client-id');
+            $('#modal-placeholder').load("https://demo.invoiceplane.com/quotes/ajax/modal_create_quote", {client_id: client_id});
+        });
+
+        $(document).on('click', '.invoice-add-payment', function () {
+            var invoice_id = $(this).data('invoice-id');
+            var invoice_balance = $(this).data('invoice-balance');
+            var invoice_payment_method = $(this).data('invoice-payment-method');
+            var payment_cf_exist =  $(this).data('payment-cf-exist');
+            $('#modal-placeholder').load("https://demo.invoiceplane.com/payments/ajax/modal_add_payment", {
+                invoice_id: invoice_id,
+                invoice_balance: invoice_balance,
+                invoice_payment_method: invoice_payment_method,
+                payment_cf_exist: payment_cf_exist
+            });
+        });
+
+    });
+</script>
+</head>
+<body class="hidden-sidebar">
+
+<noscript>
+    <div class="alert alert-danger no-margin">Please enable Javascript to use InvoicePlane</div>
+</noscript>
+
+<nav class="navbar navbar-inverse" role="navigation">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#ip-navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                Menu &nbsp; <i class="fa fa-bars"></i>
+            </button>
+        </div>
+
+        <div class="collapse navbar-collapse" id="ip-navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li><a href="https://demo.invoiceplane.com/dashboard" class="hidden-md">Dashboard</a>                    <a href="https://demo.invoiceplane.com/dashboard" class="visible-md-inline-block"><i class="fa fa-dashboard"></i></a>                </li>
+
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <i class="fa fa-caret-down"></i> &nbsp;
+                        <span class="hidden-md">Clients</span>
+                        <i class="visible-md-inline fa fa-users"></i>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="https://demo.invoiceplane.com/clients/form">Add Client</a></li>
+                        <li><a href="https://demo.invoiceplane.com/clients/index">View Clients</a></li>
+                    </ul>
+                </li>
+
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <i class="fa fa-caret-down"></i> &nbsp;
+                        <span class="hidden-md">Quotes</span>
+                        <i class="visible-md-inline fa fa-file"></i>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#" class="create-quote">Create Quote</a></li>
+                        <li><a href="https://demo.invoiceplane.com/quotes/index">View Quotes</a></li>
+                    </ul>
+                </li>
+
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <i class="fa fa-caret-down"></i> &nbsp;
+                        <span class="hidden-md">Invoices</span>
+                        <i class="visible-md-inline fa fa-file-text"></i>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#" class="create-invoice">Create Invoice</a></li>
+                        <li><a href="https://demo.invoiceplane.com/invoices/index">View Invoices</a></li>
+                        <li><a href="https://demo.invoiceplane.com/invoices/recurring/index">View Recurring Invoices</a></li>
+                    </ul>
+                </li>
+
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <i class="fa fa-caret-down"></i> &nbsp;
+                        <span class="hidden-md">Payments</span>
+                        <i class="visible-md-inline fa fa-credit-card"></i>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="https://demo.invoiceplane.com/payments/form">Enter Payment</a></li>
+                        <li><a href="https://demo.invoiceplane.com/payments/index">View Payments</a></li>
+                        <li><a href="https://demo.invoiceplane.com/payments/online_logs">View Online Payment Logs</a></li>
+                    </ul>
+                </li>
+
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <i class="fa fa-caret-down"></i> &nbsp;
+                        <span class="hidden-md">Products</span>
+                        <i class="visible-md-inline fa fa-database"></i>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="https://demo.invoiceplane.com/products/form">Create product</a></li>
+                        <li><a href="https://demo.invoiceplane.com/products/index">View Products</a></li>
+                        <li><a href="https://demo.invoiceplane.com/families/index">View Product Families</a></li>
+                        <li><a href="https://demo.invoiceplane.com/units/index">View Product Units</a></li>
+                    </ul>
+                </li>
+
+                <li class="dropdown 1">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <i class="fa fa-caret-down"></i> &nbsp;
+                        <span class="hidden-md">Tasks</span>
+                        <i class="visible-md-inline fa fa-check-square-o"></i>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="https://demo.invoiceplane.com/tasks/form">Create Task</a></li>
+                        <li><a href="https://demo.invoiceplane.com/tasks/index">View Tasks</a></li>
+						<li role="separator" class="divider"></li>
+                        <li><a href="https://demo.invoiceplane.com/projects/form">Create Project</a></li>
+                        <li><a href="https://demo.invoiceplane.com/projects/index">View Projects</a></li>
+                    </ul>
+                </li>
+
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <i class="fa fa-caret-down"></i> &nbsp;
+                        <span class="hidden-md">Reports</span>
+                        <i class="visible-md-inline fa fa-bar-chart"></i>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="https://demo.invoiceplane.com/reports/invoice_aging">Invoice Aging</a></li>
+                        <li><a href="https://demo.invoiceplane.com/reports/payment_history">Payment History</a></li>
+                        <li><a href="https://demo.invoiceplane.com/reports/sales_by_client">Sales by Client</a></li>
+                        <li><a href="https://demo.invoiceplane.com/reports/sales_by_year">Sales by Date</a></li>
+                    </ul>
+                </li>
+
+            </ul>
+
+            
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="https://wiki.invoiceplane.com/" target="_blank"
+                       class="tip icon" title="Documentation"
+                       data-placement="bottom">
+                        <i class="fa fa-question-circle"></i>
+                        <span class="visible-xs">&nbsp;Documentation</span>
+                    </a>
+                </li>
+
+                <li class="dropdown">
+                    <a href="#" class="tip icon dropdown-toggle" data-toggle="dropdown"
+                       title="Settings"
+                       data-placement="bottom">
+                        <i class="fa fa-cogs"></i>
+                        <span class="visible-xs">&nbsp;Settings</span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="https://demo.invoiceplane.com/custom_fields/index">Custom Fields</a></li>
+                        <li><a href="https://demo.invoiceplane.com/email_templates/index">Email Templates</a></li>
+                        <li><a href="https://demo.invoiceplane.com/invoice_groups/index">Invoice Groups</a></li>
+                        <li><a href="https://demo.invoiceplane.com/invoices/archive">Invoice Archive</a></li>
+                        <!-- // temporarily disabled
+                        <li><a href="https://demo.invoiceplane.com/item_lookups/index">Item Lookups</a></li>
+                        -->
+                        <li><a href="https://demo.invoiceplane.com/payment_methods/index">Payment Methods</a></li>
+                        <li><a href="https://demo.invoiceplane.com/tax_rates/index">Tax Rates</a></li>
+                        <li><a href="https://demo.invoiceplane.com/users/index">User Accounts</a></li>
+                        <li class="divider hidden-xs hidden-sm"></li>
+                        <li><a href="https://demo.invoiceplane.com/settings">System Settings</a></li>
+                        <li><a href="https://demo.invoiceplane.com/import">Import Data</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="https://demo.invoiceplane.com/users/form/2"
+                       class="tip icon" data-placement="bottom"
+                       title="InvoicePlane Guest">
+                        <i class="fa fa-user"></i>
+                        <span class="visible-xs">&nbsp;InvoicePlane Guest</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="https://demo.invoiceplane.com/sessions/logout"
+                       class="tip icon logout" data-placement="bottom"
+                       title="Logout">
+                        <i class="fa fa-power-off"></i>
+                        <span class="visible-xs">&nbsp;Logout</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div id="main-area">
+        <div id="main-content">
+        <div id="content">
+    
+    <div class="row ">
+        <div class="col-xs-12">
+
+            <div id="panel-quick-actions" class="panel panel-default quick-actions">
+
+                <div class="panel-heading">
+                    <b>Quick Actions</b>
+                </div>
+
+                <div class="btn-group btn-group-justified no-margin">
+                    <a href="https://demo.invoiceplane.com/clients/form" class="btn btn-default">
+                        <i class="fa fa-user fa-margin"></i>
+                        <span class="hidden-xs">Add Client</span>
+                    </a>
+                    <a href="javascript:void(0)" class="create-quote btn btn-default">
+                        <i class="fa fa-file fa-margin"></i>
+                        <span class="hidden-xs">Create Quote</span>
+                    </a>
+                    <a href="javascript:void(0)" class="create-invoice btn btn-default">
+                        <i class="fa fa-file-text fa-margin"></i>
+                        <span class="hidden-xs">Create Invoice</span>
+                    </a>
+                    <a href="https://demo.invoiceplane.com/payments/form" class="btn btn-default">
+                        <i class="fa fa-credit-card fa-margin"></i>
+                        <span class="hidden-xs">Enter Payment</span>
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12 col-md-6">
+
+            <div id="panel-quote-overview" class="panel panel-default overview">
+
+                <div class="panel-heading">
+                    <b><i class="fa fa-bar-chart fa-margin"></i> Quote Overview</b>
+                    <span class="pull-right text-muted">This Month</span>
+                </div>
+
+                <table class="table table-hover table-bordered table-condensed no-margin">
+                                            <tr>
+                            <td>
+                                <a href="https://demo.invoiceplane.com/quotes/status/draft">
+                                    Draft                                </a>
+                            </td>
+                            <td class="amount">
+                        <span class="draft">
+                            5.222,19&nbsp;EUR                        </span>
+                            </td>
+                        </tr>
+                                            <tr>
+                            <td>
+                                <a href="https://demo.invoiceplane.com/quotes/status/sent">
+                                    Sent                                </a>
+                            </td>
+                            <td class="amount">
+                        <span class="sent">
+                            131,11&nbsp;EUR                        </span>
+                            </td>
+                        </tr>
+                                            <tr>
+                            <td>
+                                <a href="https://demo.invoiceplane.com/quotes/status/viewed">
+                                    Viewed                                </a>
+                            </td>
+                            <td class="amount">
+                        <span class="viewed">
+                            0,00&nbsp;EUR                        </span>
+                            </td>
+                        </tr>
+                                            <tr>
+                            <td>
+                                <a href="https://demo.invoiceplane.com/quotes/status/approved">
+                                    Approved                                </a>
+                            </td>
+                            <td class="amount">
+                        <span class="approved">
+                            0,00&nbsp;EUR                        </span>
+                            </td>
+                        </tr>
+                                            <tr>
+                            <td>
+                                <a href="https://demo.invoiceplane.com/quotes/status/rejected">
+                                    Rejected                                </a>
+                            </td>
+                            <td class="amount">
+                        <span class="rejected">
+                            0,00&nbsp;EUR                        </span>
+                            </td>
+                        </tr>
+                                            <tr>
+                            <td>
+                                <a href="https://demo.invoiceplane.com/quotes/status/canceled">
+                                    Canceled                                </a>
+                            </td>
+                            <td class="amount">
+                        <span class="canceled">
+                            0,00&nbsp;EUR                        </span>
+                            </td>
+                        </tr>
+                                    </table>
+            </div>
+
+        </div>
+        <div class="col-xs-12 col-md-6">
+
+            <div id="panel-invoice-overview" class="panel panel-default overview">
+
+                <div class="panel-heading">
+                    <b><i class="fa fa-bar-chart fa-margin"></i> Invoice Overview</b>
+                    <span class="pull-right text-muted">This Month</span>
+                </div>
+
+                <table class="table table-hover table-bordered table-condensed no-margin">
+                                            <tr>
+                            <td>
+                                <a href="https://demo.invoiceplane.com/invoices/status/draft">
+                                    Draft                                </a>
+                            </td>
+                            <td class="amount">
+                        <span class="draft">
+                            719,30&nbsp;EUR                        </span>
+                            </td>
+                        </tr>
+                                            <tr>
+                            <td>
+                                <a href="https://demo.invoiceplane.com/invoices/status/sent">
+                                    Sent                                </a>
+                            </td>
+                            <td class="amount">
+                        <span class="sent">
+                            2.173,57&nbsp;EUR                        </span>
+                            </td>
+                        </tr>
+                                            <tr>
+                            <td>
+                                <a href="https://demo.invoiceplane.com/invoices/status/viewed">
+                                    Viewed                                </a>
+                            </td>
+                            <td class="amount">
+                        <span class="viewed">
+                            0,00&nbsp;EUR                        </span>
+                            </td>
+                        </tr>
+                                            <tr>
+                            <td>
+                                <a href="https://demo.invoiceplane.com/invoices/status/paid">
+                                    Paid                                </a>
+                            </td>
+                            <td class="amount">
+                        <span class="paid">
+                            0,00&nbsp;EUR                        </span>
+                            </td>
+                        </tr>
+                                    </table>
+            </div>
+
+
+                            <div class="panel panel-danger panel-heading">
+                    <a href="https://demo.invoiceplane.com/invoices/status/overdue" class="text-danger"><i class="fa fa-external-link"></i> Overdue Invoices</a>                    <span class="pull-right text-danger">
+                        1.128.084.711,19&nbsp;EUR                    </span>
+                </div>
+            
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12 col-md-6">
+
+            <div id="panel-recent-quotes" class="panel panel-default">
+
+                <div class="panel-heading">
+                    <b><i class="fa fa-history fa-margin"></i> Recent Quotes</b>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-hover table-striped table-condensed no-margin">
+                        <thead>
+                        <tr>
+                            <th>Status</th>
+                            <th style="min-width: 15%;">Date</th>
+                            <th style="min-width: 15%;">Quote</th>
+                            <th style="min-width: 35%;">Client</th>
+                            <th style="text-align: right;">Balance</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                                                    <tr>
+                                <td>
+                                <span class="label
+                                sent">
+                                    Sent                                </span>
+                                </td>
+                                <td>
+                                    02.06.2024                                </td>
+                                <td>
+                                    <a href="https://demo.invoiceplane.com/quotes/view/788">14924</a>                                </td>
+                                <td>
+                                    <a href="https://demo.invoiceplane.com/clients/view/216">Test Client</a>                                </td>
+                                <td class="amount">
+                                    0,00&nbsp;EUR                                </td>
+                                <td style="text-align: center;">
+                                    <a href="https://demo.invoiceplane.com/quotes/generate_pdf/788"
+                                       title="Download PDF">
+                                        <i class="fa fa-file-pdf-o"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                                                    <tr>
+                                <td>
+                                <span class="label
+                                sent">
+                                    Sent                                </span>
+                                </td>
+                                <td>
+                                    02.06.2024                                </td>
+                                <td>
+                                    <a href="https://demo.invoiceplane.com/quotes/view/787">INV-{{ID}}</a>                                </td>
+                                <td>
+                                    <a href="https://demo.invoiceplane.com/clients/view/245">David Quarta</a>                                </td>
+                                <td class="amount">
+                                    0,00&nbsp;EUR                                </td>
+                                <td style="text-align: center;">
+                                    <a href="https://demo.invoiceplane.com/quotes/generate_pdf/787"
+                                       title="Download PDF">
+                                        <i class="fa fa-file-pdf-o"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                                                    <tr>
+                                <td>
+                                <span class="label
+                                sent">
+                                    Sent                                </span>
+                                </td>
+                                <td>
+                                    02.06.2024                                </td>
+                                <td>
+                                    <a href="https://demo.invoiceplane.com/quotes/view/786">REIG1202406-109</a>                                </td>
+                                <td>
+                                    <a href="https://demo.invoiceplane.com/clients/view/245">David Quarta</a>                                </td>
+                                <td class="amount">
+                                    18,15&nbsp;EUR                                </td>
+                                <td style="text-align: center;">
+                                    <a href="https://demo.invoiceplane.com/quotes/generate_pdf/786"
+                                       title="Download PDF">
+                                        <i class="fa fa-file-pdf-o"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                                                    <tr>
+                                <td>
+                                <span class="label
+                                draft">
+                                    Draft                                </span>
+                                </td>
+                                <td>
+                                    01.06.2024                                </td>
+                                <td>
+                                    <a href="https://demo.invoiceplane.com/quotes/view/785">14824</a>                                </td>
+                                <td>
+                                    <a href="https://demo.invoiceplane.com/clients/view/245">David Quarta</a>                                </td>
+                                <td class="amount">
+                                    2.618,19&nbsp;EUR                                </td>
+                                <td style="text-align: center;">
+                                    <a href="https://demo.invoiceplane.com/quotes/generate_pdf/785"
+                                       title="Download PDF">
+                                        <i class="fa fa-file-pdf-o"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                                                    <tr>
+                                <td>
+                                <span class="label
+                                draft">
+                                    Draft                                </span>
+                                </td>
+                                <td>
+                                    01.06.2024                                </td>
+                                <td>
+                                    <a href="https://demo.invoiceplane.com/quotes/view/784">14724</a>                                </td>
+                                <td>
+                                    <a href="https://demo.invoiceplane.com/clients/view/245">David Quarta</a>                                </td>
+                                <td class="amount">
+                                    0,00&nbsp;EUR                                </td>
+                                <td style="text-align: center;">
+                                    <a href="https://demo.invoiceplane.com/quotes/generate_pdf/784"
+                                       title="Download PDF">
+                                        <i class="fa fa-file-pdf-o"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                                                    <tr>
+                                <td>
+                                <span class="label
+                                draft">
+                                    Draft                                </span>
+                                </td>
+                                <td>
+                                    01.06.2024                                </td>
+                                <td>
+                                    <a href="https://demo.invoiceplane.com/quotes/view/783">14624</a>                                </td>
+                                <td>
+                                    <a href="https://demo.invoiceplane.com/clients/view/224">Mario Andretti (M3)</a>                                </td>
+                                <td class="amount">
+                                    2.604,00&nbsp;EUR                                </td>
+                                <td style="text-align: center;">
+                                    <a href="https://demo.invoiceplane.com/quotes/generate_pdf/783"
+                                       title="Download PDF">
+                                        <i class="fa fa-file-pdf-o"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                                                    <tr>
+                                <td>
+                                <span class="label
+                                sent">
+                                    Sent                                </span>
+                                </td>
+                                <td>
+                                    01.06.2024                                </td>
+                                <td>
+                                    <a href="https://demo.invoiceplane.com/quotes/view/782">INV- 6</a>                                </td>
+                                <td>
+                                    <a href="https://demo.invoiceplane.com/clients/view/72">SE1 SE1</a>                                </td>
+                                <td class="amount">
+                                    12,96&nbsp;EUR                                </td>
+                                <td style="text-align: center;">
+                                    <a href="https://demo.invoiceplane.com/quotes/generate_pdf/782"
+                                       title="Download PDF">
+                                        <i class="fa fa-file-pdf-o"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                                                    <tr>
+                                <td>
+                                <span class="label
+                                sent">
+                                    Sent                                </span>
+                                </td>
+                                <td>
+                                    01.06.2024                                </td>
+                                <td>
+                                    <a href="https://demo.invoiceplane.com/quotes/view/781">14524</a>                                </td>
+                                <td>
+                                    <a href="https://demo.invoiceplane.com/clients/view/128">Jatin Kumar</a>                                </td>
+                                <td class="amount">
+                                    100,00&nbsp;EUR                                </td>
+                                <td style="text-align: center;">
+                                    <a href="https://demo.invoiceplane.com/quotes/generate_pdf/781"
+                                       title="Download PDF">
+                                        <i class="fa fa-file-pdf-o"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                                                    <tr>
+                                <td>
+                                <span class="label
+                                sent">
+                                    Sent                                </span>
+                                </td>
+                                <td>
+                                    31.05.2024                                </td>
+                                <td>
+                                    <a href="https://demo.invoiceplane.com/quotes/view/780">14224</a>                                </td>
+                                <td>
+                                    <a href="https://demo.invoiceplane.com/clients/view/304">AEL</a>                                </td>
+                                <td class="amount">
+                                    35.820,00&nbsp;EUR                                </td>
+                                <td style="text-align: center;">
+                                    <a href="https://demo.invoiceplane.com/quotes/generate_pdf/780"
+                                       title="Download PDF">
+                                        <i class="fa fa-file-pdf-o"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                                                    <tr>
+                                <td>
+                                <span class="label
+                                sent">
+                                    Sent                                </span>
+                                </td>
+                                <td>
+                                    31.05.2024                                </td>
+                                <td>
+                                    <a href="https://demo.invoiceplane.com/quotes/view/779">INV-113</a>                                </td>
+                                <td>
+                                    <a href="https://demo.invoiceplane.com/clients/view/343">Bahria Foundation School Maria </a>                                </td>
+                                <td class="amount">
+                                    82.500,00&nbsp;EUR                                </td>
+                                <td style="text-align: center;">
+                                    <a href="https://demo.invoiceplane.com/quotes/generate_pdf/779"
+                                       title="Download PDF">
+                                        <i class="fa fa-file-pdf-o"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                                                <tr>
+                            <td colspan="6" class="text-right small">
+                                <a href="https://demo.invoiceplane.com/quotes/status/all">View All</a>                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-xs-12 col-md-6">
+
+            <div id="panel-recent-invoices" class="panel panel-default">
+
+                <div class="panel-heading">
+                    <b><i class="fa fa-history fa-margin"></i> Recent Invoices</b>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="table table-hover table-striped table-condensed no-margin">
+                        <thead>
+                        <tr>
+                            <th>Status</th>
+                            <th style="min-width: 15%;">Due Date</th>
+                            <th style="min-width: 15%;">Invoice</th>
+                            <th style="min-width: 35%;">Client</th>
+                            <th style="text-align: right;">Balance</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                                                    <tr>
+                                <td>
+                                    <span class="label draft">
+                                        Draft                                                                                                                    </span>
+                                </td>
+                                <td>
+                                    <span class="">
+                                        02.07.2024                                    </span>
+                                </td>
+                                <td>
+                                    <a href="https://demo.invoiceplane.com/invoices/view/2408">REIG1202406-115</a>                                </td>
+                                <td>
+                                    <a href="https://demo.invoiceplane.com/clients/view/225">Dent Arthur</a>                                </td>
+                                <td class="amount">
+                                    595,00&nbsp;EUR                                </td>
+                                <td style="text-align: center;">
+                                                                            <a href="https://demo.invoiceplane.com/invoices/generate_pdf/2408"
+                                           title="Download PDF">
+                                            <i class="fa fa-file-pdf-o"></i>
+                                        </a>
+                                                                    </td>
+                            </tr>
+                                                    <tr>
+                                <td>
+                                    <span class="label sent">
+                                        Sent                                                                                    &nbsp;<i class="fa fa-read-only" title="Read only"></i>
+                                                                                                                    </span>
+                                </td>
+                                <td>
+                                    <span class="">
+                                        02.07.2024                                    </span>
+                                </td>
+                                <td>
+                                    <a href="https://demo.invoiceplane.com/invoices/view/2407">REIG1202406-114</a>                                </td>
+                                <td>
+                                    <a href="https://demo.invoiceplane.com/clients/view/96">Sabrina TestM</a>                                </td>
+                                <td class="amount">
+                                    595,00&nbsp;EUR                                </td>
+                                <td style="text-align: center;">
+                                                                            <a href="https://demo.invoiceplane.com/invoices/generate_pdf/2407"
+                                           title="Download PDF">
+                                            <i class="fa fa-file-pdf-o"></i>
+                                        </a>
+                                                                    </td>
+                            </tr>
+                                                    <tr>
+                                <td>
+                                    <span class="label sent">
+                                        Sent                                                                                    &nbsp;<i class="fa fa-read-only" title="Read only"></i>
+                                                                                                                    </span>
+                                </td>
+                                <td>
+                                    <span class="">
+                                        02.07.2024                                    </span>
+                                </td>
+                                <td>
+                                    <a href="https://demo.invoiceplane.com/invoices/view/2405">REIG1202406-112</a>                                </td>
+                                <td>
+                                    <a href="https://demo.invoiceplane.com/clients/view/227">Matthias TEst</a>                                </td>
+                                <td class="amount">
+                                    600,00&nbsp;EUR                                </td>
+                                <td style="text-align: center;">
+                                                                            <a href="https://demo.invoiceplane.com/invoices/generate_pdf/2405"
+                                           title="Download PDF">
+                                            <i class="fa fa-file-pdf-o"></i>
+                                        </a>
+                                                                    </td>
+                            </tr>
+                                                    <tr>
+                                <td>
+                                    <span class="label sent">
+                                        Sent                                                                                    &nbsp;<i class="fa fa-read-only" title="Read only"></i>
+                                                                                                                    </span>
+                                </td>
+                                <td>
+                                    <span class="">
+                                        02.07.2024                                    </span>
+                                </td>
+                                <td>
+                                    <a href="https://demo.invoiceplane.com/invoices/view/2404">REIG1202406-111</a>                                </td>
+                                <td>
+                                    <a href="https://demo.invoiceplane.com/clients/view/245">David Quarta</a>                                </td>
+                                <td class="amount">
+                                    8,80&nbsp;EUR                                </td>
+                                <td style="text-align: center;">
+                                                                            <a href="https://demo.invoiceplane.com/invoices/generate_pdf/2404"
+                                           title="Download PDF">
+                                            <i class="fa fa-file-pdf-o"></i>
+                                        </a>
+                                                                    </td>
+                            </tr>
+                                                    <tr>
+                                <td>
+                                    <span class="label draft">
+                                        Draft                                                                                                                    </span>
+                                </td>
+                                <td>
+                                    <span class="">
+                                        02.07.2024                                    </span>
+                                </td>
+                                <td>
+                                    <a href="https://demo.invoiceplane.com/invoices/view/2403">REIG1202406-110</a>                                </td>
+                                <td>
+                                    <a href="https://demo.invoiceplane.com/clients/view/245">David Quarta</a>                                </td>
+                                <td class="amount">
+                                    0,00&nbsp;EUR                                </td>
+                                <td style="text-align: center;">
+                                                                            <a href="https://demo.invoiceplane.com/invoices/generate_pdf/2403"
+                                           title="Download PDF">
+                                            <i class="fa fa-file-pdf-o"></i>
+                                        </a>
+                                                                    </td>
+                            </tr>
+                                                    <tr>
+                                <td>
+                                    <span class="label sent">
+                                        Sent                                                                                    &nbsp;<i class="fa fa-read-only" title="Read only"></i>
+                                                                                                                    </span>
+                                </td>
+                                <td>
+                                    <span class="">
+                                        02.07.2024                                    </span>
+                                </td>
+                                <td>
+                                    <a href="https://demo.invoiceplane.com/invoices/view/2402">INV- 9</a>                                </td>
+                                <td>
+                                    <a href="https://demo.invoiceplane.com/clients/view/323">Aden Sakthi</a>                                </td>
+                                <td class="amount">
+                                    0,00&nbsp;EUR                                </td>
+                                <td style="text-align: center;">
+                                                                            <a href="https://demo.invoiceplane.com/invoices/generate_pdf/2402"
+                                           title="Download PDF">
+                                            <i class="fa fa-file-pdf-o"></i>
+                                        </a>
+                                                                    </td>
+                            </tr>
+                                                    <tr>
+                                <td>
+                                    <span class="label draft">
+                                        Draft                                                                                                                    </span>
+                                </td>
+                                <td>
+                                    <span class="">
+                                        02.07.2024                                    </span>
+                                </td>
+                                <td>
+                                    <a href="https://demo.invoiceplane.com/invoices/view/2401">INV-114</a>                                </td>
+                                <td>
+                                    <a href="https://demo.invoiceplane.com/clients/view/323">Aden Sakthi</a>                                </td>
+                                <td class="amount">
+                                    0,00&nbsp;EUR                                </td>
+                                <td style="text-align: center;">
+                                                                            <a href="https://demo.invoiceplane.com/invoices/generate_pdf/2401"
+                                           title="Download PDF">
+                                            <i class="fa fa-file-pdf-o"></i>
+                                        </a>
+                                                                    </td>
+                            </tr>
+                                                    <tr>
+                                <td>
+                                    <span class="label draft">
+                                        Draft                                                                                                                    </span>
+                                </td>
+                                <td>
+                                    <span class="">
+                                        02.07.2024                                    </span>
+                                </td>
+                                <td>
+                                    <a href="https://demo.invoiceplane.com/invoices/view/2400">2400</a>                                </td>
+                                <td>
+                                    <a href="https://demo.invoiceplane.com/clients/view/236">OC COMPANY</a>                                </td>
+                                <td class="amount">
+                                    0,00&nbsp;EUR                                </td>
+                                <td style="text-align: center;">
+                                                                            <a href="https://demo.invoiceplane.com/invoices/generate_pdf/2400"
+                                           title="Download PDF">
+                                            <i class="fa fa-file-pdf-o"></i>
+                                        </a>
+                                                                    </td>
+                            </tr>
+                                                    <tr>
+                                <td>
+                                    <span class="label sent">
+                                        Sent                                                                                    &nbsp;<i class="fa fa-read-only" title="Read only"></i>
+                                                                                                                    </span>
+                                </td>
+                                <td>
+                                    <span class="">
+                                        01.07.2024                                    </span>
+                                </td>
+                                <td>
+                                    <a href="https://demo.invoiceplane.com/invoices/view/2399">RE 06012024426</a>                                </td>
+                                <td>
+                                    <a href="https://demo.invoiceplane.com/clients/view/321">Dixie Spataro</a>                                </td>
+                                <td class="amount">
+                                    215,65&nbsp;EUR                                </td>
+                                <td style="text-align: center;">
+                                                                            <a href="https://demo.invoiceplane.com/invoices/generate_pdf/2399"
+                                           title="Download PDF">
+                                            <i class="fa fa-file-pdf-o"></i>
+                                        </a>
+                                                                    </td>
+                            </tr>
+                                                    <tr>
+                                <td>
+                                    <span class="label sent">
+                                        Sent                                                                                    &nbsp;<i class="fa fa-read-only" title="Read only"></i>
+                                                                                                                    </span>
+                                </td>
+                                <td>
+                                    <span class="">
+                                        01.07.2024                                    </span>
+                                </td>
+                                <td>
+                                    <a href="https://demo.invoiceplane.com/invoices/view/2398">REIG1202406-108</a>                                </td>
+                                <td>
+                                    <a href="https://demo.invoiceplane.com/clients/view/291">Client test Galopin</a>                                </td>
+                                <td class="amount">
+                                    414,12&nbsp;EUR                                </td>
+                                <td style="text-align: center;">
+                                                                            <a href="https://demo.invoiceplane.com/invoices/generate_pdf/2398"
+                                           title="Download PDF">
+                                            <i class="fa fa-file-pdf-o"></i>
+                                        </a>
+                                                                    </td>
+                            </tr>
+                                                <tr>
+                            <td colspan="6" class="text-right small">
+                                <a href="https://demo.invoiceplane.com/invoices/status/all">View All</a>                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+            <div class="row">
+            <div class="col-xs-12 col-md-6">
+
+                <div id="panel-projects" class="panel panel-default">
+
+                    <div class="panel-heading">
+                        <b><i class="fa fa-list fa-margin"></i> Projects</b>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-hover table-striped table-condensed no-margin">
+                            <thead>
+                            <tr>
+                                <th>Project name</th>
+                                <th>Client Name</th>
+                            </tr>
+                            </thead>
+
+                            <tbody>
+                                                            <tr>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/projects/view/65">aaaaa</a>                                    </td>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/clients/view/289">ALTRON, a.s.</a>                                    </td>
+                                </tr>
+                                                            <tr>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/projects/view/64">huhu</a>                                    </td>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/clients/view/217">Hello World</a>                                    </td>
+                                </tr>
+                                                            <tr>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/projects/view/63">test</a>                                    </td>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/clients/view/119">John Smith</a>                                    </td>
+                                </tr>
+                                                            <tr>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/projects/view/62">Känguru</a>                                    </td>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/clients/view/227">Matthias TEst</a>                                    </td>
+                                </tr>
+                                                            <tr>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/projects/view/61">Muster – Website</a>                                    </td>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/clients/view/306">Max Muster</a>                                    </td>
+                                </tr>
+                                                            <tr>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/projects/view/60">Granby_2024</a>                                    </td>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/clients/view/300">Crystal  G. Wiggins</a>                                    </td>
+                                </tr>
+                                                            <tr>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/projects/view/59">altron project</a>                                    </td>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/clients/view/289">ALTRON, a.s.</a>                                    </td>
+                                </tr>
+                                                            <tr>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/projects/view/58">Contract</a>                                    </td>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/clients/view/">https://demo.invoiceplane.com/clients/view/</a>                                    </td>
+                                </tr>
+                                                            <tr>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/projects/view/57">BAMAGA</a>                                    </td>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/clients/view/287">Client 1</a>                                    </td>
+                                </tr>
+                                                            <tr>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/projects/view/56">Hourly Support</a>                                    </td>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/clients/view/292">Alice</a>                                    </td>
+                                </tr>
+                                                            <tr>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/projects/view/55">Test project</a>                                    </td>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/clients/view/139">Karan Arora</a>                                    </td>
+                                </tr>
+                                                            <tr>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/projects/view/54">app</a>                                    </td>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/clients/view/179">Sarah Test</a>                                    </td>
+                                </tr>
+                                                            <tr>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/projects/view/53">george house</a>                                    </td>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/clients/view/257">Hana Getachew</a>                                    </td>
+                                </tr>
+                                                            <tr>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/projects/view/52">er</a>                                    </td>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/clients/view/108">test erer</a>                                    </td>
+                                </tr>
+                                                            <tr>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/projects/view/51">test 3030</a>                                    </td>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/clients/view/227">Matthias TEst</a>                                    </td>
+                                </tr>
+                                                            <tr>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/projects/view/50">Lawn Cares</a>                                    </td>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/clients/view/">https://demo.invoiceplane.com/clients/view/</a>                                    </td>
+                                </tr>
+                                                            <tr>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/projects/view/49">adf</a>                                    </td>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/clients/view/109">John Doe</a>                                    </td>
+                                </tr>
+                                                            <tr>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/projects/view/48">Binky</a>                                    </td>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/clients/view/237">Unseen University</a>                                    </td>
+                                </tr>
+                                                            <tr>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/projects/view/47">jhgkjhg</a>                                    </td>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/clients/view/177">sarte aaaa</a>                                    </td>
+                                </tr>
+                                                            <tr>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/projects/view/46">jjjj</a>                                    </td>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/clients/view/75">Hello Co., Ltd.</a>                                    </td>
+                                </tr>
+                                                            <tr>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/projects/view/45">test</a>                                    </td>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/clients/view/">https://demo.invoiceplane.com/clients/view/</a>                                    </td>
+                                </tr>
+                                                            <tr>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/projects/view/44">Test</a>                                    </td>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/clients/view/75">Hello Co., Ltd.</a>                                    </td>
+                                </tr>
+                                                            <tr>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/projects/view/43">IT-Support Kunde A</a>                                    </td>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/clients/view/183">kunden a</a>                                    </td>
+                                </tr>
+                                                            <tr>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/projects/view/42">240505R</a>                                    </td>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/clients/view/197">SWEDAC</a>                                    </td>
+                                </tr>
+                                                            <tr>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/projects/view/41">TRL4</a>                                    </td>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/clients/view/">https://demo.invoiceplane.com/clients/view/</a>                                    </td>
+                                </tr>
+                                                            <tr>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/projects/view/40">tutti</a>                                    </td>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/clients/view/">https://demo.invoiceplane.com/clients/view/</a>                                    </td>
+                                </tr>
+                                                            <tr>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/projects/view/39">Value</a>                                    </td>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/clients/view/186">Mut Njeri</a>                                    </td>
+                                </tr>
+                                                            <tr>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/projects/view/38">테스트 프로젝트</a>                                    </td>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/clients/view/109">John Doe</a>                                    </td>
+                                </tr>
+                                                            <tr>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/projects/view/37">test</a>                                    </td>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/clients/view/">https://demo.invoiceplane.com/clients/view/</a>                                    </td>
+                                </tr>
+                                                            <tr>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/projects/view/36">bauvorhaben Stuttagart am see</a>                                    </td>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/clients/view/">https://demo.invoiceplane.com/clients/view/</a>                                    </td>
+                                </tr>
+                                                            <tr>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/projects/view/35">Utre</a>                                    </td>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/clients/view/">https://demo.invoiceplane.com/clients/view/</a>                                    </td>
+                                </tr>
+                                                            <tr>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/projects/view/34">test project</a>                                    </td>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/clients/view/">https://demo.invoiceplane.com/clients/view/</a>                                    </td>
+                                </tr>
+                                                            <tr>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/projects/view/33">cvc</a>                                    </td>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/clients/view/">https://demo.invoiceplane.com/clients/view/</a>                                    </td>
+                                </tr>
+                                                            <tr>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/projects/view/32">Super project</a>                                    </td>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/clients/view/172">My Client MYC</a>                                    </td>
+                                </tr>
+                                                            <tr>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/projects/view/31">4566</a>                                    </td>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/clients/view/160">Steffi client1</a>                                    </td>
+                                </tr>
+                                                            <tr>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/projects/view/30">Development</a>                                    </td>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/clients/view/">https://demo.invoiceplane.com/clients/view/</a>                                    </td>
+                                </tr>
+                                                            <tr>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/projects/view/29">SDQQ</a>                                    </td>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/clients/view/">https://demo.invoiceplane.com/clients/view/</a>                                    </td>
+                                </tr>
+                                                            <tr>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/projects/view/28">stuff</a>                                    </td>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/clients/view/">https://demo.invoiceplane.com/clients/view/</a>                                    </td>
+                                </tr>
+                                                            <tr>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/projects/view/27">autobot</a>                                    </td>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/clients/view/">https://demo.invoiceplane.com/clients/view/</a>                                    </td>
+                                </tr>
+                                                            <tr>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/projects/view/26">P2</a>                                    </td>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/clients/view/">https://demo.invoiceplane.com/clients/view/</a>                                    </td>
+                                </tr>
+                                                            <tr>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/projects/view/25">Jones</a>                                    </td>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/clients/view/">https://demo.invoiceplane.com/clients/view/</a>                                    </td>
+                                </tr>
+                                                            <tr>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/projects/view/24">Jones</a>                                    </td>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/clients/view/">https://demo.invoiceplane.com/clients/view/</a>                                    </td>
+                                </tr>
+                                                            <tr>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/projects/view/23">SmartInstaller</a>                                    </td>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/clients/view/">https://demo.invoiceplane.com/clients/view/</a>                                    </td>
+                                </tr>
+                                                            <tr>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/projects/view/22">Test Project</a>                                    </td>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/clients/view/">https://demo.invoiceplane.com/clients/view/</a>                                    </td>
+                                </tr>
+                                                            <tr>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/projects/view/21">Server upgrade</a>                                    </td>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/clients/view/">https://demo.invoiceplane.com/clients/view/</a>                                    </td>
+                                </tr>
+                                                            <tr>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/projects/view/20">t</a>                                    </td>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/clients/view/">https://demo.invoiceplane.com/clients/view/</a>                                    </td>
+                                </tr>
+                                                            <tr>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/projects/view/19">Johnson</a>                                    </td>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/clients/view/">https://demo.invoiceplane.com/clients/view/</a>                                    </td>
+                                </tr>
+                                                            <tr>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/projects/view/18">Test</a>                                    </td>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/clients/view/">https://demo.invoiceplane.com/clients/view/</a>                                    </td>
+                                </tr>
+                                                            <tr>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/projects/view/17">Lista per evento </a>                                    </td>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/clients/view/">https://demo.invoiceplane.com/clients/view/</a>                                    </td>
+                                </tr>
+                                                            <tr>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/projects/view/16">Lista per evento </a>                                    </td>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/clients/view/">https://demo.invoiceplane.com/clients/view/</a>                                    </td>
+                                </tr>
+                                                            <tr>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/projects/view/15">10 Roate Houseway</a>                                    </td>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/clients/view/86">Wai</a>                                    </td>
+                                </tr>
+                                                            <tr>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/projects/view/14">Website</a>                                    </td>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/clients/view/">https://demo.invoiceplane.com/clients/view/</a>                                    </td>
+                                </tr>
+                                                            <tr>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/projects/view/13">Historia Clínica</a>                                    </td>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/clients/view/">https://demo.invoiceplane.com/clients/view/</a>                                    </td>
+                                </tr>
+                                                            <tr>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/projects/view/12">Test ABC</a>                                    </td>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/clients/view/">https://demo.invoiceplane.com/clients/view/</a>                                    </td>
+                                </tr>
+                                                            <tr>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/projects/view/11">test</a>                                    </td>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/clients/view/">https://demo.invoiceplane.com/clients/view/</a>                                    </td>
+                                </tr>
+                                                            <tr>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/projects/view/10">Goods Return Note</a>                                    </td>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/clients/view/">https://demo.invoiceplane.com/clients/view/</a>                                    </td>
+                                </tr>
+                                                    		<tr>
+                            		<td colspan="6" class="text-right small">
+                                		<a href="https://demo.invoiceplane.com/projects/index">View All</a>                            		</td>
+                        		</tr>
+                            </tbody>
+
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-xs-12 col-md-6">
+
+                <div id="panel-recent-invoices" class="panel panel-default">
+
+                    <div class="panel-heading">
+                        <b><i class="fa fa-check-square-o fa-margin"></i> Tasks</b>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="table table-hover table-striped table-condensed no-margin">
+
+                            <thead>
+                            <tr>
+                                <th>Status</th>
+                                <th>Task name</th>
+                                <th>Finish date</th>
+                                <th>Project</th>
+                            </tr>
+                            </thead>
+
+                            <tbody>
+                                                            <tr>
+                                    <td>
+                                    <span class="label draft">
+                                        Not started                                    </span>
+                                    </td>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/tasks/form/71">rechnung</a>                                    </td>
+                                    <td>
+                                    <span class="font-overdue">
+                                        19.05.2024                                    </span>
+                                    </td>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/projects/view/11">test</a>                                    </td>
+                                </tr>
+                                                            <tr>
+                                    <td>
+                                    <span class="label viewed">
+                                        In progress                                    </span>
+                                    </td>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/tasks/form/70">Chroniken</a>                                    </td>
+                                    <td>
+                                    <span class="font-overdue">
+                                        16.05.2024                                    </span>
+                                    </td>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/projects/view/62">Känguru</a>                                    </td>
+                                </tr>
+                                                            <tr>
+                                    <td>
+                                    <span class="label sent">
+                                        Complete                                    </span>
+                                    </td>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/tasks/form/69">Hosting einrichten</a>                                    </td>
+                                    <td>
+                                    <span class="font-overdue">
+                                        16.05.2024                                    </span>
+                                    </td>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/projects/view/61">Muster – Website</a>                                    </td>
+                                </tr>
+                                                            <tr>
+                                    <td>
+                                    <span class="label viewed">
+                                        In progress                                    </span>
+                                    </td>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/tasks/form/68">test4321</a>                                    </td>
+                                    <td>
+                                    <span class="font-overdue">
+                                        16.05.2024                                    </span>
+                                    </td>
+                                    <td>
+                                                                            </td>
+                                </tr>
+                                                            <tr>
+                                    <td>
+                                    <span class="label viewed">
+                                        In progress                                    </span>
+                                    </td>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/tasks/form/67">Test</a>                                    </td>
+                                    <td>
+                                    <span class="font-overdue">
+                                        16.05.2024                                    </span>
+                                    </td>
+                                    <td>
+                                                                            </td>
+                                </tr>
+                                                            <tr>
+                                    <td>
+                                    <span class="label paid">
+                                        Invoiced                                    </span>
+                                    </td>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/tasks/form/66">Service</a>                                    </td>
+                                    <td>
+                                    <span class="font-overdue">
+                                        15.05.2024                                    </span>
+                                    </td>
+                                    <td>
+                                                                            </td>
+                                </tr>
+                                                            <tr>
+                                    <td>
+                                    <span class="label viewed">
+                                        In progress                                    </span>
+                                    </td>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/tasks/form/65">Eticaret sitesi</a>                                    </td>
+                                    <td>
+                                    <span class="font-overdue">
+                                        13.05.2024                                    </span>
+                                    </td>
+                                    <td>
+                                                                            </td>
+                                </tr>
+                                                            <tr>
+                                    <td>
+                                    <span class="label draft">
+                                        Not started                                    </span>
+                                    </td>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/tasks/form/64">Start Transfer</a>                                    </td>
+                                    <td>
+                                    <span class="font-overdue">
+                                        10.05.2024                                    </span>
+                                    </td>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/projects/view/56">Hourly Support</a>                                    </td>
+                                </tr>
+                                                            <tr>
+                                    <td>
+                                    <span class="label paid">
+                                        Invoiced                                    </span>
+                                    </td>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/tasks/form/63">Hourly Support</a>                                    </td>
+                                    <td>
+                                    <span class="font-overdue">
+                                        10.05.2024                                    </span>
+                                    </td>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/projects/view/56">Hourly Support</a>                                    </td>
+                                </tr>
+                                                            <tr>
+                                    <td>
+                                    <span class="label draft">
+                                        Not started                                    </span>
+                                    </td>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/tasks/form/62">test task</a>                                    </td>
+                                    <td>
+                                    <span class="font-overdue">
+                                        07.05.2024                                    </span>
+                                    </td>
+                                    <td>
+                                                                            </td>
+                                </tr>
+                                                            <tr>
+                                    <td>
+                                    <span class="label paid">
+                                        Invoiced                                    </span>
+                                    </td>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/tasks/form/61">very important job</a>                                    </td>
+                                    <td>
+                                    <span class="font-overdue">
+                                        06.05.2024                                    </span>
+                                    </td>
+                                    <td>
+                                                                            </td>
+                                </tr>
+                                                            <tr>
+                                    <td>
+                                    <span class="label draft">
+                                        Not started                                    </span>
+                                    </td>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/tasks/form/60">DEMO ATTIVO</a>                                    </td>
+                                    <td>
+                                    <span class="font-overdue">
+                                        01.05.2024                                    </span>
+                                    </td>
+                                    <td>
+                                                                            </td>
+                                </tr>
+                                                            <tr>
+                                    <td>
+                                    <span class="label paid">
+                                        Invoiced                                    </span>
+                                    </td>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/tasks/form/59">GTEST1</a>                                    </td>
+                                    <td>
+                                    <span class="font-overdue">
+                                        30.04.2024                                    </span>
+                                    </td>
+                                    <td>
+                                                                            </td>
+                                </tr>
+                                                            <tr>
+                                    <td>
+                                    <span class="label paid">
+                                        Invoiced                                    </span>
+                                    </td>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/tasks/form/58">111111111111</a>                                    </td>
+                                    <td>
+                                    <span class="font-overdue">
+                                        17.04.2024                                    </span>
+                                    </td>
+                                    <td>
+                                                                            </td>
+                                </tr>
+                                                            <tr>
+                                    <td>
+                                    <span class="label paid">
+                                        Invoiced                                    </span>
+                                    </td>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/tasks/form/57">Test</a>                                    </td>
+                                    <td>
+                                    <span class="font-overdue">
+                                        11.04.2024                                    </span>
+                                    </td>
+                                    <td>
+                                                                            </td>
+                                </tr>
+                                                            <tr>
+                                    <td>
+                                    <span class="label sent">
+                                        Complete                                    </span>
+                                    </td>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/tasks/form/56">Crystal </a>                                    </td>
+                                    <td>
+                                    <span class="font-overdue">
+                                        08.04.2024                                    </span>
+                                    </td>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/projects/view/60">Granby_2024</a>                                    </td>
+                                </tr>
+                                                            <tr>
+                                    <td>
+                                    <span class="label viewed">
+                                        In progress                                    </span>
+                                    </td>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/tasks/form/55">adsfadsf</a>                                    </td>
+                                    <td>
+                                    <span class="font-overdue">
+                                        08.04.2024                                    </span>
+                                    </td>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/projects/view/47">jhgkjhg</a>                                    </td>
+                                </tr>
+                                                            <tr>
+                                    <td>
+                                    <span class="label draft">
+                                        Not started                                    </span>
+                                    </td>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/tasks/form/54">FILL CARTS</a>                                    </td>
+                                    <td>
+                                    <span class="font-overdue">
+                                        06.04.2024                                    </span>
+                                    </td>
+                                    <td>
+                                                                            </td>
+                                </tr>
+                                                            <tr>
+                                    <td>
+                                    <span class="label paid">
+                                        Invoiced                                    </span>
+                                    </td>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/tasks/form/53">asdfsdf</a>                                    </td>
+                                    <td>
+                                    <span class="font-overdue">
+                                        06.04.2024                                    </span>
+                                    </td>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/projects/view/49">adf</a>                                    </td>
+                                </tr>
+                                                            <tr>
+                                    <td>
+                                    <span class="label draft">
+                                        Not started                                    </span>
+                                    </td>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/tasks/form/52">Test</a>                                    </td>
+                                    <td>
+                                    <span class="font-overdue">
+                                        30.03.2024                                    </span>
+                                    </td>
+                                    <td>
+                                                                            </td>
+                                </tr>
+                                                            <tr>
+                                    <td>
+                                    <span class="label paid">
+                                        Invoiced                                    </span>
+                                    </td>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/tasks/form/51">IT-Supprt</a>                                    </td>
+                                    <td>
+                                    <span class="">
+                                        01.01.2199                                    </span>
+                                    </td>
+                                    <td>
+                                                                            </td>
+                                </tr>
+                                                            <tr>
+                                    <td>
+                                    <span class="label draft">
+                                        Not started                                    </span>
+                                    </td>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/tasks/form/50">deneme görevi</a>                                    </td>
+                                    <td>
+                                    <span class="font-overdue">
+                                        19.03.2024                                    </span>
+                                    </td>
+                                    <td>
+                                                                            </td>
+                                </tr>
+                                                            <tr>
+                                    <td>
+                                    <span class="label draft">
+                                        Not started                                    </span>
+                                    </td>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/tasks/form/49">deneme görevi</a>                                    </td>
+                                    <td>
+                                    <span class="font-overdue">
+                                        17.03.2024                                    </span>
+                                    </td>
+                                    <td>
+                                                                            </td>
+                                </tr>
+                                                            <tr>
+                                    <td>
+                                    <span class="label sent">
+                                        Complete                                    </span>
+                                    </td>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/tasks/form/48">paiment</a>                                    </td>
+                                    <td>
+                                    <span class="font-overdue">
+                                        30.03.2024                                    </span>
+                                    </td>
+                                    <td>
+                                                                            </td>
+                                </tr>
+                                                            <tr>
+                                    <td>
+                                    <span class="label draft">
+                                        Not started                                    </span>
+                                    </td>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/tasks/form/47">Help</a>                                    </td>
+                                    <td>
+                                    <span class="font-overdue">
+                                        11.03.2024                                    </span>
+                                    </td>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/projects/view/41">TRL4</a>                                    </td>
+                                </tr>
+                                                            <tr>
+                                    <td>
+                                    <span class="label sent">
+                                        Complete                                    </span>
+                                    </td>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/tasks/form/46">tu 3</a>                                    </td>
+                                    <td>
+                                    <span class="font-overdue">
+                                        10.03.2024                                    </span>
+                                    </td>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/projects/view/40">tutti</a>                                    </td>
+                                </tr>
+                                                            <tr>
+                                    <td>
+                                    <span class="label paid">
+                                        Invoiced                                    </span>
+                                    </td>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/tasks/form/45">tu 2</a>                                    </td>
+                                    <td>
+                                    <span class="font-overdue">
+                                        10.03.2024                                    </span>
+                                    </td>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/projects/view/40">tutti</a>                                    </td>
+                                </tr>
+                                                            <tr>
+                                    <td>
+                                    <span class="label viewed">
+                                        In progress                                    </span>
+                                    </td>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/tasks/form/44">tu 1</a>                                    </td>
+                                    <td>
+                                    <span class="font-overdue">
+                                        10.03.2024                                    </span>
+                                    </td>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/projects/view/40">tutti</a>                                    </td>
+                                </tr>
+                                                            <tr>
+                                    <td>
+                                    <span class="label draft">
+                                        Not started                                    </span>
+                                    </td>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/tasks/form/43">Cooker</a>                                    </td>
+                                    <td>
+                                    <span class="font-overdue">
+                                        09.03.2024                                    </span>
+                                    </td>
+                                    <td>
+                                                                            </td>
+                                </tr>
+                                                            <tr>
+                                    <td>
+                                    <span class="label sent">
+                                        Complete                                    </span>
+                                    </td>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/tasks/form/42">Script</a>                                    </td>
+                                    <td>
+                                    <span class="font-overdue">
+                                        15.03.2024                                    </span>
+                                    </td>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/projects/view/42">240505R</a>                                    </td>
+                                </tr>
+                                                            <tr>
+                                    <td>
+                                    <span class="label viewed">
+                                        In progress                                    </span>
+                                    </td>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/tasks/form/41">xcvghb n</a>                                    </td>
+                                    <td>
+                                    <span class="font-overdue">
+                                        04.03.2024                                    </span>
+                                    </td>
+                                    <td>
+                                                                            </td>
+                                </tr>
+                                                            <tr>
+                                    <td>
+                                    <span class="label viewed">
+                                        In progress                                    </span>
+                                    </td>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/tasks/form/40">testy</a>                                    </td>
+                                    <td>
+                                    <span class="font-overdue">
+                                        01.03.2024                                    </span>
+                                    </td>
+                                    <td>
+                                                                            </td>
+                                </tr>
+                                                            <tr>
+                                    <td>
+                                    <span class="label viewed">
+                                        In progress                                    </span>
+                                    </td>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/tasks/form/39">some task</a>                                    </td>
+                                    <td>
+                                    <span class="font-overdue">
+                                        01.03.2024                                    </span>
+                                    </td>
+                                    <td>
+                                                                            </td>
+                                </tr>
+                                                            <tr>
+                                    <td>
+                                    <span class="label draft">
+                                        Not started                                    </span>
+                                    </td>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/tasks/form/38">TEST</a>                                    </td>
+                                    <td>
+                                    <span class="font-overdue">
+                                        29.02.2024                                    </span>
+                                    </td>
+                                    <td>
+                                                                            </td>
+                                </tr>
+                                                            <tr>
+                                    <td>
+                                    <span class="label paid">
+                                        Invoiced                                    </span>
+                                    </td>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/tasks/form/37">RtEST&quot;</a>                                    </td>
+                                    <td>
+                                    <span class="font-overdue">
+                                        29.02.2024                                    </span>
+                                    </td>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/projects/view/36">bauvorhaben Stuttagart am see</a>                                    </td>
+                                </tr>
+                                                            <tr>
+                                    <td>
+                                    <span class="label sent">
+                                        Complete                                    </span>
+                                    </td>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/tasks/form/36">RtEST</a>                                    </td>
+                                    <td>
+                                    <span class="font-overdue">
+                                        29.02.2024                                    </span>
+                                    </td>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/projects/view/36">bauvorhaben Stuttagart am see</a>                                    </td>
+                                </tr>
+                                                            <tr>
+                                    <td>
+                                    <span class="label viewed">
+                                        In progress                                    </span>
+                                    </td>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/tasks/form/35">utre trest</a>                                    </td>
+                                    <td>
+                                    <span class="font-overdue">
+                                        29.02.2024                                    </span>
+                                    </td>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/projects/view/35">Utre</a>                                    </td>
+                                </tr>
+                                                            <tr>
+                                    <td>
+                                    <span class="label draft">
+                                        Not started                                    </span>
+                                    </td>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/tasks/form/34">τεστ</a>                                    </td>
+                                    <td>
+                                    <span class="font-overdue">
+                                        28.02.2024                                    </span>
+                                    </td>
+                                    <td>
+                                                                            </td>
+                                </tr>
+                                                            <tr>
+                                    <td>
+                                    <span class="label draft">
+                                        Not started                                    </span>
+                                    </td>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/tasks/form/31">Project kickoff</a>                                    </td>
+                                    <td>
+                                    <span class="font-overdue">
+                                        26.02.2024                                    </span>
+                                    </td>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/projects/view/32">Super project</a>                                    </td>
+                                </tr>
+                                                            <tr>
+                                    <td>
+                                    <span class="label sent">
+                                        Complete                                    </span>
+                                    </td>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/tasks/form/30">TEST222</a>                                    </td>
+                                    <td>
+                                    <span class="font-overdue">
+                                        24.02.2024                                    </span>
+                                    </td>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/projects/view/10">Goods Return Note</a>                                    </td>
+                                </tr>
+                                                            <tr>
+                                    <td>
+                                    <span class="label paid">
+                                        Invoiced                                    </span>
+                                    </td>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/tasks/form/29">Test</a>                                    </td>
+                                    <td>
+                                    <span class="font-overdue">
+                                        20.02.2024                                    </span>
+                                    </td>
+                                    <td>
+                                                                            </td>
+                                </tr>
+                                                            <tr>
+                                    <td>
+                                    <span class="label paid">
+                                        Invoiced                                    </span>
+                                    </td>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/tasks/form/26">ab</a>                                    </td>
+                                    <td>
+                                    <span class="font-overdue">
+                                        16.02.2024                                    </span>
+                                    </td>
+                                    <td>
+                                                                            </td>
+                                </tr>
+                                                            <tr>
+                                    <td>
+                                    <span class="label draft">
+                                        Not started                                    </span>
+                                    </td>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/tasks/form/24">A1</a>                                    </td>
+                                    <td>
+                                    <span class="font-overdue">
+                                        07.02.2024                                    </span>
+                                    </td>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/projects/view/26">P2</a>                                    </td>
+                                </tr>
+                                                            <tr>
+                                    <td>
+                                    <span class="label draft">
+                                        Not started                                    </span>
+                                    </td>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/tasks/form/23">asd</a>                                    </td>
+                                    <td>
+                                    <span class="font-overdue">
+                                        05.02.2024                                    </span>
+                                    </td>
+                                    <td>
+                                                                            </td>
+                                </tr>
+                                                            <tr>
+                                    <td>
+                                    <span class="label sent">
+                                        Complete                                    </span>
+                                    </td>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/tasks/form/22">WEb design</a>                                    </td>
+                                    <td>
+                                    <span class="font-overdue">
+                                        25.01.2024                                    </span>
+                                    </td>
+                                    <td>
+                                                                            </td>
+                                </tr>
+                                                            <tr>
+                                    <td>
+                                    <span class="label paid">
+                                        Invoiced                                    </span>
+                                    </td>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/tasks/form/21">Test1</a>                                    </td>
+                                    <td>
+                                    <span class="font-overdue">
+                                        25.01.2024                                    </span>
+                                    </td>
+                                    <td>
+                                                                            </td>
+                                </tr>
+                                                            <tr>
+                                    <td>
+                                    <span class="label paid">
+                                        Invoiced                                    </span>
+                                    </td>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/tasks/form/20">TTT</a>                                    </td>
+                                    <td>
+                                    <span class="font-overdue">
+                                        25.01.2024                                    </span>
+                                    </td>
+                                    <td>
+                                                                            </td>
+                                </tr>
+                                                            <tr>
+                                    <td>
+                                    <span class="label viewed">
+                                        In progress                                    </span>
+                                    </td>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/tasks/form/19">testen</a>                                    </td>
+                                    <td>
+                                    <span class="font-overdue">
+                                        21.01.2024                                    </span>
+                                    </td>
+                                    <td>
+                                                                            </td>
+                                </tr>
+                                                            <tr>
+                                    <td>
+                                    <span class="label paid">
+                                        Invoiced                                    </span>
+                                    </td>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/tasks/form/18">Testme</a>                                    </td>
+                                    <td>
+                                    <span class="font-overdue">
+                                        20.01.2024                                    </span>
+                                    </td>
+                                    <td>
+                                                                            </td>
+                                </tr>
+                                                            <tr>
+                                    <td>
+                                    <span class="label viewed">
+                                        In progress                                    </span>
+                                    </td>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/tasks/form/17">bla bla </a>                                    </td>
+                                    <td>
+                                    <span class="font-overdue">
+                                        12.01.2024                                    </span>
+                                    </td>
+                                    <td>
+                                                                            </td>
+                                </tr>
+                                                            <tr>
+                                    <td>
+                                    <span class="label paid">
+                                        Invoiced                                    </span>
+                                    </td>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/tasks/form/16">demo</a>                                    </td>
+                                    <td>
+                                    <span class="font-overdue">
+                                        09.01.2024                                    </span>
+                                    </td>
+                                    <td>
+                                                                            </td>
+                                </tr>
+                                                            <tr>
+                                    <td>
+                                    <span class="label draft">
+                                        Not started                                    </span>
+                                    </td>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/tasks/form/15">uzduotis</a>                                    </td>
+                                    <td>
+                                    <span class="font-overdue">
+                                        09.01.2024                                    </span>
+                                    </td>
+                                    <td>
+                                                                            </td>
+                                </tr>
+                                                            <tr>
+                                    <td>
+                                    <span class="label paid">
+                                        Invoiced                                    </span>
+                                    </td>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/tasks/form/14">asdf asdfas</a>                                    </td>
+                                    <td>
+                                    <span class="font-overdue">
+                                        06.01.2024                                    </span>
+                                    </td>
+                                    <td>
+                                                                            </td>
+                                </tr>
+                                                            <tr>
+                                    <td>
+                                    <span class="label draft">
+                                        Not started                                    </span>
+                                    </td>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/tasks/form/13">Gelnagel Afspraak</a>                                    </td>
+                                    <td>
+                                    <span class="font-overdue">
+                                        09.01.2024                                    </span>
+                                    </td>
+                                    <td>
+                                                                            </td>
+                                </tr>
+                                                            <tr>
+                                    <td>
+                                    <span class="label paid">
+                                        Invoiced                                    </span>
+                                    </td>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/tasks/form/12">asdf</a>                                    </td>
+                                    <td>
+                                    <span class="font-overdue">
+                                        28.12.2023                                    </span>
+                                    </td>
+                                    <td>
+                                                                            </td>
+                                </tr>
+                                                            <tr>
+                                    <td>
+                                    <span class="label viewed">
+                                        In progress                                    </span>
+                                    </td>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/tasks/form/11">max</a>                                    </td>
+                                    <td>
+                                    <span class="font-overdue">
+                                        06.12.2023                                    </span>
+                                    </td>
+                                    <td>
+                                                                            </td>
+                                </tr>
+                                                            <tr>
+                                    <td>
+                                    <span class="label viewed">
+                                        In progress                                    </span>
+                                    </td>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/tasks/form/10">Visa</a>                                    </td>
+                                    <td>
+                                    <span class="font-overdue">
+                                        05.12.2023                                    </span>
+                                    </td>
+                                    <td>
+                                                                            </td>
+                                </tr>
+                                                            <tr>
+                                    <td>
+                                    <span class="label draft">
+                                        Not started                                    </span>
+                                    </td>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/tasks/form/9">task1</a>                                    </td>
+                                    <td>
+                                    <span class="font-overdue">
+                                        10.11.2023                                    </span>
+                                    </td>
+                                    <td>
+                                                                            </td>
+                                </tr>
+                                                            <tr>
+                                    <td>
+                                    <span class="label paid">
+                                        Invoiced                                    </span>
+                                    </td>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/tasks/form/8">task test</a>                                    </td>
+                                    <td>
+                                    <span class="font-overdue">
+                                        10.11.2023                                    </span>
+                                    </td>
+                                    <td>
+                                                                            </td>
+                                </tr>
+                                                            <tr>
+                                    <td>
+                                    <span class="label paid">
+                                        Invoiced                                    </span>
+                                    </td>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/tasks/form/7">456456</a>                                    </td>
+                                    <td>
+                                    <span class="font-overdue">
+                                        09.11.2023                                    </span>
+                                    </td>
+                                    <td>
+                                                                            </td>
+                                </tr>
+                                                            <tr>
+                                    <td>
+                                    <span class="label viewed">
+                                        In progress                                    </span>
+                                    </td>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/tasks/form/5">ujuhh</a>                                    </td>
+                                    <td>
+                                    <span class="font-overdue">
+                                        13.10.2023                                    </span>
+                                    </td>
+                                    <td>
+                                                                            </td>
+                                </tr>
+                                                            <tr>
+                                    <td>
+                                    <span class="label viewed">
+                                        In progress                                    </span>
+                                    </td>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/tasks/form/4">test task</a>                                    </td>
+                                    <td>
+                                    <span class="font-overdue">
+                                        05.10.2023                                    </span>
+                                    </td>
+                                    <td>
+                                                                            </td>
+                                </tr>
+                                                            <tr>
+                                    <td>
+                                    <span class="label paid">
+                                        Invoiced                                    </span>
+                                    </td>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/tasks/form/3">algo</a>                                    </td>
+                                    <td>
+                                    <span class="font-overdue">
+                                        22.09.2023                                    </span>
+                                    </td>
+                                    <td>
+                                                                            </td>
+                                </tr>
+                                                            <tr>
+                                    <td>
+                                    <span class="label paid">
+                                        Invoiced                                    </span>
+                                    </td>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/tasks/form/2">Sem</a>                                    </td>
+                                    <td>
+                                    <span class="font-overdue">
+                                        18.09.2023                                    </span>
+                                    </td>
+                                    <td>
+                                                                            </td>
+                                </tr>
+                                                            <tr>
+                                    <td>
+                                    <span class="label paid">
+                                        Invoiced                                    </span>
+                                    </td>
+                                    <td>
+                                        <a href="https://demo.invoiceplane.com/tasks/form/1">Etapa 1</a>                                    </td>
+                                    <td>
+                                    <span class="font-overdue">
+                                        03.09.2023                                    </span>
+                                    </td>
+                                    <td>
+                                                                            </td>
+                                </tr>
+                                                    		<tr>
+                            		<td colspan="6" class="text-right small">
+                                		<a href="https://demo.invoiceplane.com/tasks/index">View All</a>                            		</td>
+                        		</tr>
+                            </tbody>
+
+                        </table>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    
+</div>
+    </div>
+
+</div>
+
+<div id="modal-placeholder"></div>
+
+<div id="fullpage-loader" style="display: none">
+    <div class="loader-content">
+        <i id="loader-icon" class="fa fa-cog fa-spin"></i>
+        <div id="loader-error" style="display: none">
+            It seems that the application stuck because of an error.<br/>
+            <a href="https://wiki.invoiceplane.com/en/1.0/general/faq"
+               class="btn btn-primary btn-sm" target="_blank">
+                <i class="fa fa-support"></i> Get Help            </a>
+        </div>
+    </div>
+    <div class="text-right">
+        <button type="button" class="fullpage-loader-close btn btn-link tip" aria-label="Close"
+                title="Close" data-placement="left">
+            <span aria-hidden="true"><i class="fa fa-close"></i></span>
+        </button>
+    </div>
+</div>
+
+<script defer src="https://demo.invoiceplane.com/assets/core/js/scripts.js"></script>
+
+</body>
+</html>
