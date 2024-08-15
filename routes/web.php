@@ -3,7 +3,9 @@
 use Illuminate\Support\Facades\Route;
 
 //use App\Http\Controllers\AppController;
-use App\Http\Controllers\InvoiceController;
+use App\Http\Controllers\InvController;
+use App\Http\Controllers\ClientController;
+use App\Http\Controllers\ClientController;
 
 
 /*
@@ -56,4 +58,16 @@ Route::prefix('quotation')->group(function () {
     Route::get('/{formtype}/{id}', [InvController::class, 'view']);
     // http://localhost/lav9Invplane/quotation/edit/1718
     //Route::get('/edit/{id}', 'App\Http\Controllers\QuoteController@edit');
+});
+
+//Clients
+//Route::get('invoice/view/{id}', [App\Http\Controllers\InvController::class, 'view']);
+Route::prefix('clients')->group(function () {
+    // http://localhost/lav9Invplane/quotation/view/1718
+    // Route::get('/view/{id}', 'App\Http\Controllers\InvController@view');
+    Route::get('/{formtype}/{id}', [ClientController::class, 'view']);
+    // http://localhost/lav9Invplane/quotation/edit/1718
+    //Route::get('/edit/{id}', 'App\Http\Controllers\QuoteController@edit');
+    Route::create('/create', [ClientController::class, 'create']);
+    Route::post('/update/{id}', [ClientController::class, 'update']);
 });

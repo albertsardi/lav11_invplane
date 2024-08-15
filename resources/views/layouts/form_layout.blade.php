@@ -5,25 +5,8 @@
 <head>
     <title>Fattouch Sanitaire</title>
 
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="robots" content="NOINDEX,NOFOLLOW">
-
-<link rel="icon" type="image/png" href="https://demo.invoiceplane.com/assets/core/img/favicon.png"><link rel="icon" type="image/png" href="http://localhost/lav9Invplane/public/assets/images/favicon.ico">
-
-<link rel="stylesheet" href="http://localhost/lav9Invplane/public/assets/css/style.css?v=1.6.1">
-<link rel="stylesheet" href="http://localhost/lav9Invplane/public/assets/css/custom.css?v=1.6.1">
-<link rel="stylesheet" href="http://localhost/lav9Invplane/public/assets/css/fontawesome/font-awesome.min.css">
-
-    <link rel="stylesheet" href="https://demo.invoiceplane.com/assets/invoiceplane/css/monospace.css?v=1.6.1">
-
-<!--[if lt IE 9]>
-<script src="https://demo.invoiceplane.com/assets/core/js/legacy.min.js?v=1.6.1"></script>
-<![endif]-->
-
-<script src="https://demo.invoiceplane.com/assets/core/js/dependencies.min.js?v=1.6.1"></script>
-<script src="https://cdn-script.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+@include('components.header')
+    
 <style>
     .bold{font-weight: bold;}
 </style>
