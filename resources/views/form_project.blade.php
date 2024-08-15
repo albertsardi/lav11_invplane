@@ -1,4 +1,4 @@
-@extends('layouts.form_layout',['title'=>'Client'])
+@extends('layouts.form_layout',['title'=>'Project'])
 
 @section('content')
 <script>
@@ -259,9 +259,9 @@
 </script>
 
 @if($formtype='update')
-    <form method="post" action="clients/update/{{$data->id??''}}">
+    <form method="post" action="projects/update/{{$data->id??''}}">
 @else
-    <form method="post" action="clients/create/}}">
+    <form method="post" action="projects/create/}}">
 @endif
 	@csrf
     <!-- <input type="hidden" name="_ip_csrf"
@@ -287,7 +287,7 @@
             value="0"        >
 
         <div class="row">
-            <div class="col-xs-12 col-sm-6">
+            <div class="col-xs-12 col-sm-12">
 
                 <div class="panel panel-default">
                     <div class="panel-heading form-inline clearfix">
@@ -307,8 +307,8 @@
                         </div>
 
                     <div class="form-group">
-                            <label for="client_surname">Client Internal Code</label>
-                            <input id="client_surname" name="AccCode" type="text" class="form-control" value="{{$data->AccCode??''}}">
+                            <label for="client_surname">Project Name</label>
+                            <input id="client_surname" name="Name" type="text" class="form-control" value="{{$data->Name??''}}">
                         </div>
 
                         <div class="form-group">
@@ -321,9 +321,6 @@
                                 Client as                            </label>
                             <select name="AccType" id="client_language" class="form-control simple-select">
                                 <option value="system">Use System language</option>
-                                @foreach ($mClientas as $m)
-                                <option value="{{$m['id']??''}}">{{$m['name']??''}}</option>
-                                @endforeach
                             </select>
                         </div>
 
@@ -333,12 +330,11 @@
             </div>
         </div>
 
-        <div class="row">
+        <!-- <div class="row">
             <div class="col-xs-12 col-sm-6">
                 <div class="panel panel-default">
 
-                    <div class="panel-heading">
-                        Address                    </div>
+                    <div class="panel-heading">Address</div>
 
                     <div class="panel-body">
                         <div class="form-group">
@@ -446,7 +442,7 @@
                                                                                                                 <div class="form-group">
         
                 
-    </div>
+    </div> 
                                                                             </div>
 
                 </div>
@@ -454,7 +450,7 @@
             </div>
         </div>
 
-        <div class="row">
+        <!-- <div class="row">
             <div class="col-xs-12 col-sm-6">
 
                 <div class="panel panel-default">
@@ -475,9 +471,7 @@
                             <label for="client_gender">Gender</label>
                             <div class="controls">
                                 <select name='client_gender_test'  >
-                                @foreach ($mGender as $m)
                                     <option value="{{$m['id']??''}}">{{$m['name']??''}}</option>
-                                @endforeach
                                 </select>
                             </div>
                         </div>
@@ -495,7 +489,7 @@
                         </div>
 
                         
-                        <!-- Custom fields -->
+                        Custom fields 
                                                                                                                                 </div>
 
                 </div>
@@ -504,8 +498,7 @@
             <div class="col-xs-12 col-sm-6">
 
                 <div class="panel panel-default">
-                    <div class="panel-heading">
-                        Taxes Information                    </div>
+                    <div class="panel-heading">Taxes Information</div>
 
                     <div class="panel-body">
                         <div class="form-group">
@@ -525,43 +518,34 @@
                             </div>
                         </div>
 
-                        <!-- Custom fields -->
                                                                                                                                 </div>
 
                 </div>
 
             </div>
-        </div>
-                    <div class="row">
+        </div>  -->
+            <!-- <div class="row">
                 <div class="col-xs-12 col-md-6">
 
                     <div class="panel panel-default">
 
-                        <div class="panel-heading">
-                            Custom Fields                        </div>
+                        <div class="panel-heading">Custom Fields</div>
 
                         <div class="panel-body">
-                                                                <div class="form-group">
-        <div class="">
-            <label                    for="custom[68]">
-                Client Address            </label>
-        </div>
-                <div class="controls">
-                        <input type="text" class="form-control"
-                   name="custom[68]"
-                   id="68"
-                   value="">
-                    </div>
-    </div>
-                                                                                                    <div class="form-group">
-        
-                
-    </div>
-                                                        </div>
-
+                            <div class="form-group">
+                                <div class="">
+                                    <label for="custom[68]">Client Address</label>
+                                </div>
+                                <div class="controls">
+                                    <input type="text" class="form-control" name="custom[68]" id="68" value="">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
             </div>
 			<button type="submit">Submit</button>
 </form>

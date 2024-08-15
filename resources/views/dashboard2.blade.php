@@ -738,9 +738,9 @@
                             @foreach($project as $p)
                                 <tr>
                                     <td>
-                                        <a href="https://demo.invoiceplane.com/projects/view/65">{{$p->Name}}</a>                                    </td>
+                                        <a href="projects/view/{{$p->id}}">{{$p->Name}}</a>                                    </td>
                                     <td>
-                                        <a href="https://demo.invoiceplane.com/clients/view/289">{{$p->AccName}}</a>                                    </td>
+                                        <a href="clients/view/289">{{$p->AccName}}</a>                                    </td>
                                 </tr>
                             @endforeach
                                 <tr>

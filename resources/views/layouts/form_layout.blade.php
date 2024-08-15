@@ -3,7 +3,7 @@
 <html class="no-js" lang="en"> <!--<![endif]-->
 
 <head>
-    <title>Fattouch Sanitaire</title>
+    <title>{{$title}}</title>
 
 @include('components.header')
     

@@ -4,33 +4,22 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use App\Http\Model\Client;
+use App\Http\Model\Project;
 
-class ClientController extends Controller
+class ProjectController extends Controller
 {
     // fview / orm edit
     function view($formtype, $id='') {
-        $OpenApi = new OpenapiController();
+        // return "$formtype - $id";
         $data =[];
-        $data['data'] = DB::table('clients')->where('AccCode', $id)->first();
-        $data['address'] = DB::table('masteraccountaddr')->where('AccCode', $id)->where('defaddr', 1)->first();
+        $data['data'] = DB::table('projects')->where('id', $id)->first();
         $data['mCustomer'] = [];//DB::table('masteraccount')->where('AccType','C')->select('AccCode','AccName')->orderBy('AccCode','ASC')->get();
         $data['mSupplier'] = [];//DB::table('masteraccount')->where('AccType','S')->select('AccCode','AccName')->orderBy('AccCode','ASC')->get();
-        $data['mProv'] = $OpenApi->IndoProvince();
-        $data['mCountry'] = $OpenApi->WorldCountry('asia');
-        $data['mGender'] = [
-            ['id'=> 'M', 'name'=>'Male'],
-            ['id'=> 'F', 'name'=>'Female'],
-            ['id'=> 'O', 'name'=>'Other'],
-        ];
-        $data['mClientas'] = [
-            ['id'=> 'C', 'name'=>'as Customer'],
-            ['id'=> 'S', 'name'=>'as Supplier'],
-        ];
-        dump($data);
-
+        // $data['mProv'] = $OpenApi->IndoProvince();
+        
         $data['formtype'] = ($id==''?'create':'update');
-        return view("form_client", $data);
+        dump($data);
+        return view("form_project", $data);
         
         // if(str_contains($_SERVER['REQUEST_URI'], 'customer/edit')) $jr='customer';
 	    // if(str_contains($_SERVER['REQUEST_URI'], 'supplier/edit')) $jr='supplier';
@@ -66,8 +55,8 @@ class ClientController extends Controller
             $data['mOrder'] = Order::where('AccCode',$res->data->AccCode)->get();
         }
 
-        
-        return view("form_client", $data);
+        $data['formtype'] = ($id==''?'create':'update');
+        return view("form_project", $data);
     }
 
     public function create(Request $req) {
