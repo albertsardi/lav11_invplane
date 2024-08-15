@@ -259,9 +259,9 @@
 </script>
 
 @if($formtype='update')
-    <form method="post" action="projects/update/{{$data->id??''}}">
+    <form method="post" action="/projects/update/{{$data->id??''}}">
 @else
-    <form method="post" action="projects/create/}}">
+    <form method="post" action="/projects/create/}}">
 @endif
 	@csrf
     <!-- <input type="hidden" name="_ip_csrf"

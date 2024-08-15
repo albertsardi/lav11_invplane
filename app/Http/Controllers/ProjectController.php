@@ -4,12 +4,19 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use App\Http\Model\Project;
+use App\Models\Project;
 
 class ProjectController extends Controller
 {
     // fview / orm edit
-    function view($formtype, $id='') {
+    public function rules() {
+        return [
+            'Name' => 'required',
+            'AccName' => 'required|max:255',
+        ];
+    }
+
+    public function view($formtype, $id='') {
         // return "$formtype - $id";
         $data =[];
         $data['data'] = DB::table('projects')->where('id', $id)->first();
@@ -18,7 +25,9 @@ class ProjectController extends Controller
         // $data['mProv'] = $OpenApi->IndoProvince();
         
         $data['formtype'] = ($id==''?'create':'update');
-        dump($data);
+        //dump($data);
+        //$m = new Project;
+        //dump($m->fillable);
         return view("form_project", $data);
         
         // if(str_contains($_SERVER['REQUEST_URI'], 'customer/edit')) $jr='customer';
@@ -64,8 +73,9 @@ class ProjectController extends Controller
         $input = $req->all();
         unset($input['_token']);
         unset($input['is_update']);
+        unset($input['Active']);
         dump($input);
-        Client::unguard();
+        //Client::unguard();
         if ($input['id']=='') {
             //create new
             logger('create new');
@@ -74,30 +84,54 @@ class ProjectController extends Controller
         } else {
             //update
             logger('update');
-            $m = Client::where('id',$id);
+            $m = Project::where('id',$id);
             $m->create($input);
         }
-        Cient::reguard();
+        //Cient::reguard();
     }
 
     public function update($id, Request $req) {
         $input = $req->getContent();
         $input = $req->all();
-        unset($input['_token']);
-        unset($input['is_update']);
-        dump($input);
-        Client::unguard();
-        if ($input['id']=='') {
-            //create new
-            logger('create new');
-            $m = new Client;
-            $m = $m->save($input);
-        } else {
-            //update
-            logger('update');
-            $m = Client::where('id',$id);
-            $m->create($input);
+
+        //dd($input);
+
+        // validation 
+        $validate = $req->validate([
+            'Name' => 'required',
+            'AccName' => 'required|max:255',
+        ]);
+
+        $m = Project::where('id',$id);
+        
+        $m0 = new Project();
+        $v = $m0->getFillable();
+        $fillable = app(Project::class)->getFillable();
+        //dd($v);
+
+        //save using manual karena fill able tidak jalan
+        // $m = Project::where('id',$id);
+        // $m->Name =  $input['Name'] ?? '';
+        // $m->AccName = $input['AccName'] ?? '';
+        // $m->save();
+        //dd( $m->getFillable() );
+
+        //save using custom fillable
+        //$fillable = ['Name','AccName'];
+        $newinput = $this->getfill($input, $fillable);
+        dump($newinput);
+        $m->update($newinput);
+        return 'data save..';
+
+
+        
+    }
+
+    function getfill($input, $fill) {
+        $out = [];
+        foreach($fill as $f) {
+            $out[$f] = $input[$f];
         }
-        Cient::reguard();
+        return $out;
     }
 }

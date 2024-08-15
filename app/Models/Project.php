@@ -5,16 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+// define("ProjectFillable", [ 'Name', 'AccName' ]);
+
 class Project extends Model
 {
     use HasFactory;
+    public $fillable2 = [ 'Name', 'AccName' ];
     protected $table = 'projects';
     protected $primaryKey = 'id';
     protected $keyType = 'integer';
-    protected $fillable= [
-                'Name',
-                'AccName',
-    ];
+    protected $fillable = [ 'Name', 'AccName' ];
     // const CREATED_AT = 'CreatedDate'; //change laravel timestamp
     // const UPDATED_AT = 'UpdatedDate'; //change laravel creator stamp
     const CREATED_AT = null; //disable laravel timestamp
@@ -24,4 +24,6 @@ class Project extends Model
     //     $salesTot =  DB::table('invoice')->where('AccCode', $acccode)->where('Status',1)->sum('Total')''
     //     return $salesTot;
     // }
+
+
 }
