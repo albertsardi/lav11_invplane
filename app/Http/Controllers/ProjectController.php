@@ -121,7 +121,8 @@ class ProjectController extends Controller
         $newinput = $this->getfill($input, $fillable);
         dump($newinput);
         $m->update($newinput);
-        return 'data save..';
+        //return 'data save..';
+        return redirect('project/view/'.$id)->with('success', 'Berhasil simpan data');
 
 
         
