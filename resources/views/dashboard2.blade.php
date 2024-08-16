@@ -250,25 +250,37 @@
                         </tr>
                         </thead>
                         <tbody>
-							@foreach($quotation as $q)
-							<tr>
-								<td>
-                                    @if($q->statusID==0)
-                                        <span class="label draft">Draft</span>
-                                    @elseif($q->StatusID==1)
+							@if (!empty($quotation))
+                                @foreach($quotation as $q)
+                                <tr>
+                                    <td>
+                                        @if($q->statusID==0)
+                                            <span class="label draft">Draft</span>
+                                        @elseif($q->StatusID==1)
+                                            <span class="label sent">Sent</span>
+                                        @elseif($q->StatusID==2)
                                         <span class="label sent">Sent</span>
-                                    @elseif($q->StatusID==2)
-                                    <span class="label sent">Sent</span>
-                                    @else
-                                        {{$q->StatusID}}
-                                    @endif
-                                </td>
-								<td><a href="quotation/view/{{$q->id}}">{{$q->TransNo??''}}</a></td>
-                                <td><a href="clients/view/{{$q->AccCode??''}}">{{$q->AccName??''}}</a>                                </td>
-                                <td class="amount">Rp. {{$q->Total??0}}</td>
-                                <td style="text-align: center;"><a href="quotes/generate_pdf/788" title="Download PDF"><i class="fa fa-file-pdf-o"></i></a></td>
-                            </tr>
-							@endforeach
+                                        @else
+                                            {{$q->StatusID}}
+                                        @endif
+                                    </td>
+                                    <td><a href="quotation/view/{{$q->id}}">{{$q->TransNo??''}}</a></td>
+                                    <td><a href="clients/view/{{$q->AccCode??''}}">{{$q->AccName??''}}</a>                                </td>
+                                    <td class="amount">Rp. {{$q->Total??0}}</td>
+                                    <td style="text-align: center;"><a href="quotes/generate_pdf/788" title="Download PDF"><i class="fa fa-file-pdf-o"></i></a></td>
+                                </tr>
+                                @endforeach
+                                <tr>
+                                    <td colspan="6" class="text-right small">
+                                    <a href="https://demo.invoiceplane.com/invoices/status/all">View All</a>                            </td>
+                                </tr>
+                            @else
+                                <tr>
+                                    <td colspan=5 rowspan=10 style="text-align:center;vertical-align:center;height:380px;">
+                                        no data
+                                    </td>
+                                </tr>
+                            @endif
                             <!-- <tr>
                                 <td>
                                 <span class="label sent">Sent</span>
@@ -481,25 +493,34 @@
                         </tr>
                         </thead>
                         <tbody>
-
-                            @foreach($invoice as $i)
-                            <tr>
-                                <td>
-                                    @if($q->Status==0)
-                                    <span class="label draft">Draft</span>
-                                    @elseif($q->Status==1)
-                                    <span class="label sent">Sent</span>
-                                    @endif 
-                                </td>
-                                <td>
-                                    <span class="">{{$i->TransDate}}</span>
-                                </td>
-                                <td><a href="invoices/view/{{$i->id}}">{{$i->TransNo}}</a></td>
-                                <td><a href="https://demo.invoiceplane.com/clients/view/225">{{$i->AccName}}</a></td>
-                                <td class="amount">Rp. {{$i->Total ?? 0}}</td>
-                                <td style="text-align: center;"><a href="https://demo.invoiceplane.com/invoices/generate_pdf/2408" title="Download PDF"><i class="fa fa-file-pdf-o"></i></a></td>
-                            </tr>
-                            @endforeach
+                            @if(!empty($invoice))
+                                @foreach($invoice as $i)
+                                <tr>
+                                    <td>
+                                        @if($q->Status==0)
+                                        <span class="label draft">Draft</span>
+                                        @elseif($q->Status==1)
+                                        <span class="label sent">Sent</span>
+                                        @else
+                                            {{$q->Status}}
+                                        @endif 
+                                    </td>
+                                    <td>
+                                        <span class="">{{$i->TransDate}}</span>
+                                    </td>
+                                    <td><a href="invoices/view/{{$i->id}}">{{$i->TransNo}}</a></td>
+                                    <td><a href="https://demo.invoiceplane.com/clients/view/225">{{$i->AccName}}</a></td>
+                                    <td class="amount">Rp. {{$i->Total ?? 0}}</td>
+                                    <td style="text-align: center;"><a href="https://demo.invoiceplane.com/invoices/generate_pdf/2408" title="Download PDF"><i class="fa fa-file-pdf-o"></i></a></td>
+                                </tr>
+                                @endforeach
+                            @else
+                                <tr>
+                                    <td colspan=5 rowspan=10 style="text-align:center;vertical-align:center;height:380px;">
+                                        no data
+                                    </td>
+                                </tr>
+                            @endif
                             <!-- <tr>
                                 <td>
                                     <span class="label sent">
@@ -704,10 +725,7 @@
                                         </a>
                                                                     </td>
                             </tr> -->
-                                                <tr>
-                            <td colspan="6" class="text-right small">
-                                <a href="https://demo.invoiceplane.com/invoices/status/all">View All</a>                            </td>
-                        </tr>
+                        
                         </tbody>
                     </table>
 
@@ -735,18 +753,26 @@
                             </thead>
 
                             <tbody>
-                            @foreach($project as $p)
-                                <tr>
-                                    <td>
-                                        <a href="projects/view/{{$p->id}}">{{$p->Name}}</a>                                    </td>
-                                    <td>
-                                        <a href="clients/view/289">{{$p->AccName}}</a>                                    </td>
-                                </tr>
-                            @endforeach
+                            @if(!empty($project))
+                                @foreach($project as $p)
+                                    <tr>
+                                        <td>
+                                            <a href="projects/view/{{$p->id}}">{{$p->Name}}</a>                                    </td>
+                                        <td>
+                                            <a href="clients/view/289">{{$p->AccName}}</a>                                    </td>
+                                    </tr>
+                                @endforeach
                                 <tr>
                             		<td colspan="6" class="text-right small">
                                 		<a href="https://demo.invoiceplane.com/projects/index">View All</a>                            		</td>
                         		</tr>
+                            @else
+                                <tr>
+                                    <td colspan=5 rowspan=10 style="text-align:center;vertical-align:center;height:380px;">
+                                        no data
+                                    </td>
+                                </tr>
+                            @endif    
                             </tbody>
 
                         </table>
@@ -775,31 +801,39 @@
                             </thead>
 
                             <tbody>
-                                @foreach($task as $t)
-                                <tr>
-                                    <td>
-                                        @if($t->Status==0)
-                                        <span class="label draft">Not started</span>
-                                        @elseif($t->Status==1)
-                                        <span class="label viewed">In progress </span>
-                                        @elseif($t->Status==2)
-                                        <span class="label sent">Complete </span>
-                                        @elseif($t->Status==3)
-                                        <span class="label paid">Invoiced </span>
-                                        @else
-                                        {{$t->statusName}}
-                                        @endif
-                                    </td>
-                                    <td>
-                                        <a href="https://demo.invoiceplane.com/tasks/form/71">{{$t->Name}}</a>
-                                    <td>
-                                        <span class="font-overdue">{{$t->FinishDate}}</span>                                    
-                                    </td>
-                                    <td>
-                                        <a href="https://demo.invoiceplane.com/projects/view/11">{{$t->ProjectName}}</a>                                    
-                                    </td>
-                                </tr>
-                                @endforeach                            
+                                @if (!empty($task))
+                                    @foreach($task as $t)
+                                    <tr>
+                                        <td>
+                                            @if($t->Status==0)
+                                            <span class="label draft">Not started</span>
+                                            @elseif($t->Status==1)
+                                            <span class="label viewed">In progress </span>
+                                            @elseif($t->Status==2)
+                                            <span class="label sent">Complete </span>
+                                            @elseif($t->Status==3)
+                                            <span class="label paid">Invoiced </span>
+                                            @else
+                                            {{$t->statusName}}
+                                            @endif
+                                        </td>
+                                        <td>
+                                            <a href="https://demo.invoiceplane.com/tasks/form/71">{{$t->Name}}</a>
+                                        <td>
+                                            <span class="font-overdue">{{$t->FinishDate}}</span>                                    
+                                        </td>
+                                        <td>
+                                            <a href="https://demo.invoiceplane.com/projects/view/11">{{$t->ProjectName}}</a>                                    
+                                        </td>
+                                    </tr>
+                                    @endforeach    
+                                @else
+                                    <tr>
+                                        <td colspan=5 rowspan=10 style="text-align:center;vertical-align:center;height:380px;">
+                                            no data
+                                        </td>
+                                    </tr>
+                                @endif                        
                                 <tr>
                             		<td colspan="6" class="text-right small">
                                 		<a href="https://demo.invoiceplane.com/tasks/index">View All</a>                            		
