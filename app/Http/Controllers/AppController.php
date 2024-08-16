@@ -90,8 +90,10 @@ class AppController extends Controller
     $data['quotation'] = DB::table('quotation')->leftJoin('masterstatus','quotation.Status','=','masterstatus.id')->orderBy('TransDate','DESC')->select('quotation.*','masterstatus.id as statusID','masterstatus.Name as statusName')->take($limit)->get();
     $data['invoice'] = DB::table('invoice')->leftJoin('masterstatus','invoice.Status','=','masterstatus.id')->orderBy('TransDate','DESC')->take($limit)->get();
     $data['project'] = DB::table('projects')->orderBy('projects.id','DESC')->take($limit)->get();
-    $data['task'] = DB::table('tasks')->leftJoin('mastertaskstatus','mastertaskstatus.id','=','tasks.Status')->orderBy('tasks.id','ASC')->take($limit)->select('tasks.*','mastertaskstatus.Name as taskName')->get();
-    // dump($data['task']);
+    // select * from tasks
+    //join projects on projects.id=tasks.ProjectID
+    $data['task'] = DB::table('tasks')->leftJoin('projects','projects.id','=','tasks.ProjectID')->leftJoin('mastertaskstatus','mastertaskstatus.id','=','tasks.Status')->orderBy('tasks.id','ASC')->take($limit)->select('tasks.*','projects.Name as ProjectName','mastertaskstatus.Name as taskName')->get();
+    dump($data['task']);
     $tableexp_data = [];
     // $data=['table'=>'',
     //         'chart1_sales'=>'',

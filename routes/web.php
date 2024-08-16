@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\InvController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\TaskController;
 
 
 /*
@@ -81,4 +82,15 @@ Route::prefix('projects')->group(function () {
     //Route::get('/edit/{id}', 'App\Http\Controllers\QuoteController@edit');
     // Route::create('/create', [ClientController::class, 'create']);
     Route::post('/update/{id}', [ProjectController::class, 'update']);
+});
+
+//Projects
+Route::prefix('tasks')->group(function () {
+    // http://localhost/lav9Invplane/quotation/view/1718
+    // Route::get('/view/{id}', 'App\Http\Controllers\InvController@view');
+    Route::get('/{formtype}/{id}', [TaskController::class, 'view']);
+    // http://localhost/lav9Invplane/quotation/edit/1718
+    //Route::get('/edit/{id}', 'App\Http\Controllers\QuoteController@edit');
+    // Route::create('/create', [ClientController::class, 'create']);
+    Route::post('/update/{id}', [TaskController::class, 'update']);
 });

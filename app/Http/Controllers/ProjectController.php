@@ -20,9 +20,9 @@ class ProjectController extends Controller
         // return "$formtype - $id";
         $data =[];
         $data['data'] = DB::table('projects')->where('id', $id)->first();
-        $data['mCustomer'] = [];//DB::table('masteraccount')->where('AccType','C')->select('AccCode','AccName')->orderBy('AccCode','ASC')->get();
         $data['mSupplier'] = [];//DB::table('masteraccount')->where('AccType','S')->select('AccCode','AccName')->orderBy('AccCode','ASC')->get();
         // $data['mProv'] = $OpenApi->IndoProvince();
+        dump($data);
         
         $data['formtype'] = ($id==''?'create':'update');
         //dump($data);

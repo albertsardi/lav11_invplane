@@ -311,8 +311,14 @@
                         </div>
 
                     <div class="form-group">
-                            <label for="client_surname">Project Name</label>
-                            <input id="client_surname" name="Name" type="text" class="form-control" value="{{$data->Name??''}}">
+                            <label for="">Project Name</label>
+                            <!-- <input id="client_surname" name="Name" type="text" class="form-control" value="{{$data->Name??''}}"> -->
+                            <select name="ProjectID" id="client_language" class="form-control simple-select">
+                                <option value="system">Use System language</option>
+                                @foreach($mProject as $m)
+                                    <option value="{{$m->id??''}} {{($data-ProjectID==$m->id)?'selected':''}}">{{$m->Name??''}}</option>
+                                @endforeach
+                            </select>
                         </div>
 
                         <div class="form-group">
@@ -454,102 +460,7 @@
             </div>
         </div>
 
-        <!-- <div class="row">
-            <div class="col-xs-12 col-sm-6">
-
-                <div class="panel panel-default">
-
-                    <div class="panel-heading">Personal Information</div>
-                        
-
-                    <div class="panel-body">
-					<div class="form-group has-feedback">
-                            <label for="client_birthdate">Contach Person Name</label>
-                            <div class="input-group">
-                                <input type="text" name="ContactPerson" id="" class="form-control" value="{{$data->ContactPerson??''}}">
-                                
-                            </span>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="client_gender">Gender</label>
-                            <div class="controls">
-                                <select name='client_gender_test'  >
-                                    <option value="{{$m['id']??''}}">{{$m['name']??''}}</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="form-group has-feedback">
-                            <label for="client_birthdate">Birthdate</label>
-                                                        <div class="input-group">
-                                <input type="text" name="client_birthdate" id="client_birthdate"
-                                       class="form-control datepicker"
-                                       value="{{$data->BirthDate??''}}">
-                                <span class="input-group-addon">
-                                <i class="fa fa-calendar fa-fw"></i>
-                            </span>
-                            </div>
-                        </div>
-
-                        
-                        Custom fields 
-                                                                                                                                </div>
-
-                </div>
-
-            </div>
-            <div class="col-xs-12 col-sm-6">
-
-                <div class="panel panel-default">
-                    <div class="panel-heading">Taxes Information</div>
-
-                    <div class="panel-body">
-                        <div class="form-group">
-                            <label for="client_vat_id">Tax Number</label>
-
-                            <div class="controls">
-                                <input type="text" name="TaxCode" id="client_vat_id" class="form-control"
-                                       value="{{$data->Taxno??''}}">
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="client_tax_code">Tax Name</label>
-
-                            <div class="controls">
-                                <input type="text" name="TaxName" id="client_tax_code" class="form-control" value="{{$data->TaxName??''}}">
-                            </div>
-                        </div>
-
-                                                                                                                                </div>
-
-                </div>
-
-            </div>
-        </div>  -->
-            <!-- <div class="row">
-                <div class="col-xs-12 col-md-6">
-
-                    <div class="panel panel-default">
-
-                        <div class="panel-heading">Custom Fields</div>
-
-                        <div class="panel-body">
-                            <div class="form-group">
-                                <div class="">
-                                    <label for="custom[68]">Client Address</label>
-                                </div>
-                                <div class="controls">
-                                    <input type="text" class="form-control" name="custom[68]" id="68" value="">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div> -->
+        
             </div>
 			<button type="submit">Submit</button>
 </form>

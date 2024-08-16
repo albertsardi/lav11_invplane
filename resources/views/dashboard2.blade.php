@@ -55,36 +55,36 @@
 
         $(document).on('click', '#showmodal', function () {
 			bootbox.alert('Your message here…');
-			$('#modal-placeholder').load("https://demo.invoiceplane.com/invoices/ajax/modal_create_invoice");
+			$('#modal-placeholder').load("/invoices/ajax/modal_create_invoice");
         });
 
 		$(document).on('click', '.create-invoice', function () {
-            $('#modal-placeholder').load("https://demo.invoiceplane.com/invoices/ajax/modal_create_invoice");
+            $('#modal-placeholder').load("/invoices/ajax/modal_create_invoice");
         });
 
         $(document).on('click', '.create-quote', function () {
-            $('#modal-placeholder').load("https://demo.invoiceplane.com/quotes/ajax/modal_create_quote");
+            $('#modal-placeholder').load("/quotes/ajax/modal_create_quote");
         });
 
         $(document).on('click', '#btn_quote_to_invoice', function () {
             var quote_id = $(this).data('quote-id');
-            $('#modal-placeholder').load("https://demo.invoiceplane.com/quotes/ajax/modal_quote_to_invoice/" + quote_id);
+            $('#modal-placeholder').load("/quotes/ajax/modal_quote_to_invoice/" + quote_id);
         });
 
         $(document).on('click', '#btn_copy_invoice', function () {
             var invoice_id = $(this).data('invoice-id');
-            $('#modal-placeholder').load("https://demo.invoiceplane.com/invoices/ajax/modal_copy_invoice", {invoice_id: invoice_id});
+            $('#modal-placeholder').load("/invoices/ajax/modal_copy_invoice", {invoice_id: invoice_id});
         });
 
         $(document).on('click', '#btn_create_credit', function () {
             var invoice_id = $(this).data('invoice-id');
-            $('#modal-placeholder').load("https://demo.invoiceplane.com/invoices/ajax/modal_create_credit", {invoice_id: invoice_id});
+            $('#modal-placeholder').load("/invoices/ajax/modal_create_credit", {invoice_id: invoice_id});
         });
 
         $(document).on('click', '#btn_copy_quote', function () {
             var quote_id = $(this).data('quote-id');
             var client_id = $(this).data('client-id');
-            $('#modal-placeholder').load("https://demo.invoiceplane.com/quotes/ajax/modal_copy_quote", {
+            $('#modal-placeholder').load("/quotes/ajax/modal_copy_quote", {
                 quote_id: quote_id,
                 client_id: client_id
             });
@@ -92,12 +92,12 @@
 
         $(document).on('click', '.client-create-invoice', function () {
             var client_id = $(this).data('client-id');
-            $('#modal-placeholder').load("https://demo.invoiceplane.com/invoices/ajax/modal_create_invoice", {client_id: client_id});
+            $('#modal-placeholder').load("/invoices/ajax/modal_create_invoice", {client_id: client_id});
         });
 
         $(document).on('click', '.client-create-quote', function () {
             var client_id = $(this).data('client-id');
-            $('#modal-placeholder').load("https://demo.invoiceplane.com/quotes/ajax/modal_create_quote", {client_id: client_id});
+            $('#modal-placeholder').load("/quotes/ajax/modal_create_quote", {client_id: client_id});
         });
 
         $(document).on('click', '.invoice-add-payment', function () {
@@ -105,7 +105,7 @@
             var invoice_balance = $(this).data('invoice-balance');
             var invoice_payment_method = $(this).data('invoice-payment-method');
             var payment_cf_exist =  $(this).data('payment-cf-exist');
-            $('#modal-placeholder').load("https://demo.invoiceplane.com/payments/ajax/modal_add_payment", {
+            $('#modal-placeholder').load("/payments/ajax/modal_add_payment", {
                 invoice_id: invoice_id,
                 invoice_balance: invoice_balance,
                 invoice_payment_method: invoice_payment_method,
@@ -163,27 +163,27 @@
 				<table class="table table-hover table-bordered table-condensed no-margin">
                         <tr>
                             
-							<td><a href="https://demo.invoiceplane.com/quotes/status/draft">Draft</a></td>
+							<td><a href="/quotes/status/draft">Draft</a></td>
                             <td class="amount"><span class="draft">Rp. {{fcur(0)}}</span></td>
                         </tr>
                         <tr>
-                            <td><a href="https://demo.invoiceplane.com/quotes/status/sent">Sent</a></td>
+                            <td><a href="/quotes/status/sent">Sent</a></td>
                             <td class="amount"><span class="sent">Rp. {{fcur(0)}}</span></td>
                         </tr>
                         <tr>
-                            <td><a href="https://demo.invoiceplane.com/quotes/status/viewed">Viewed</a></td>
+                            <td><a href="/quotes/status/viewed">Viewed</a></td>
                             <td class="amount"><span class="viewed">Rp. {{fcur(0)}}</td>
                         </tr>
                         <tr>
-                            <td><a href="https://demo.invoiceplane.com/quotes/status/approved">Approved</a></td>
+                            <td><a href="/quotes/status/approved">Approved</a></td>
                             <td class="amount"><span class="approved">Rp. {{fcur(0)}}</span></td>
                         </tr>
                         <tr>
-                            <td><a href="https://demo.invoiceplane.com/quotes/status/rejected">Rejected</a></td>
+                            <td><a href="/quotes/status/rejected">Rejected</a></td>
                             <td class="amount"><span class="rejected">Rp. {{fcur(0)}}</span></td>
                         </tr>
                         <tr>
-                            <td><a href="https://demo.invoiceplane.com/quotes/status/canceled">Canceled</a></td>
+                            <td><a href="/quotes/status/canceled">Canceled</a></td>
                             <td class="amount"><span class="canceled">Rp. {{0}}</span></td>
                         </tr>
                     </table>
@@ -201,20 +201,20 @@
 
                 <table class="table table-hover table-bordered table-condensed no-margin">
                         <tr>
-                            <td><a href="https://demo.invoiceplane.com/invoices/status/draft">Draft</a></td>
+                            <td><a href="/invoices/status/draft">Draft</a></td>
                             <td class="amount"><span class="draft">719,30&nbsp;EUR</span></td>
                         </tr>
                     	<tr>
-                            <td><a href="https://demo.invoiceplane.com/invoices/status/sent">Sent</a></td>
+                            <td><a href="/invoices/status/sent">Sent</a></td>
                             <td class="amount"><span class="sent">2.173,57&nbsp;EUR</span></td>
                         </tr>
                         <tr>
-                            <td><a href="https://demo.invoiceplane.com/invoices/status/viewed">Viewed</a></td>
+                            <td><a href="/invoices/status/viewed">Viewed</a></td>
                             <td class="amount"><span class="viewed">0,00&nbsp;EUR</span></td>
                         </tr>
                         <tr>
                             <td>
-                                <a href="https://demo.invoiceplane.com/invoices/status/paid">Paid</a>
+                                <a href="/invoices/status/paid">Paid</a>
                             </td>
                             <td class="amount"><span class="paid">0,00&nbsp;EUR</span></td>
                         </tr>
@@ -223,7 +223,7 @@
 
 
 				<div class="panel panel-danger panel-heading">
-					<a href="https://demo.invoiceplane.com/invoices/status/overdue" class="text-danger"><i class="fa fa-external-link"></i> Overdue Invoices</a><span class="pull-right text-danger">1.128.084.711,19&nbsp;EUR</span>
+					<a href="/invoices/status/overdue" class="text-danger"><i class="fa fa-external-link"></i> Overdue Invoices</a><span class="pull-right text-danger">1.128.084.711,19&nbsp;EUR</span>
                 </div>
             
         </div>
@@ -272,7 +272,7 @@
                                 @endforeach
                                 <tr>
                                     <td colspan="6" class="text-right small">
-                                    <a href="https://demo.invoiceplane.com/invoices/status/all">View All</a>                            </td>
+                                    <a href="/invoices/status/all">View All</a>                            </td>
                                 </tr>
                             @else
                                 <tr>
@@ -288,13 +288,13 @@
                                 <td>
                                     02.06.2024                                </td>
                                 <td>
-                                    <a href="https://demo.invoiceplane.com/quotes/view/787">INV-{{$id??''}}</a>                                </td>
+                                    <a href="/quotes/view/787">INV-{{$id??''}}</a>                                </td>
                                 <td>
-                                    <a href="https://demo.invoiceplane.com/clients/view/245">David Quarta</a>                                </td>
+                                    <a href="/clients/view/245">David Quarta</a>                                </td>
                                 <td class="amount">
                                     0,00&nbsp;EUR                                </td>
                                 <td style="text-align: center;">
-                                    <a href="https://demo.invoiceplane.com/quotes/generate_pdf/787"
+                                    <a href="/quotes/generate_pdf/787"
                                        title="Download PDF">
                                         <i class="fa fa-file-pdf-o"></i>
                                     </a>
@@ -307,13 +307,13 @@
                                 <td>
                                     02.06.2024                                </td>
                                 <td>
-                                    <a href="https://demo.invoiceplane.com/quotes/view/786">REIG1202406-109</a>                                </td>
+                                    <a href="/quotes/view/786">REIG1202406-109</a>                                </td>
                                 <td>
-                                    <a href="https://demo.invoiceplane.com/clients/view/245">David Quarta</a>                                </td>
+                                    <a href="/clients/view/245">David Quarta</a>                                </td>
                                 <td class="amount">
                                     18,15&nbsp;EUR                                </td>
                                 <td style="text-align: center;">
-                                    <a href="https://demo.invoiceplane.com/quotes/generate_pdf/786"
+                                    <a href="/quotes/generate_pdf/786"
                                        title="Download PDF">
                                         <i class="fa fa-file-pdf-o"></i>
                                     </a>
@@ -326,13 +326,13 @@
                                 <td>
                                     01.06.2024                                </td>
                                 <td>
-                                    <a href="https://demo.invoiceplane.com/quotes/view/785">14824</a>                                </td>
+                                    <a href="/quotes/view/785">14824</a>                                </td>
                                 <td>
-                                    <a href="https://demo.invoiceplane.com/clients/view/245">David Quarta</a>                                </td>
+                                    <a href="/clients/view/245">David Quarta</a>                                </td>
                                 <td class="amount">
                                     2.618,19&nbsp;EUR                                </td>
                                 <td style="text-align: center;">
-                                    <a href="https://demo.invoiceplane.com/quotes/generate_pdf/785"
+                                    <a href="/quotes/generate_pdf/785"
                                        title="Download PDF">
                                         <i class="fa fa-file-pdf-o"></i>
                                     </a>
@@ -347,13 +347,13 @@
                                 <td>
                                     01.06.2024                                </td>
                                 <td>
-                                    <a href="https://demo.invoiceplane.com/quotes/view/784">14724</a>                                </td>
+                                    <a href="/quotes/view/784">14724</a>                                </td>
                                 <td>
-                                    <a href="https://demo.invoiceplane.com/clients/view/245">David Quarta</a>                                </td>
+                                    <a href="/clients/view/245">David Quarta</a>                                </td>
                                 <td class="amount">
                                     0,00&nbsp;EUR                                </td>
                                 <td style="text-align: center;">
-                                    <a href="https://demo.invoiceplane.com/quotes/generate_pdf/784"
+                                    <a href="/quotes/generate_pdf/784"
                                        title="Download PDF">
                                         <i class="fa fa-file-pdf-o"></i>
                                     </a>
@@ -368,13 +368,13 @@
                                 <td>
                                     01.06.2024                                </td>
                                 <td>
-                                    <a href="https://demo.invoiceplane.com/quotes/view/783">14624</a>                                </td>
+                                    <a href="/quotes/view/783">14624</a>                                </td>
                                 <td>
-                                    <a href="https://demo.invoiceplane.com/clients/view/224">Mario Andretti (M3)</a>                                </td>
+                                    <a href="/clients/view/224">Mario Andretti (M3)</a>                                </td>
                                 <td class="amount">
                                     2.604,00&nbsp;EUR                                </td>
                                 <td style="text-align: center;">
-                                    <a href="https://demo.invoiceplane.com/quotes/generate_pdf/783"
+                                    <a href="/quotes/generate_pdf/783"
                                        title="Download PDF">
                                         <i class="fa fa-file-pdf-o"></i>
                                     </a>
@@ -389,13 +389,13 @@
                                 <td>
                                     01.06.2024                                </td>
                                 <td>
-                                    <a href="https://demo.invoiceplane.com/quotes/view/782">INV- 6</a>                                </td>
+                                    <a href="/quotes/view/782">INV- 6</a>                                </td>
                                 <td>
-                                    <a href="https://demo.invoiceplane.com/clients/view/72">SE1 SE1</a>                                </td>
+                                    <a href="/clients/view/72">SE1 SE1</a>                                </td>
                                 <td class="amount">
                                     12,96&nbsp;EUR                                </td>
                                 <td style="text-align: center;">
-                                    <a href="https://demo.invoiceplane.com/quotes/generate_pdf/782"
+                                    <a href="/quotes/generate_pdf/782"
                                        title="Download PDF">
                                         <i class="fa fa-file-pdf-o"></i>
                                     </a>
@@ -408,13 +408,13 @@
                                 <td>
                                     01.06.2024                                </td>
                                 <td>
-                                    <a href="https://demo.invoiceplane.com/quotes/view/781">14524</a>                                </td>
+                                    <a href="/quotes/view/781">14524</a>                                </td>
                                 <td>
-                                    <a href="https://demo.invoiceplane.com/clients/view/128">Jatin Kumar</a>                                </td>
+                                    <a href="/clients/view/128">Jatin Kumar</a>                                </td>
                                 <td class="amount">
                                     100,00&nbsp;EUR                                </td>
                                 <td style="text-align: center;">
-                                    <a href="https://demo.invoiceplane.com/quotes/generate_pdf/781"
+                                    <a href="/quotes/generate_pdf/781"
                                        title="Download PDF">
                                         <i class="fa fa-file-pdf-o"></i>
                                     </a>
@@ -429,13 +429,13 @@
                                 <td>
                                     31.05.2024                                </td>
                                 <td>
-                                    <a href="https://demo.invoiceplane.com/quotes/view/780">14224</a>                                </td>
+                                    <a href="/quotes/view/780">14224</a>                                </td>
                                 <td>
-                                    <a href="https://demo.invoiceplane.com/clients/view/304">AEL</a>                                </td>
+                                    <a href="/clients/view/304">AEL</a>                                </td>
                                 <td class="amount">
                                     35.820,00&nbsp;EUR                                </td>
                                 <td style="text-align: center;">
-                                    <a href="https://demo.invoiceplane.com/quotes/generate_pdf/780"
+                                    <a href="/quotes/generate_pdf/780"
                                        title="Download PDF">
                                         <i class="fa fa-file-pdf-o"></i>
                                     </a>
@@ -450,13 +450,13 @@
                                 <td>
                                     31.05.2024                                </td>
                                 <td>
-                                    <a href="https://demo.invoiceplane.com/quotes/view/779">INV-113</a>                                </td>
+                                    <a href="/quotes/view/779">INV-113</a>                                </td>
                                 <td>
-                                    <a href="https://demo.invoiceplane.com/clients/view/343">Bahria Foundation School Maria </a>                                </td>
+                                    <a href="/clients/view/343">Bahria Foundation School Maria </a>                                </td>
                                 <td class="amount">
                                     82.500,00&nbsp;EUR                                </td>
                                 <td style="text-align: center;">
-                                    <a href="https://demo.invoiceplane.com/quotes/generate_pdf/779"
+                                    <a href="/quotes/generate_pdf/779"
                                        title="Download PDF">
                                         <i class="fa fa-file-pdf-o"></i>
                                     </a>
@@ -464,7 +464,7 @@
                             </tr>
                                                 <tr>
                             <td colspan="6" class="text-right small">
-                                <a href="https://demo.invoiceplane.com/quotes/status/all">View All</a>                            </td>
+                                <a href="/quotes/status/all">View All</a>                            </td>
                         </tr> -->
                         </tbody>
                     </table>
@@ -509,9 +509,9 @@
                                         <span class="">{{$i->TransDate}}</span>
                                     </td>
                                     <td><a href="invoices/view/{{$i->id}}">{{$i->TransNo}}</a></td>
-                                    <td><a href="https://demo.invoiceplane.com/clients/view/225">{{$i->AccName}}</a></td>
+                                    <td><a href="/clients/view/225">{{$i->AccName}}</a></td>
                                     <td class="amount">Rp. {{$i->Total ?? 0}}</td>
-                                    <td style="text-align: center;"><a href="https://demo.invoiceplane.com/invoices/generate_pdf/2408" title="Download PDF"><i class="fa fa-file-pdf-o"></i></a></td>
+                                    <td style="text-align: center;"><a href="/invoices/generate_pdf/2408" title="Download PDF"><i class="fa fa-file-pdf-o"></i></a></td>
                                 </tr>
                                 @endforeach
                             @else
@@ -532,13 +532,13 @@
                                         02.07.2024                                    </span>
                                 </td>
                                 <td>
-                                    <a href="https://demo.invoiceplane.com/invoices/view/2407">REIG1202406-114</a>                                </td>
+                                    <a href="/invoices/view/2407">REIG1202406-114</a>                                </td>
                                 <td>
-                                    <a href="https://demo.invoiceplane.com/clients/view/96">Sabrina TestM</a>                                </td>
+                                    <a href="/clients/view/96">Sabrina TestM</a>                                </td>
                                 <td class="amount">
                                     595,00&nbsp;EUR                                </td>
                                 <td style="text-align: center;">
-                                                                            <a href="https://demo.invoiceplane.com/invoices/generate_pdf/2407"
+                                                                            <a href="/invoices/generate_pdf/2407"
                                            title="Download PDF">
                                             <i class="fa fa-file-pdf-o"></i>
                                         </a>
@@ -555,13 +555,13 @@
                                         02.07.2024                                    </span>
                                 </td>
                                 <td>
-                                    <a href="https://demo.invoiceplane.com/invoices/view/2405">REIG1202406-112</a>                                </td>
+                                    <a href="/invoices/view/2405">REIG1202406-112</a>                                </td>
                                 <td>
-                                    <a href="https://demo.invoiceplane.com/clients/view/227">Matthias TEst</a>                                </td>
+                                    <a href="/clients/view/227">Matthias TEst</a>                                </td>
                                 <td class="amount">
                                     600,00&nbsp;EUR                                </td>
                                 <td style="text-align: center;">
-                                                                            <a href="https://demo.invoiceplane.com/invoices/generate_pdf/2405"
+                                                                            <a href="/invoices/generate_pdf/2405"
                                            title="Download PDF">
                                             <i class="fa fa-file-pdf-o"></i>
                                         </a>
@@ -578,13 +578,13 @@
                                         02.07.2024                                    </span>
                                 </td>
                                 <td>
-                                    <a href="https://demo.invoiceplane.com/invoices/view/2404">REIG1202406-111</a>                                </td>
+                                    <a href="/invoices/view/2404">REIG1202406-111</a>                                </td>
                                 <td>
-                                    <a href="https://demo.invoiceplane.com/clients/view/245">David Quarta</a>                                </td>
+                                    <a href="/clients/view/245">David Quarta</a>                                </td>
                                 <td class="amount">
                                     8,80&nbsp;EUR                                </td>
                                 <td style="text-align: center;">
-                                                                            <a href="https://demo.invoiceplane.com/invoices/generate_pdf/2404"
+                                                                            <a href="/invoices/generate_pdf/2404"
                                            title="Download PDF">
                                             <i class="fa fa-file-pdf-o"></i>
                                         </a>
@@ -600,13 +600,13 @@
                                         02.07.2024                                    </span>
                                 </td>
                                 <td>
-                                    <a href="https://demo.invoiceplane.com/invoices/view/2403">REIG1202406-110</a>                                </td>
+                                    <a href="/invoices/view/2403">REIG1202406-110</a>                                </td>
                                 <td>
-                                    <a href="https://demo.invoiceplane.com/clients/view/245">David Quarta</a>                                </td>
+                                    <a href="/clients/view/245">David Quarta</a>                                </td>
                                 <td class="amount">
                                     0,00&nbsp;EUR                                </td>
                                 <td style="text-align: center;">
-                                                                            <a href="https://demo.invoiceplane.com/invoices/generate_pdf/2403"
+                                                                            <a href="/invoices/generate_pdf/2403"
                                            title="Download PDF">
                                             <i class="fa fa-file-pdf-o"></i>
                                         </a>
@@ -623,13 +623,13 @@
                                         02.07.2024                                    </span>
                                 </td>
                                 <td>
-                                    <a href="https://demo.invoiceplane.com/invoices/view/2402">INV- 9</a>                                </td>
+                                    <a href="/invoices/view/2402">INV- 9</a>                                </td>
                                 <td>
-                                    <a href="https://demo.invoiceplane.com/clients/view/323">Aden Sakthi</a>                                </td>
+                                    <a href="/clients/view/323">Aden Sakthi</a>                                </td>
                                 <td class="amount">
                                     0,00&nbsp;EUR                                </td>
                                 <td style="text-align: center;">
-                                                                            <a href="https://demo.invoiceplane.com/invoices/generate_pdf/2402"
+                                                                            <a href="/invoices/generate_pdf/2402"
                                            title="Download PDF">
                                             <i class="fa fa-file-pdf-o"></i>
                                         </a>
@@ -645,13 +645,13 @@
                                         02.07.2024                                    </span>
                                 </td>
                                 <td>
-                                    <a href="https://demo.invoiceplane.com/invoices/view/2401">INV-114</a>                                </td>
+                                    <a href="/invoices/view/2401">INV-114</a>                                </td>
                                 <td>
-                                    <a href="https://demo.invoiceplane.com/clients/view/323">Aden Sakthi</a>                                </td>
+                                    <a href="/clients/view/323">Aden Sakthi</a>                                </td>
                                 <td class="amount">
                                     0,00&nbsp;EUR                                </td>
                                 <td style="text-align: center;">
-                                                                            <a href="https://demo.invoiceplane.com/invoices/generate_pdf/2401"
+                                                                            <a href="/invoices/generate_pdf/2401"
                                            title="Download PDF">
                                             <i class="fa fa-file-pdf-o"></i>
                                         </a>
@@ -667,13 +667,13 @@
                                         02.07.2024                                    </span>
                                 </td>
                                 <td>
-                                    <a href="https://demo.invoiceplane.com/invoices/view/2400">2400</a>                                </td>
+                                    <a href="/invoices/view/2400">2400</a>                                </td>
                                 <td>
-                                    <a href="https://demo.invoiceplane.com/clients/view/236">OC COMPANY</a>                                </td>
+                                    <a href="/clients/view/236">OC COMPANY</a>                                </td>
                                 <td class="amount">
                                     0,00&nbsp;EUR                                </td>
                                 <td style="text-align: center;">
-                                                                            <a href="https://demo.invoiceplane.com/invoices/generate_pdf/2400"
+                                                                            <a href="/invoices/generate_pdf/2400"
                                            title="Download PDF">
                                             <i class="fa fa-file-pdf-o"></i>
                                         </a>
@@ -690,13 +690,13 @@
                                         01.07.2024                                    </span>
                                 </td>
                                 <td>
-                                    <a href="https://demo.invoiceplane.com/invoices/view/2399">RE 06012024426</a>                                </td>
+                                    <a href="/invoices/view/2399">RE 06012024426</a>                                </td>
                                 <td>
-                                    <a href="https://demo.invoiceplane.com/clients/view/321">Dixie Spataro</a>                                </td>
+                                    <a href="/clients/view/321">Dixie Spataro</a>                                </td>
                                 <td class="amount">
                                     215,65&nbsp;EUR                                </td>
                                 <td style="text-align: center;">
-                                                                            <a href="https://demo.invoiceplane.com/invoices/generate_pdf/2399"
+                                                                            <a href="/invoices/generate_pdf/2399"
                                            title="Download PDF">
                                             <i class="fa fa-file-pdf-o"></i>
                                         </a>
@@ -713,13 +713,13 @@
                                         01.07.2024                                    </span>
                                 </td>
                                 <td>
-                                    <a href="https://demo.invoiceplane.com/invoices/view/2398">REIG1202406-108</a>                                </td>
+                                    <a href="/invoices/view/2398">REIG1202406-108</a>                                </td>
                                 <td>
-                                    <a href="https://demo.invoiceplane.com/clients/view/291">Client test Galopin</a>                                </td>
+                                    <a href="/clients/view/291">Client test Galopin</a>                                </td>
                                 <td class="amount">
                                     414,12&nbsp;EUR                                </td>
                                 <td style="text-align: center;">
-                                                                            <a href="https://demo.invoiceplane.com/invoices/generate_pdf/2398"
+                                                                            <a href="/invoices/generate_pdf/2398"
                                            title="Download PDF">
                                             <i class="fa fa-file-pdf-o"></i>
                                         </a>
@@ -764,7 +764,7 @@
                                 @endforeach
                                 <tr>
                             		<td colspan="6" class="text-right small">
-                                		<a href="https://demo.invoiceplane.com/projects/index">View All</a>                            		</td>
+                                		<a href="/projects/index">View All</a>                            		</td>
                         		</tr>
                             @else
                                 <tr>
@@ -818,12 +818,12 @@
                                             @endif
                                         </td>
                                         <td>
-                                            <a href="https://demo.invoiceplane.com/tasks/form/71">{{$t->Name}}</a>
+                                            <a href="/tasks/form/{{$t->id}}">{{$t->Name}}</a>
                                         <td>
                                             <span class="font-overdue">{{$t->FinishDate}}</span>                                    
                                         </td>
                                         <td>
-                                            <a href="https://demo.invoiceplane.com/projects/view/11">{{$t->ProjectName}}</a>                                    
+                                            <a href="/projects/view/11">{{$t->ProjectName}}</a>                                    
                                         </td>
                                     </tr>
                                     @endforeach    
@@ -836,7 +836,7 @@
                                 @endif                        
                                 <tr>
                             		<td colspan="6" class="text-right small">
-                                		<a href="https://demo.invoiceplane.com/tasks/index">View All</a>                            		
+                                		<a href="/tasks/index">View All</a>                            		
                                     </td>
                         		</tr>
                             </tbody>
@@ -895,7 +895,7 @@
 </div>
 </div> <!-- end of modal place holder -->
 
-<script defer src="https://demo.invoiceplane.com/assets/core/js/scripts.js"></script>
+<script defer src="/assets/core/js/scripts.js"></script>
 
 </body>
 </html>
