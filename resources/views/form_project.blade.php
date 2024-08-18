@@ -252,6 +252,19 @@
 
 <div id="main-area">
         <div id="main-content">
+
+        @if(session('success'))
+        <div class="alert alert-success" role="alert">
+            A simple success alert—check it out!
+        </div>
+        @endif
+        @if(session('fail'))
+        <div class="alert alert-danger" role="alert">
+            A simple danger alert—check it out!
+        </div>
+        @endif
+
+
         
 <script type="text/javascript">
     $(function () {
@@ -312,25 +325,18 @@
 
                     <div class="form-group">
                             <label for="">Project Name</label>
-                            <!-- <input id="client_surname" name="Name" type="text" class="form-control" value="{{$data->Name??''}}"> -->
-                            <select name="ProjectID" id="client_language" class="form-control simple-select">
-                                <option value="system">Use System language</option>
-                                @foreach($mProject as $m)
-                                    <option value="{{$m->id??''}} {{($data-ProjectID==$m->id)?'selected':''}}">{{$m->Name??''}}</option>
-                                @endforeach
-                            </select>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="client_surname">Client Name</label>
-                            <input id="client_surname" name="AccName" type="text" class="form-control" value="{{$data->AccName??''}}">
+                            <input id="client_surname" name="Name" type="text" class="form-control" value="{{$data->Name??''}}">
                         </div>
 
                         <div class="form-group no-margin">
-                            <label for="client_language">
-                                Client as                            </label>
-                            <select name="AccType" id="client_language" class="form-control simple-select">
-                                <option value="system">Use System language</option>
+                            <label for="client_language">Client Name</label>
+                            <select name="AccCode" id="client_language" class="form-control simple-select">
+                                @foreach(json_decode($mClient) as $m)
+                                    @php
+                                        $select=($data->AccCode==$m->id)?'selected':'';
+                                    @endphp
+                                    <option value="{{$m->id}} {{$select}}">{{$m->Name}}</option>
+                                @endforeach
                             </select>
                         </div>
 

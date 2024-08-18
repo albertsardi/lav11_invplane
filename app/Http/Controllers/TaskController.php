@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Task;
 
-class TaskController extends Controller
+class TaskController extends MainController
 {
     // fview / orm edit
     public function rules() {
@@ -20,13 +20,15 @@ class TaskController extends Controller
         // return "$formtype - $id";
         $data =[];
         $data['data'] = DB::table('tasks')->where('id', $id)->first();
-        $data['mClients'] = DB::table('clients')->where('Active', 1)->select('AccCode','AccName')->get();
-        $data['mProject'] = DB::table('projects')->select('id','Name')->get();
+        // $data['mClients'] = DB::table('clients')->where('Active', 1)->select('AccCode','AccName')->get();
+        // $data['mProject'] = DB::table('projects')->select('id','Name')->get();
+        $data = $this->createSelection($data, ['client','project']);
         
         $data['formtype'] = ($id==''?'create':'update');
         //dump($data);
         //$m = new Project;
         //dump($m->fillable);
+        // dd($data);
         return view("form_task", $data);
         
         // if(str_contains($_SERVER['REQUEST_URI'], 'customer/edit')) $jr='customer';
@@ -93,20 +95,25 @@ class TaskController extends Controller
         $input = $req->getContent();
         $input = $req->all();
 
-        dd($input);
+        //dd($input);
 
         // validation 
-        $validate = $req->validate([
-            'Name' => 'required',
-            'AccName' => 'required|max:255',
-        ]);
+        // $validate = $req->validate([
+        //     'Name' => 'required',
+        //     'AccName' => 'required|max:255',
+        // ]);
 
-        $m = Task::where('id',$id);
+        //$m = Task::where('id',$id);
+        $m = Task::findOrFail($id);
+        $m->FinishDate = $req->input('FinishDate');
+        $m->Projectid = $req->input('Projectid');
+        $m->save();
         
-        $m0 = new Task();
-        $v = $m0->getFillable();
-        $fillable = app(Project::class)->getFillable();
+        // $m0 = new Task();
+        // $v = $m0->getFillable();
+        //$fillable = app(Task::class)->getFillable();
         //dd($v);
+        //dd($fillable);
 
         //save using manual karena fill able tidak jalan
         // $m = Project::where('id',$id);
@@ -117,11 +124,18 @@ class TaskController extends Controller
 
         //save using custom fillable
         //$fillable = ['Name','AccName'];
+        /*
         $newinput = $this->getfill($input, $fillable);
+        $newinput = [
+            'FinishDate' => $req->input('FinishDate'),
+            'Projectid' => $req->input('Projectid'),
+        ];
+        
         dump($newinput);
         $m->update($newinput);
+        */
         //return 'data save..';
-        return redirect('project/view/'.$id)->with('success', 'Berhasil simpan data');
+        return redirect( url('/tasks/form/'.$id) )->with('success', 'Berhasil simpan data');
 
 
         
@@ -130,7 +144,7 @@ class TaskController extends Controller
     function getfill($input, $fill) {
         $out = [];
         foreach($fill as $f) {
-            $out[$f] = $input[$f];
+            $out[$f] = $input[$f]??'';
         }
         return $out;
     }
