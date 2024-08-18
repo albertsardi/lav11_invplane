@@ -6,30 +6,32 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Model\Client;
 
-class ClientController extends Controller
+class ClientController extends MainController
 {
     // fview / orm edit
     function view($formtype, $id='') {
         $OpenApi = new OpenapiController();
         $data =[];
         $data['data'] = DB::table('clients')->where('AccCode', $id)->first();
-        $data['address'] = DB::table('masteraccountaddr')->where('AccCode', $id)->where('defaddr', 1)->first();
-        $data['mCustomer'] = [];//DB::table('masteraccount')->where('AccType','C')->select('AccCode','AccName')->orderBy('AccCode','ASC')->get();
-        $data['mSupplier'] = [];//DB::table('masteraccount')->where('AccType','S')->select('AccCode','AccName')->orderBy('AccCode','ASC')->get();
-        $data['mProv'] = $OpenApi->IndoProvince();
-        $data['mCountry'] = $OpenApi->WorldCountry('asia');
-        $data['mGender'] = [
-            ['id'=> 'M', 'name'=>'Male'],
-            ['id'=> 'F', 'name'=>'Female'],
-            ['id'=> 'O', 'name'=>'Other'],
-        ];
-        $data['mClientas'] = [
-            ['id'=> 'C', 'name'=>'as Customer'],
-            ['id'=> 'S', 'name'=>'as Supplier'],
-        ];
-        dump($data);
+        $data = $this->createSelection($data, ['gender','clientas']);
+        // $data['address'] = DB::table('masteraccountaddr')->where('AccCode', $id)->where('defaddr', 1)->first();
+        // $data['mCustomer'] = [];//DB::table('masteraccount')->where('AccType','C')->select('AccCode','AccName')->orderBy('AccCode','ASC')->get();
+        // $data['mSupplier'] = [];//DB::table('masteraccount')->where('AccType','S')->select('AccCode','AccName')->orderBy('AccCode','ASC')->get();
+        // $data['mProv'] = $OpenApi->IndoProvince();
+        // $data['mCountry'] = $OpenApi->WorldCountry('asia');
+        // $data['mGender'] = [
+        //     ['id'=> 'M', 'name'=>'Male'],
+        //     ['id'=> 'F', 'name'=>'Female'],
+        //     ['id'=> 'O', 'name'=>'Other'],
+        // ];
+        // $data['mClientas'] = [
+        //     ['id'=> 'C', 'name'=>'as Customer'],
+        //     ['id'=> 'S', 'name'=>'as Supplier'],
+        // ];
+        
 
         $data['formtype'] = ($id==''?'create':'update');
+        dump($data);
         return view("form_client", $data);
         
         // if(str_contains($_SERVER['REQUEST_URI'], 'customer/edit')) $jr='customer';

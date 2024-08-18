@@ -509,7 +509,7 @@
                                         <span class="">{{$i->TransDate}}</span>
                                     </td>
                                     <td><a href="invoices/view/{{$i->id}}">{{$i->TransNo}}</a></td>
-                                    <td><a href="/clients/view/225">{{$i->AccName}}</a></td>
+                                    <td><a href="/clients/view/{{$i->AccCode}}">{{$i->AccName}}</a></td>
                                     <td class="amount">Rp. {{$i->Total ?? 0}}</td>
                                     <td style="text-align: center;"><a href="/invoices/generate_pdf/2408" title="Download PDF"><i class="fa fa-file-pdf-o"></i></a></td>
                                 </tr>

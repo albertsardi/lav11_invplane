@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 // define("ProjectFillable", [ 'Name', 'AccName' ]);
 
@@ -24,6 +25,8 @@ class Project extends Model
     //     $salesTot =  DB::table('invoice')->where('AccCode', $acccode)->where('Status',1)->sum('Total')''
     //     return $salesTot;
     // }
+
+    
 
 
 }

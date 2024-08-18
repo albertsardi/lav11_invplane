@@ -1,10 +1,11 @@
 <div>
+@php 
+    $data2 = json_decode($data);
+@endphp
    <select name="{{$name}}" id="{{$name}}"
-                                	class="{{$class}}" data-minimum-results-for-search="Infinity">
-                                                                            <?php 
-                                                                            $data = json_decode($data);
-                                                                            ?>
-                                                                            @foreach($data as $d)
+                                	class="{{$class??''}}" data-minimum-results-for-search="Infinity">
+                                                                            
+                                                                            @foreach(json_decode($data) as $d)
                                                                                 <?php dd($d);?>
                                                                                 <option value="{{$d->id}}" >{{$d->name??''}}</option>                                        </option>
                                                                             @endforeach

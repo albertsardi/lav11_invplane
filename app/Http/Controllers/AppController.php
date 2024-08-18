@@ -9,6 +9,7 @@ use App\Http\Model\Common;
 use App\Http\Model\User;
 use App\Http\Model\Parameter;
 use App\Http\Model\Company;
+use App\Models\Task;
 use Session;
 use HTML;
 
@@ -92,7 +93,8 @@ class AppController extends Controller
     $data['project'] = DB::table('projects')->orderBy('projects.id','DESC')->take($limit)->get();
     // select * from tasks
     //join projects on projects.id=tasks.ProjectID
-    $data['task'] = DB::table('tasks')->leftJoin('projects','projects.id','=','tasks.ProjectID')->leftJoin('mastertaskstatus','mastertaskstatus.id','=','tasks.Status')->orderBy('tasks.id','ASC')->take($limit)->select('tasks.*','projects.Name as ProjectName','mastertaskstatus.Name as taskName')->get();
+    //$data['task'] = DB::table('tasks')->leftJoin('projects','projects.id','=','tasks.ProjectID')->leftJoin('mastertaskstatus','mastertaskstatus.id','=','tasks.Status')->orderBy('tasks.id','ASC')->take($limit)->select('tasks.*','projects.Name as ProjectName','mastertaskstatus.Name as taskName')->get();
+    $data['task'] = Task::list()->take($limit);
     dump($data['task']);
     $tableexp_data = [];
     // $data=['table'=>'',

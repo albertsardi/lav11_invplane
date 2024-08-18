@@ -81,9 +81,10 @@
 
 <noscript>
     <div class="alert alert-danger no-margin">Please enable Javascript to use InvoicePlane</div>
-</noscript>
+    </noscript>
+    
 
-<nav class="navbar navbar-inverse" role="navigation">
+    <nav class="navbar navbar-inverse" role="navigation">
     <div class="container-fluid">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#ip-navbar-collapse">
@@ -249,6 +250,8 @@
 <div id="main-area">
         <div id="main-content">
         
+
+        
 <script type="text/javascript">
     $(function () {
         $("#client_country").select2({
@@ -281,6 +284,10 @@
     <!-- <HeaderBar /> -->
 
     <div id="content">
+
+        <div class="alert alert-success" role="alert">
+            A simple success alert—check it out!
+        </div>
 
         
         <input class="hidden" name="is_update" type="hidden"
@@ -321,8 +328,8 @@
                                 Client as                            </label>
                             <select name="AccType" id="client_language" class="form-control simple-select">
                                 <option value="system">Use System language</option>
-                                @foreach ($mClientas as $m)
-                                <option value="{{$m['id']??''}}">{{$m['name']??''}}</option>
+                                @foreach (json_decode($mClientas) as $m)
+                                <option value="{{$m->id??''}}">{{$m->name??''}}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -475,8 +482,8 @@
                             <label for="client_gender">Gender</label>
                             <div class="controls">
                                 <select name='client_gender_test'  >
-                                @foreach ($mGender as $m)
-                                    <option value="{{$m['id']??''}}">{{$m['name']??''}}</option>
+                                @foreach (json(decode($mGender) as $m)
+                                    <option value="{{$m->id??''}}">{{$m->name??''}}</option>
                                 @endforeach
                                 </select>
                             </div>
