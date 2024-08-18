@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Project;
 
-class ProjectController extends Controller
+class ProjectController extends MainController
 {
     // fview / orm edit
     public function rules() {
@@ -20,8 +20,9 @@ class ProjectController extends Controller
         // return "$formtype - $id";
         $data =[];
         $data['data'] = DB::table('projects')->where('id', $id)->first();
-        $data['mSupplier'] = [];//DB::table('masteraccount')->where('AccType','S')->select('AccCode','AccName')->orderBy('AccCode','ASC')->get();
+        //$data['mClient'] = DB::table('clients')->select('AccCode as id','AccName as Name')->orderBy('AccName','ASC')->get();
         // $data['mProv'] = $OpenApi->IndoProvince();
+        $data = $this->createSelection($data, ['client']);
         dump($data);
         
         $data['formtype'] = ($id==''?'create':'update');
@@ -97,10 +98,10 @@ class ProjectController extends Controller
         //dd($input);
 
         // validation 
-        $validate = $req->validate([
-            'Name' => 'required',
-            'AccName' => 'required|max:255',
-        ]);
+        // $validate = $req->validate([
+        //     'Name' => 'required',
+        //     'AccName' => 'required|max:255',
+        // ]);
 
         $m = Project::where('id',$id);
         
@@ -122,7 +123,7 @@ class ProjectController extends Controller
         dump($newinput);
         $m->update($newinput);
         //return 'data save..';
-        return redirect('project/view/'.$id)->with('success', 'Berhasil simpan data');
+        return redirect('/projects/view/'.$id)->with('success', 'Berhasil simpan data');
 
 
         

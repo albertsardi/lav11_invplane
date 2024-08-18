@@ -14,7 +14,7 @@ class Project extends Model
     protected $table = 'projects';
     protected $primaryKey = 'id';
     protected $keyType = 'integer';
-    protected $fillable = [ 'Name', 'AccName' ];
+    protected $fillable = [ 'Name', 'AccCode' ];
     // const CREATED_AT = 'CreatedDate'; //change laravel timestamp
     // const UPDATED_AT = 'UpdatedDate'; //change laravel creator stamp
     const CREATED_AT = null; //disable laravel timestamp

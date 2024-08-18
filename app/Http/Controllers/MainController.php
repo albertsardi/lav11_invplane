@@ -16,13 +16,20 @@ use HTML;
 
 class MainController extends Controller
 {
-    function array_value($arr) {
-      $out = [];
-      foreach($arr as $r) {
-        $out[] = array_values((array)$r);
-      }
-      return $out;
-  }
+    public function createSelection($data, $opt) {
+        if (in_array('client',$opt)) $data['mClient'] = json_encode( DB::table('clients')->select('AccCode as id','AccName as Name')->orderBy('AccName','ASC')->get() );
+        if (in_array('project',$opt)) $data['mProject'] = json_encode( DB::table('projects')->select('id','Name')->get() );
+        if (in_array('gender',$opt)) $data['mGender'] = json_encode([
+                                        ['id'=> 'M', 'name'=>'Male'],
+                                        ['id'=> 'F', 'name'=>'Female'],
+                                        ['id'=> 'O', 'name'=>'Other'],
+                                      ]);
+        if (in_array('clientas',$opt)) $data['mClientas'] = json_encode([
+                                                          ['id'=> 'C', 'name'=>'as Customer'],
+                                                          ['id'=> 'S', 'name'=>'as Supplier'],
+                                                      ]);
+        return $data;
+    }
 
 
 }
