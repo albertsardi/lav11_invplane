@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 
 //use App\Http\Controllers\AppController;
 use App\Http\Controllers\InvController;
+use App\Http\Controllers\QuoteController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\TaskController;
@@ -46,6 +47,7 @@ Route::prefix('test')->group(function($e) {
 Route::prefix('quotation')->group(function () {
     // http://localhost/lav9Invplane/quotation/view/1718
     //Route::get('/{formtype}/{id}', 'App\Http\Controllers\QuoteController@view');
+    Route::get('/generate_pdf/{id}', [QuoteController::class, 'generatePDF']);
     Route::get('/{formtype}/{id}', [QuoteController::class, 'view']);
     // http://localhost/lav9Invplane/quotation/edit/1718
     //Route::get('/edit/{id}', 'App\Http\Controllers\QuoteController@edit');
@@ -56,6 +58,7 @@ Route::prefix('quotation')->group(function () {
  Route::prefix('invoice')->group(function () {
     // http://localhost/lav9Invplane/quotation/view/1718
     // Route::get('/view/{id}', 'App\Http\Controllers\InvController@view');
+    Route::get('/generate_pdf/{id}', [InvController::class, 'generatePDF']);
     Route::get('/{formtype}/{id}', [InvController::class, 'view']);
     // http://localhost/lav9Invplane/quotation/edit/1718
     //Route::get('/edit/{id}', 'App\Http\Controllers\QuoteController@edit');

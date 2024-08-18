@@ -40,6 +40,12 @@ class InvController extends MainController
     return abort(404);
   }
 
+  public function generatePDF($id) {
+    //return "generate $id";
+    $filePdf =public_path('pdf\invoice_001.pdf');
+    return response()->file($filePdf);
+  }
+
   
 
 

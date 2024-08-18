@@ -39,6 +39,10 @@ class QuoteController extends MainController
     return abort(404);
   }
 
+  public function generatePDF($id) {
+    return "generate $id";
+  }
+
   
 
 
