@@ -254,7 +254,7 @@
                                 @foreach($quotation as $q)
                                 <tr>
                                     <td>
-                                        @if($q->statusID==0)
+                                        @if($q->StatusID==0)
                                             <span class="label draft">Draft</span>
                                         @elseif($q->StatusID==1)
                                             <span class="label sent">Sent</span>

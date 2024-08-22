@@ -88,14 +88,15 @@ class AppController extends Controller
     //     'cancel' => DB::table('invoice')->where('Status', 5)->sum('Total'), //123456789,
     // ];
 
-    $data['quotation'] = DB::table('quotation')->leftJoin('masterstatus','quotation.Status','=','masterstatus.id')->orderBy('TransDate','DESC')->select('quotation.*','masterstatus.id as statusID','masterstatus.Name as statusName')->take($limit)->get();
+    $data['quotation'] = DB::table('quotation')->leftJoin('masterstatus','quotation.Status','=','masterstatus.id')->orderBy('TransDate','DESC')->select('quotation.*','masterstatus.id as StatusID','masterstatus.Name as statusName')->take($limit)->get();
     $data['invoice'] = DB::table('invoice')->leftJoin('masterstatus','invoice.Status','=','masterstatus.id')->orderBy('TransDate','DESC')->take($limit)->get();
     $data['project'] = DB::table('projects')->orderBy('projects.id','DESC')->take($limit)->get();
+    //dd($data['quotation']);
     // select * from tasks
     //join projects on projects.id=tasks.ProjectID
     //$data['task'] = DB::table('tasks')->leftJoin('projects','projects.id','=','tasks.ProjectID')->leftJoin('mastertaskstatus','mastertaskstatus.id','=','tasks.Status')->orderBy('tasks.id','ASC')->take($limit)->select('tasks.*','projects.Name as ProjectName','mastertaskstatus.Name as taskName')->get();
     $data['task'] = Task::list()->take($limit);
-    dump($data['task']);
+    //dd($data);
     $tableexp_data = [];
     // $data=['table'=>'',
     //         'chart1_sales'=>'',

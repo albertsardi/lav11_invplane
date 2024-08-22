@@ -4,9 +4,10 @@
 <meta name="robots" content="NOINDEX,NOFOLLOW">
 
 <link rel="icon" type="image/png" href="http://localhost:82/assets/images/favicon.ico">
-<!-- <link rel="stylesheet" href="http://localhost:82/assets/css/bootstrap.min.css"> -->
-<link rel="stylesheet" href="{{url('/assets/css/bootstrap.min.css') }}">
+<link rel="stylesheet" href="http://localhost/lav11_invplanePdf/public/assets/css/bootstrap.min.css">
+<!-- <link rel="stylesheet" href="{{url('/assets/css/bootstrap.min.css') }}"> -->
 
+<link rel="stylesheet" href="http://localhost/lav11_invplanePdf/public/assets/css/style.css?v=1.6.1">
 <link rel="stylesheet" href="{{url('/assets/css/style.css?v=1.6.1') }}">
 <link rel="stylesheet" href="{{url('/assets/css/custom.css?v=1.6.1') }}">
 <link rel="stylesheet" href="{{url('/assets/css/fontawesome/font-awesome.min.css') }}">

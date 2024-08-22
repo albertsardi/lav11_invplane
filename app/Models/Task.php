@@ -25,7 +25,7 @@ class Task extends Model
 
     public static function list() {
         // SELECT tasks.*,projects.Name AS ProjectName,projectid,ProjectId FROM tasks LEFT JOIN projects ON projects.id=tasks.Projectid
-        $dat = DB::table('tasks')->select('tasks.*','projects.Name AS ProjectName','projectid as ProjectId')
+        $dat = DB::table('tasks')->select('tasks.*','projects.Name AS ProjectName','projects.id as ProjectId')
             ->leftJoin('projects','projects.id','=','tasks.Projectid')->get();
             return $dat;
     }

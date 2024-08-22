@@ -2,12 +2,18 @@
 
 use Illuminate\Support\Facades\Route;
 
-//use App\Http\Controllers\AppController;
+use App\Http\Controllers\AppController;
 use App\Http\Controllers\InvController;
 use App\Http\Controllers\QuoteController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\TaskController;
+
+
+use App\Http\Controllers\ReportController;
+
+//API route
+//include('api.php');
 
 
 /*
@@ -21,14 +27,12 @@ use App\Http\Controllers\TaskController;
 |
 */
 
-//API route
-//include('api.php');
-
-
-
 //app
 Route::any('/', 'App\Http\Controllers\AppController@dashboard');
 Route::get('/dashboard', 'App\Http\Controllers\AppController@dashboard');
+
+//test pdf
+Route::get('/testpdf', [ReportController::class, 'testpdf']);
 
 /* 
     router tuk coba2
@@ -39,8 +43,6 @@ Route::prefix('test')->group(function($e) {
     Route::get('koolreport/chart', 'App\Http\Controllers\TestController@koolreportchart');
     Route::get('koolreport/chart/pdf', 'App\Http\Controllers\TestController@koolreportchart_pdf');
     Route::get('aggrid', 'App\Http\Controllers\TestController@view');
-
-    
 });
 
 //quotation
@@ -97,3 +99,4 @@ Route::prefix('tasks')->group(function () {
     // Route::create('/create', [ClientController::class, 'create']);
     Route::post('/update/{id}', [TaskController::class, 'update']);
 });
+
