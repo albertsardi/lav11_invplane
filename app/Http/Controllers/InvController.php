@@ -12,7 +12,7 @@ use App\Http\Model\Company;
 use Session;
 use HTML;
 
-//use App\Http\Requests;
+
 
 class InvController extends MainController
 {

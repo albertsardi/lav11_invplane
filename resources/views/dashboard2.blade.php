@@ -246,7 +246,7 @@
                             <th style="min-width: 15%;">Quote</th>
                             <th style="min-width: 35%;">Client</th>
                             <th style="text-align: right;">Balance</th>
-                            <th>pdf</th>
+                            <th></th>
                         </tr>
                         </thead>
                         <tbody>
@@ -490,7 +490,7 @@
                             <th style="min-width: 15%;">Invoice</th>
                             <th style="min-width: 35%;">Client</th>
                             <th style="text-align: right;">Balance</th>
-                            <th>pdf</th>
+                            <th></th>
                         </tr>
                         </thead>
                         <tbody>
@@ -512,7 +512,7 @@
                                     <td><a href="invoices/view/{{$i->id}}">{{$i->TransNo}}</a></td>
                                     <td><a href="/clients/view/{{$i->AccCode}}">{{$i->AccName}}</a></td>
                                     <td class="amount">Rp. {{$i->Total ?? 0}}</td>
-                                    <td style="text-align: center;"><a href="/invoice/generate_pdf/{{$i->id}}2408" title="Download PDF"><i class="fa fa-file-pdf-o"></i></a></td>
+                                    <td style="text-align: center;"><a href="invoice/generate_pdf/{{$i->id}}" title="Download PDF"><i class="fa fa-file-pdf-o"></i></a></td>
                                 </tr>
                                 @endforeach
                             @else

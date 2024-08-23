@@ -72,6 +72,12 @@ class ClientController extends MainController
         return view("form_client", $data);
     }
 
+    function list() {
+        //return 'list client';
+        $data = [];
+        return view("list_client", $data);
+    }
+
     public function create(Request $req) {
         $input = $req->getContent();
         $input = $req->all();

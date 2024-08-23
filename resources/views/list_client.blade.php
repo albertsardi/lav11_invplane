@@ -140,10 +140,10 @@
             <i class="fa fa-plus"></i> New        </a>
     </div>
 
-    <!-- @include('components.navbutton') -->
-    @include('components.navbutton',['tot'=>$totItem])
-
-    
+    @include('components.navbutton)
+    @php
+        $filter=$filter??'';
+    @endphp
     <div class="headerbar-item pull-right visible-lg">
         <div class="btn-group btn-group-sm index-options">
             <a href="http://localhost/lav7_invplane/clients/list?status=active" class="btn  {{($filter=='active')?'btn-primary':'btn-default'}}">Active</a>
@@ -195,10 +195,10 @@
         </thead>
         <tbody>
             @php
-                function fcur($v) {
-                    $num = $v ?? 0;
-                    return number_format($num, 2);
-                }
+                //function fcur($v) {
+                    //$num = $v ?? 0;
+                    //return number_format($num, 2);
+                //}
             @endphp    
             @foreach($data as $d)
             <tr class="{{($d->Active==1)?'active':'notactive'}}">
