@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Model;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+
 
 class Client extends Model
 {
@@ -40,16 +41,16 @@ class Client extends Model
 
   public static function Get($id=null) {
     if ($id==null) {
-      $data = CustomerSupplier::all();
+      $data = Client::all();
     } else {
-      $data = CustomerSupplier::where('id',$id)->first();
+      $data = Client::where('id',$id)->first();
       $data->Address =  DB::table('masteraccountaddr')->where('AccountId',$id)->first();
     }
-    return (object)['status'=>'OK', 'data'=>$data];
+    return $data;
   }
 
   public static function Balance($acccode) {
-    $salesTot =  DB::table('invoice')->where('AccCode', $acccode)->where('Status',1)->sum('Total')''
+    $salesTot =  DB::table('invoice')->where('AccCode', $acccode)->sum('Total');
     return $salesTot;
   }
 }

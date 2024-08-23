@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use App\Http\Model\Client;
+use App\Models\Client;
+//use App\Models\Client;
 
 class ClientController extends MainController
 {
@@ -12,7 +13,8 @@ class ClientController extends MainController
     function view($formtype, $id='') {
         $OpenApi = new OpenapiController();
         $data =[];
-        $data['data'] = DB::table('clients')->where('AccCode', $id)->first();
+        // $data['data'] = Client::all();
+        $data['data'] = DB::table('clients')->all();
         $data = $this->createSelection($data, ['gender','clientas']);
         // $data['address'] = DB::table('masteraccountaddr')->where('AccCode', $id)->where('defaddr', 1)->first();
         // $data['mCustomer'] = [];//DB::table('masteraccount')->where('AccType','C')->select('AccCode','AccName')->orderBy('AccCode','ASC')->get();
@@ -74,7 +76,14 @@ class ClientController extends MainController
 
     function list() {
         //return 'list client';
-        $data = [];
+        $data =[];
+        $data['data'] = Client::where('Active',1)->get();
+        foreach($data['data'] as $d) {
+            $d->Balance = 123456789;
+            $d->Balance = Client::Balance($d->AccCode);
+        } 
+        //$data['data'] = Client::Get();
+        //$data['data'] = DB::table('clients')->where('Active',1)->get();
         return view("list_client", $data);
     }
 

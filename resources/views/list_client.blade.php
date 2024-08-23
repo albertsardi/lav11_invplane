@@ -201,6 +201,7 @@
                 //}
             @endphp    
             @foreach($data as $d)
+            <?php #dump($d);?>
             <tr class="{{($d->Active==1)?'active':'notactive'}}">
                 @if($d->Active==1)
                     <td><span class="label active">Yes</span></td>
@@ -208,8 +209,9 @@
                     <td><span class="label notactive">NO</span></td>
                 @endif
                 <td><a href="client/view/{{$d->AccCode}}">{{$d->AccName}}</a></td>
-                <td><a href="" class="__cf_email__" data-cfemail="{{$dt->Addr->Email??'--'}}">{{$dt->Addr->Email??'--'}}[email&#160;protected]</a></td>
-                <td>{{$d->Addr->Phone??'--'}}</td>
+                <!-- <td><a href="" class="__cf_email__" data-cfemail="{{$dt->Email??'--'}}">{{$dt->Email??'--'}}[email&#160;protected]</a></td> -->
+                <td><a href="" class="__cf_email__" data-cfemail="{{$dt->Addr->Email??'--'}}">{{$d->Email??'--'}}</a></td>
+                <td>{{$d->Phone??'--'}}</td>
                 <td class="amount">{{$d->Balance??0}}</td>
                 <td>
                     <div class="options btn-group">
