@@ -39,6 +39,19 @@ class QuoteController extends MainController
     return abort(404);
   }
 
+  function list() {
+    //return 'list client';
+    $data =[];
+    $data['data'] = Quote::where('Active',1)->get();
+    foreach($data['data'] as $d) {
+        $d->Balance = 123456789;
+        $d->Balance = Quote::Balance($d->AccCode);
+    } 
+    //$data['data'] = Client::Get();
+    //$data['data'] = DB::table('clients')->where('Active',1)->get();
+    return view("list_quote", $data);
+}
+
   public function generatePDF($id) {
     return "generate $id";
   }

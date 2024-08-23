@@ -40,6 +40,19 @@ class InvController extends MainController
     return abort(404);
   }
 
+  function list() {
+    //return 'list client';
+    $data =[];
+    $data['data'] = Invoice::where('Active',1)->get();
+    foreach($data['data'] as $d) {
+        $d->Balance = 123456789;
+        $d->Balance = Invoice::Balance($d->AccCode);
+    } 
+    //$data['data'] = Client::Get();
+    //$data['data'] = DB::table('clients')->where('Active',1)->get();
+    return view("list_inv", $data);
+}
+
   public function generatePDF($id) {
     //return "generate $id";
     $filePdf =public_path('pdf\invoice_001.pdf');
