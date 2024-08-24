@@ -6,9 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Arr;
 use App\Http\Model\Common;
-use App\Http\Model\User;
-use App\Http\Model\Parameter;
-use App\Http\Model\Company;
+use App\Models\Quotation;
 use Session;
 use HTML;
 
@@ -40,12 +38,11 @@ class QuoteController extends MainController
   }
 
   function list() {
-    //return 'list client';
+    //return 'list quotation';
     $data =[];
-    $data['data'] = Quote::where('Active',1)->get();
+    $data['data'] = Quotation::get();
     foreach($data['data'] as $d) {
-        $d->Balance = 123456789;
-        $d->Balance = Quote::Balance($d->AccCode);
+        //$d->Balance = 123456789;
     } 
     //$data['data'] = Client::Get();
     //$data['data'] = DB::table('clients')->where('Active',1)->get();

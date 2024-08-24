@@ -21,8 +21,8 @@
                         <i class="visible-md-inline fa fa-file"></i>
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a href="quote/form" class="create-quote">Create Quote</a></li>
-                        <li><a href="quote/list">View Quotes</a></li>
+                        <li><a href="quotation/form" class="create-quote">Create Quote</a></li>
+                        <li><a href="quotation/list">View Quotes</a></li>
                     </ul>
                 </li>
 

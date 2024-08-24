@@ -48,6 +48,7 @@ Route::prefix('test')->group(function($e) {
 //quotation
 Route::prefix('quotation')->group(function () {
     // http://localhost/lav9Invplane/quotation/view/1718
+    Route::get('/list', [QuoteController::class, 'list']);
     //Route::get('/{formtype}/{id}', 'App\Http\Controllers\QuoteController@view');
     Route::get('/generate_pdf/{id}', [ReportController::class, 'generatePDF']);
     Route::get('/{formtype}/{id}', [QuoteController::class, 'view']);
@@ -60,6 +61,7 @@ Route::prefix('quotation')->group(function () {
  Route::prefix('invoice')->group(function () {
     // http://localhost/lav9Invplane/quotation/view/1718
     // Route::get('/view/{id}', 'App\Http\Controllers\InvController@view');
+    Route::get('/list', [InvController::class, 'list']);
     Route::get('/generate_pdf/{id}', [ReportController::class, 'generatePDF']);
     Route::get('/{formtype}/{id}', [InvController::class, 'view']);
     // http://localhost/lav9Invplane/quotation/edit/1718

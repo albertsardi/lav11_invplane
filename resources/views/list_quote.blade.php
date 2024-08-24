@@ -241,6 +241,7 @@
                 }
             @endphp        
             @foreach($data as $d)
+            <?php #dump($d);?>
             <tr>
                 @if($d->Status==0)
                     <td><span class="label draft">Draft</span></td>

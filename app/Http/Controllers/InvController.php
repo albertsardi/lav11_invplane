@@ -34,6 +34,8 @@ class InvController extends MainController
     //dd($detail);
     $data['detail']=$detail;
     $data['subtotal']=$subtotal;
+
+    
     $formtype='view';//test
     if ($formtype=='form') return view('form_invoice', $data);
     if ($formtype=='view') return view('view_invoice', $data);
@@ -41,12 +43,11 @@ class InvController extends MainController
   }
 
   function list() {
-    //return 'list client';
+    //return 'list invoice';
     $data =[];
     $data['data'] = Invoice::where('Active',1)->get();
     foreach($data['data'] as $d) {
         $d->Balance = 123456789;
-        $d->Balance = Invoice::Balance($d->AccCode);
     } 
     //$data['data'] = Client::Get();
     //$data['data'] = DB::table('clients')->where('Active',1)->get();
