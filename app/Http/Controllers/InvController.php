@@ -9,6 +9,8 @@ use App\Http\Model\Common;
 use App\Http\Model\User;
 use App\Http\Model\Parameter;
 use App\Http\Model\Company;
+use App\Models\Client;
+use App\Models\Invoice;
 use Session;
 use HTML;
 
@@ -45,13 +47,14 @@ class InvController extends MainController
   function list() {
     //return 'list invoice';
     $data =[];
-    $data['data'] = Invoice::where('Active',1)->get();
+    $data['data'] = Invoice::select('Status','TransNo','TransDate','DueDate','AccCode','AccName','Total','id')->get();
     foreach($data['data'] as $d) {
         $d->Balance = 123456789;
+        $d->Balance = Client::Balance($d->AccCode);
     } 
     //$data['data'] = Client::Get();
     //$data['data'] = DB::table('clients')->where('Active',1)->get();
-    return view("list_inv", $data);
+    return view("list_invoice", $data);
 }
 
   public function generatePDF($id) {

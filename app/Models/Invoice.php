@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Model;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
 class Invoice extends Model
 {
-	protected $table = 'transinvoice'; 
+	protected $table = 'invoice'; 
 	//protected $primaryKey = 'Code';
 	//protected $keyType = 'string';
 	// protected $fillable = ['Code', 'Name', 'Barcode', 'Category'];
