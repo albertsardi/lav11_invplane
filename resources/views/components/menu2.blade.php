@@ -1,5 +1,4 @@
-<div class="collapse navbar-collapse" id="ip-navbar-collapse">
-            <ul class="nav navbar-nav">
+<ul class="nav navbar-nav">
                 <li><a href="https://demo.invoiceplane.com/dashboard" class="hidden-md">Dashboard</a>                    <a href="https://demo.invoiceplane.com/dashboard" class="visible-md-inline-block"><i class="fa fa-dashboard"></i></a>                </li>
 
                 <li class="dropdown">
@@ -9,8 +8,8 @@
                         <i class="visible-md-inline fa fa-users"></i>
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a href="clients/form">Add Client</a></li>
-                        <li><a href="clients/list">View Clients</a></li>
+                        <li><a href="https://demo.invoiceplane.com/clients/form">Add Client</a></li>
+                        <li><a href="https://demo.invoiceplane.com/clients/index">View Clients</a></li>
                     </ul>
                 </li>
 
@@ -21,8 +20,8 @@
                         <i class="visible-md-inline fa fa-file"></i>
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a href="quotation/form" class="create-quote">Create Quote</a></li>
-                        <li><a href="quotation/list">View Quotes</a></li>
+                        <li><a href="http://localhost/lav7_invplane/quote/form" class="create-quote">Create Quote</a></li>
+                        <li><a href="http://localhost/lav7_invplane/quote/list">View Quotes</a></li>
                     </ul>
                 </li>
 
@@ -33,9 +32,9 @@
                         <i class="visible-md-inline fa fa-file-text"></i>
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a href="invoice/form" class="create-invoice">Create Invoice</a></li>
-                        <li><a href="invoice/list">View Invoices</a></li>
-                        <li><a href="https://demo.invoiceplane.com/invoices/recurring/index">View Recurring Invoices</a></li>
+                        <li><a href="#" class="create-invoice">Create Invoice</a></li>
+                        <li><a href="">View Invoices</a></li>
+                        <li><a href="inv/list">View Recurring Invoices</a></li>
                     </ul>
                 </li>
 
@@ -59,7 +58,7 @@
                         <i class="visible-md-inline fa fa-database"></i>
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a href="https://demo.invoiceplane.com/products/form">Create product</a></li>
+                        <li><a href="products/form">Create product</a></li>
                         <li><a href="products/list">View Products</a></li>
                         <li><a href="https://demo.invoiceplane.com/families/index">View Product Families</a></li>
                         <li><a href="https://demo.invoiceplane.com/units/index">View Product Units</a></li>
@@ -73,11 +72,11 @@
                         <i class="visible-md-inline fa fa-check-square-o"></i>
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a href="https://demo.invoiceplane.com/tasks/form">Create Task</a></li>
+                        <li><a href="tasks/form">Create Task</a></li>
                         <li><a href="tasks/list">View Tasks</a></li>
 						<li role="separator" class="divider"></li>
                         <li><a href="https://demo.invoiceplane.com/projects/form">Create Project</a></li>
-                        <li><a href="projects/list">View Projects</a></li>
+                        <li><a href="https://demo.invoiceplane.com/projects/index">View Projects</a></li>
                     </ul>
                 </li>
 
@@ -96,56 +95,3 @@
                 </li>
 
             </ul>
-
-            
-            <ul class="nav navbar-nav navbar-right">
-                <li>
-                    <a href="https://wiki.invoiceplane.com/" target="_blank"
-                       class="tip icon" title="Documentation"
-                       data-placement="bottom">
-                        <i class="fa fa-question-circle"></i>
-                        <span class="visible-xs">&nbsp;Documentation</span>
-                    </a>
-                </li>
-
-                <li class="dropdown">
-                    <a href="#" class="tip icon dropdown-toggle" data-toggle="dropdown"
-                       title="Settings"
-                       data-placement="bottom">
-                        <i class="fa fa-cogs"></i>
-                        <span class="visible-xs">&nbsp;Settings</span>
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li><a href="https://demo.invoiceplane.com/custom_fields/index">Custom Fields</a></li>
-                        <li><a href="https://demo.invoiceplane.com/email_templates/index">Email Templates</a></li>
-                        <li><a href="https://demo.invoiceplane.com/invoice_groups/index">Invoice Groups</a></li>
-                        <li><a href="https://demo.invoiceplane.com/invoices/archive">Invoice Archive</a></li>
-                        <!-- // temporarily disabled
-                        <li><a href="https://demo.invoiceplane.com/item_lookups/index">Item Lookups</a></li>
-                        -->
-                        <li><a href="https://demo.invoiceplane.com/payment_methods/index">Payment Methods</a></li>
-                        <li><a href="https://demo.invoiceplane.com/tax_rates/index">Tax Rates</a></li>
-                        <li><a href="https://demo.invoiceplane.com/users/index">User Accounts</a></li>
-                        <li class="divider hidden-xs hidden-sm"></li>
-                        <li><a href="https://demo.invoiceplane.com/settings">System Settings</a></li>
-                        <li><a href="https://demo.invoiceplane.com/import">Import Data</a></li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="https://demo.invoiceplane.com/users/form/2"
-                       class="tip icon" data-placement="bottom"
-                       title="InvoicePlane Guest">
-                        <i class="fa fa-user"></i>
-                        <span class="visible-xs">&nbsp;InvoicePlane Guest</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="https://demo.invoiceplane.com/sessions/logout"
-                       class="tip icon logout" data-placement="bottom"
-                       title="Logout">
-                        <i class="fa fa-power-off"></i>
-                        <span class="visible-xs">&nbsp;Logout</span>
-                    </a>
-                </li>
-            </ul>
-        </div>

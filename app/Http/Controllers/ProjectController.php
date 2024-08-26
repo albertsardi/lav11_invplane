@@ -59,7 +59,7 @@ class ProjectController extends MainController
         // ]);
 
         // get data
-        $res = CustomerSupplier::getdata($jr, $id);
+        $res = Project::getdata($jr, $id);
         if(!empty($res->data)) {
             $data['data'] = $res->data;
             $data['mOrder'] = Order::where('AccCode',$res->data->AccCode)->get();
@@ -67,6 +67,16 @@ class ProjectController extends MainController
 
         $data['formtype'] = ($id==''?'create':'update');
         return view("form_project", $data);
+    }
+
+    function list() {
+        //return 'list client';
+        $data =[];
+        $data['data'] = Project::leftJoin('clients','clients.id','=','projects.clientid')->where('projects.Active',1)->select('projects.*', 'clients.id AS clientId', 'clients.AccName AS clientName')->get();
+         
+        //$data['data'] = Client::Get();
+        //$data['data'] = DB::table('clients')->where('Active',1)->get();
+        return view("list_project", $data);
     }
 
     public function create(Request $req) {

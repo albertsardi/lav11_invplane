@@ -87,6 +87,7 @@ Route::prefix('clients')->group(function () {
 Route::prefix('projects')->group(function () {
     // http://localhost/lav9Invplane/quotation/view/1718
     // Route::get('/view/{id}', 'App\Http\Controllers\InvController@view');
+    Route::get('/list', [ProjectController::class, 'list']);
     Route::get('/{formtype}/{id}', [ProjectController::class, 'view']);
     // http://localhost/lav9Invplane/quotation/edit/1718
     //Route::get('/edit/{id}', 'App\Http\Controllers\QuoteController@edit');
@@ -94,10 +95,11 @@ Route::prefix('projects')->group(function () {
     Route::post('/update/{id}', [ProjectController::class, 'update']);
 });
 
-//Projects
+//Tasks
 Route::prefix('tasks')->group(function () {
     // http://localhost/lav9Invplane/quotation/view/1718
     // Route::get('/view/{id}', 'App\Http\Controllers\InvController@view');
+    Route::get('/list', [TaskController::class, 'list']);
     Route::get('/{formtype}/{id}', [TaskController::class, 'view']);
     // http://localhost/lav9Invplane/quotation/edit/1718
     //Route::get('/edit/{id}', 'App\Http\Controllers\QuoteController@edit');
