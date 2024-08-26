@@ -8,6 +8,8 @@ use App\Http\Controllers\QuoteController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\TaskController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\PaymentController;
 
 
 use App\Http\Controllers\ReportController;
@@ -101,5 +103,25 @@ Route::prefix('tasks')->group(function () {
     //Route::get('/edit/{id}', 'App\Http\Controllers\QuoteController@edit');
     // Route::create('/create', [ClientController::class, 'create']);
     Route::post('/update/{id}', [TaskController::class, 'update']);
+});
+
+//Products
+Route::prefix('products')->group(function () {
+    Route::get('/list', [ProductController::class, 'list']);
+    Route::get('/{formtype}/{id}', [ProductController::class, 'view']);
+    // http://localhost/lav9Invplane/quotation/edit/1718
+    //Route::get('/edit/{id}', 'App\Http\Controllers\QuoteController@edit');
+    // Route::create('/create', [ClientController::class, 'create']);
+    Route::post('/update/{id}', [ProductController::class, 'update']);
+});
+
+//Payment
+Route::prefix('payment')->group(function () {
+    Route::get('/list', [PaymentController::class, 'list']);
+    Route::get('/{formtype}/{id}', [ProductController::class, 'view']);
+    // http://localhost/lav9Invplane/quotation/edit/1718
+    //Route::get('/edit/{id}', 'App\Http\Controllers\QuoteController@edit');
+    // Route::create('/create', [ClientController::class, 'create']);
+    Route::post('/update/{id}', [ProductController::class, 'update']);
 });
 
