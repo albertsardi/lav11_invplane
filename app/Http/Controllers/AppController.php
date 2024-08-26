@@ -89,7 +89,7 @@ class AppController extends Controller
     // ];
 
     $data['quotation'] = DB::table('quotation')->leftJoin('masterstatus','quotation.Status','=','masterstatus.id')->orderBy('TransDate','DESC')->select('quotation.*','masterstatus.id as StatusID','masterstatus.Name as statusName')->take($limit)->get();
-    $data['invoice'] = DB::table('invoice')->leftJoin('masterstatus','invoice.Status','=','masterstatus.id')->orderBy('TransDate','DESC')->take($limit)->get();
+    $data['invoice'] = DB::table('invoice')->leftJoin('masterstatus','invoice.Status','=','masterstatus.id')->orderBy('TransDate','DESC')->take($limit)->select('invoice.*','masterstatus.id as StatusID','masterstatus.Name as statusName')->get();
     $data['project'] = DB::table('projects')->orderBy('projects.id','DESC')->take($limit)->get();
     //dd($data['quotation']);
     // select * from tasks

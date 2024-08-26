@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Task;
+use App\Models\Client;
 
 class TaskController extends MainController
 {
@@ -67,6 +68,23 @@ class TaskController extends MainController
 
         $data['formtype'] = ($id==''?'create':'update');
         return view("form_project", $data);
+    }
+
+    function list() {
+        //return 'list task';
+        $data =[];
+        $data['data'] = Task::where('tasks.Active',1)->offset(00)->take(1)->join('projects','tasks.projectid','=','projects.id')->select('tasks.*','projects.id as projectId','projects.Name as projectName')->whereNotNull('projectid')->get();
+        $data['data'] = Task::where('tasks.Active',1)->offset(00)->take(2)->select('tasks.*')->whereNotNull('projectid')->get();
+        //$data['data'] = Client::where('Active',1)->get();
+        //$data['tablecaption'] = ['Active','Status','Task Name','Finish Date','Project Name'];
+        //foreach($data['data'] as $d) {
+            //$d->Balance = 123456789;
+            //$d->Balance = Client::Balance($d->AccCode);
+        //} 
+        //$data['data'] = Client::Get();
+        //$data['data'] = DB::table('clients')->where('Active',1)->get();
+        dump($data['data']);
+        return view("list_task", $data);
     }
 
     public function create(Request $req) {
