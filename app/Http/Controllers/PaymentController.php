@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use App\Models\Payment;
+use App\Models\Invoice;
 
 class PaymentController extends Controller
 {
@@ -72,16 +75,20 @@ class PaymentController extends Controller
     }
 
     public function list() {
-        return 'list payment';
+        //return 'list payment';
         $data =[];
-        $data['data'] = Client::where('Active',1)->get();
+        $data['data'] = Payment::join('invoice', 'invoice.TransNo', '=', 'transpaymentarap.InvNo')->join('transpaymenthead', 'transpaymenthead.TransNo', '=', 'transpaymentarap.TransNo')->take(20)->select('transpaymenthead.TransDate as PayDate','invoice.TransDate as InvDate','invoice.TransNo','invoice.AccCode','invoice.AccName')->get();
         foreach($data['data'] as $d) {
+            $inv = Invoice::getStatus($d->InvNo);
+            $d->InvAmount = 123456789;
+            $d->InvAmount = $inv['InvAmount']??0;
             $d->Balance = 123456789;
-            $d->Balance = Client::Balance($d->AccCode);
+            $d->Balance = $inv['Outstanding']??0;
+            // $d->Balance = Client::Balance($d->AccCode);
         } 
         //$data['data'] = Client::Get();
         //$data['data'] = DB::table('clients')->where('Active',1)->get();
-        return view("list_product", $data);
+        return view("list_payment", $data);
     }
 
     public function create(Request $req) {

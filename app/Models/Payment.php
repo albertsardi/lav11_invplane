@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Model;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
 class Payment extends Model
 {
-  protected $table = 'transpaymenthead';
+  protected $table = 'transpaymentarap';
   //protected $primaryKey = 'Code';
   //protected $keyType = 'string';
   // protected $fillable = ['Code', 'Name', 'Barcode', 'Category'];
