@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\Payment;
 use App\Models\Invoice;
 
-class PaymentController extends Controller
+class PaymentController extends MainController
 {
     // fview / orm edit
     function view($formtype, $id='') {
@@ -77,11 +77,11 @@ class PaymentController extends Controller
     public function list() {
         //return 'list payment';
         $data =[];
-        $data['data'] = Payment::join('invoice', 'invoice.TransNo', '=', 'transpaymentarap.InvNo')->join('transpaymenthead', 'transpaymenthead.TransNo', '=', 'transpaymentarap.TransNo')->take(20)->select('transpaymenthead.TransDate as PayDate','invoice.TransDate as InvDate','invoice.TransNo','invoice.AccCode','invoice.AccName')->get();
+        $data['data'] = Payment::join('invoice', 'invoice.TransNo', '=', 'transpaymentarap.InvNo')->join('transpaymenthead', 'transpaymenthead.TransNo', '=', 'transpaymentarap.TransNo')->select('transpaymenthead.TransDate as PayDate','invoice.TransDate as InvDate','invoice.TransNo','invoice.AccCode','invoice.AccName','transpaymenthead.id as id','invoice.Total as InvTotal')->take(20)->get();
         foreach($data['data'] as $d) {
             $inv = Invoice::getStatus($d->InvNo);
             $d->InvAmount = 123456789;
-            $d->InvAmount = $inv['InvAmount']??0;
+            $d->InvAmount = $d->InvTotal??0;
             $d->Balance = 123456789;
             $d->Balance = $inv['Outstanding']??0;
             // $d->Balance = Client::Balance($d->AccCode);

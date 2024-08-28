@@ -55,6 +55,20 @@ class Invoice extends Model
 		return (object)['status'=>'OK', 'data'=>$data];
 	}
 
+	public static function getStatus($invno) {
+		$inv = Invoice::where('TransNo', $invno)->first();
+		$total = $inv['Total']??0;
+		$paid = ($inv['FirstPaymentAmount']??0)+Payment::where('InvNo',$invno)->sum('AmountPaid');
+		$outstanding = $total - $paid;
+		$out = [
+			'InvAmount' 	=> $total,
+			'PaidAmount' 	=> $paid,
+			'Outstanding'	=> $outstanding,
+		];
+		//dd($out);
+		return $out;
+	}
+
 }
 
 

@@ -109,6 +109,6 @@
 <noscript>
     <div class="alert alert-danger no-margin">Please enable Javascript to use InvoicePlane</div>
 </noscript>
-@include('components.navbar2')
+@include('components.menubar2')
 @yield('content')
 </html>

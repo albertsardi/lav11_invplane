@@ -21,7 +21,7 @@
                     </a>
                     <ul class="dropdown-menu">
                         <li><a href="http://localhost/lav7_invplane/quote/form" class="create-quote">Create Quote</a></li>
-                        <li><a href="http://localhost/lav7_invplane/quote/list">View Quotes</a></li>
+                        <li><a href="http://localhost/lav7_invplane/quote/list">123View Quotes</a></li>
                     </ul>
                 </li>
 

@@ -205,35 +205,18 @@
                 <td>{{$d->InvDate??'-'}}</td>
                 <td><a href=''>{{$d->TransNo??'-'}}</a></td>
                 <td><a href="clients/view/{{$d->AccCode}}" title="View Client">{{$d->AccName}}</a></td>
-                <td class="amount ">{{fcur($d->InvAmount)}}</td>
-                <td class="amount">{{fcur($d->Balance??0)}}</td>
+                <td class="amount ">{{fcur($d->InvTotal??0)}}</td>
+                <td class="amount">{{fcur($d['Balance']??0)}}</td>
                 <td>
                     <div class="options btn-group">
                         <a class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" href="#">
                             <i class="fa fa-cog"></i> Options                        </a>
                         <ul class="dropdown-menu">
-                                                            <li>
-                                    <a href="https://demo.invoiceplane.com/invoices/view/2799">
+                                <li>
+                                    <a href="https://demo.invoiceplane.com/invoices/view/{{$d->id}}">
                                         <i class="fa fa-edit fa-margin"></i> Edit                                    </a>
                                 </li>
-                                                        <li>
-                                <a href="https://demo.invoiceplane.com/invoices/generate_pdf/2799"
-                                   target="_blank">
-                                    <i class="fa fa-print fa-margin"></i> Download PDF                                </a>
-                            </li>
-                            <li>
-                                <a href="https://demo.invoiceplane.com/mailer/invoice/2799">
-                                    <i class="fa fa-send fa-margin"></i> Send Email                                </a>
-                            </li>
-                            <li>
-                                <a href="#" class="invoice-add-payment"
-                                   data-invoice-id="2799"
-                                   data-invoice-balance="0.00"
-                                   data-invoice-payment-method="0">
-                                    <i class="fa fa-money fa-margin"></i>
-                                    Enter Payment                                </a>
-                            </li>
-                                                            <li>
+                                <li>
                                     <form action="https://demo.invoiceplane.com/invoices/delete/2799"
                                           method="POST">
                                         <input type="hidden" name="_ip_csrf" value="55bf919177c054f1b9cdbdea855a0517">                                        <button type="submit" class="dropdown-button"
@@ -241,7 +224,7 @@
                                             <i class="fa fa-trash-o fa-margin"></i> Delete                                        </button>
                                     </form>
                                 </li>
-                                                    </ul>
+                        </ul>
                     </div>
                 </td>
             </tr>
