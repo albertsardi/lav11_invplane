@@ -120,10 +120,10 @@ Route::prefix('products')->group(function () {
 //Payment
 Route::prefix('payment')->group(function () {
     Route::get('/list', [PaymentController::class, 'list']);
-    Route::get('/{formtype}/{id}', [ProductController::class, 'view']);
+    Route::get('/{formtype}/{id}', [PaymentController::class, 'view']);
     // http://localhost/lav9Invplane/quotation/edit/1718
     //Route::get('/edit/{id}', 'App\Http\Controllers\QuoteController@edit');
     // Route::create('/create', [ClientController::class, 'create']);
-    Route::post('/update/{id}', [ProductController::class, 'update']);
+    Route::post('/update/{id}', [PaymentController::class, 'update']);
 });
 

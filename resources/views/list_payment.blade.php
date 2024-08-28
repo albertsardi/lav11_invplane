@@ -203,7 +203,7 @@
                 <?php #dump($d);?>
                 <td>{{$d->PayDate??'-'}}</td>
                 <td>{{$d->InvDate??'-'}}</td>
-                <td><a href=''>{{$d->TransNo??'-'}}</a></td>
+                <td><a href='{{ url('payment/view/'.$d->id) }}'>{{$d->TransNo??'-'}}</a></td>
                 <td><a href="clients/view/{{$d->AccCode}}" title="View Client">{{$d->AccName}}</a></td>
                 <td class="amount ">{{fcur($d->InvTotal??0)}}</td>
                 <td class="amount">{{fcur($d['Balance']??0)}}</td>

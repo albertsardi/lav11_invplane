@@ -14,8 +14,8 @@ class PaymentController extends MainController
         $OpenApi = new OpenapiController();
         $data =[];
         // $data['data'] = Client::all();
-        $data['data'] = DB::table('clients')->all();
-        $data = $this->createSelection($data, ['gender','clientas']);
+        if ($id!='') $data['data'] = Payment::findOrFail($id);
+        //$data = $this->createSelection($data, ['gender','clientas']);
         // $data['address'] = DB::table('masteraccountaddr')->where('AccCode', $id)->where('defaddr', 1)->first();
         // $data['mCustomer'] = [];//DB::table('masteraccount')->where('AccType','C')->select('AccCode','AccName')->orderBy('AccCode','ASC')->get();
         // $data['mSupplier'] = [];//DB::table('masteraccount')->where('AccType','S')->select('AccCode','AccName')->orderBy('AccCode','ASC')->get();
@@ -30,11 +30,11 @@ class PaymentController extends MainController
         //     ['id'=> 'C', 'name'=>'as Customer'],
         //     ['id'=> 'S', 'name'=>'as Supplier'],
         // ];
-        
+        $data['mClient'] = [];
 
         $data['formtype'] = ($id==''?'create':'update');
         dump($data);
-        return view("form_client", $data);
+        return view("form_payment", $data);
         
         // if(str_contains($_SERVER['REQUEST_URI'], 'customer/edit')) $jr='customer';
 	    // if(str_contains($_SERVER['REQUEST_URI'], 'supplier/edit')) $jr='supplier';

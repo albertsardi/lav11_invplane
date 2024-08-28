@@ -327,12 +327,7 @@
                         <div class="form-group no-margin">
                             <label for="client_language">Client Name</label>
                             <select name="AccCode" id="client_language" class="form-control simple-select">
-                                @foreach(json_decode($mClient) as $m)
-                                    @php
-                                        $select=($data->AccCode==$m->id)?'selected':'';
-                                    @endphp
-                                    <option value="{{$m->id}} {{$select}}">{{$m->Name}}</option>
-                                @endforeach
+                                
                             </select>
                         </div>
 
