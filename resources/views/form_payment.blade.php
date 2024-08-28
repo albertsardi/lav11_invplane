@@ -324,10 +324,35 @@
                             <input id="client_surname" name="Name" type="text" class="form-control" value="{{$data->Name??''}}">
                         </div>
 
+                        <div class="form-group">
+                            <label for="">Invoice</label>
+                            <input id="client_surname" name="InvNo" type="text" class="form-control" value="{{$data->Name??''}}">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="">Date</label>
+                            <input id="client_surname" name="TransDate" type="text" class="form-control" value="{{$data->Name??''}}">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="">Amount</label>
+                            <input id="client_surname" name="Amount" type="numeric" class="form-control" value="{{$data->Name??''}}">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="">Note</label>
+                            <input id="client_surname" name="Memo" type="text" class="form-control" value="{{$data->Name??''}}">
+                        </div>
+
                         <div class="form-group no-margin">
                             <label for="client_language">Client Name</label>
-                            <select name="AccCode" id="client_language" class="form-control simple-select">
-                                
+                            <select name="PaymentType" id="client_language" class="form-control simple-select">
+                            @foreach(json_decode($mClient) as $m)
+                                    @php
+                                        $select=($data->AccCode==$m->id)?'selected':'';
+                                    @endphp
+                                    <option value="{{$m->id}} {{$select}}">{{$m->Name}}</option>
+                                @endforeach
                             </select>
                         </div>
 
