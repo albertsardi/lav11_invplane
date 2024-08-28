@@ -1,3 +1,6 @@
 https://laravel-news.com/creating-helpers
 
 composer dump-autoload
+
+#invoice plane wiki manual
+https://wiki.invoiceplane.com/en/1.6/modules/payments
