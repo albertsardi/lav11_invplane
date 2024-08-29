@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Payment;
 use App\Models\Invoice;
+use App\Models\Options;
 
 class PaymentController extends MainController
 {
@@ -30,7 +31,7 @@ class PaymentController extends MainController
         //     ['id'=> 'C', 'name'=>'as Customer'],
         //     ['id'=> 'S', 'name'=>'as Supplier'],
         // ];
-        $data['mClient'] = [];
+        $data['mPaymentType'] = Options::GetData('paymenttype');
 
         $data['formtype'] = ($id==''?'create':'update');
         dump($data);
