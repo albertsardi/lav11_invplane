@@ -14,7 +14,7 @@ class ClientController extends MainController
         $OpenApi = new OpenapiController();
         $data =[];
         // $data['data'] = Client::all();
-        $data['data'] = DB::table('clients')->all();
+        $data['data'] = Client::where('AccCode', $id)->first();
         $data = $this->createSelection($data, ['gender','clientas']);
         // $data['address'] = DB::table('masteraccountaddr')->where('AccCode', $id)->where('defaddr', 1)->first();
         // $data['mCustomer'] = [];//DB::table('masteraccount')->where('AccType','C')->select('AccCode','AccName')->orderBy('AccCode','ASC')->get();

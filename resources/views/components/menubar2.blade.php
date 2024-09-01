@@ -55,8 +55,8 @@
                         <i class="visible-md-inline fa fa-credit-card"></i>
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a href="payment/list">Enter Payment</a></li>
-                        <li><a href="https://demo.invoiceplane.com/payments/index">View Payments</a></li>
+                        <li><a href="">Enter Payment</a></li>
+                        <li><a href="{{ url('payment/list') }}">View Payments</a></li>
                         <li><a href="https://demo.invoiceplane.com/payments/online_logs">View Online Payment Logs</a></li>
                     </ul>
                 </li>
@@ -82,8 +82,8 @@
                         <i class="visible-md-inline fa fa-check-square-o"></i>
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a href="https://demo.invoiceplane.com/tasks/form">Create Task</a></li>
-                        <li><a href="{{url('task/list')}}">View Tasks</a></li>
+                        <li><a href="{{ url('taskss/form') }}">Create Task</a></li>
+                        <li><a href="{{ url('tasks/list') }}">View Tasks</a></li>
 						<li role="separator" class="divider"></li>
                         <li><a href="https://demo.invoiceplane.com/projects/form">Create Project</a></li>
                         <li><a href="{{ url('projects/list') }}">View Projects</a></li>

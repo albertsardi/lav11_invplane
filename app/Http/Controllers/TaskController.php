@@ -73,8 +73,9 @@ class TaskController extends MainController
     function list() {
         //return 'list task';
         $data =[];
-        $data['data'] = Task::where('tasks.Active',1)->offset(00)->take(1)->join('projects','tasks.projectid','=','projects.id')->select('tasks.*','projects.id as projectId','projects.Name as projectName')->whereNotNull('projectid')->get();
-        $data['data'] = Task::where('tasks.Active',1)->offset(00)->take(2)->select('tasks.*')->whereNotNull('projectid')->get();
+        //$data['data'] = Task::where('tasks.Active',1)->offset(00)->take(1)->join('projects','tasks.projectid','=','projects.id')->select('tasks.*','projects.id as projectId','projects.Name as projectName')->whereNotNull('projectid')->get();
+        $data['data'] = DB::select( 'select tasks.*,projects.id,projects.Name  from tasks left join projects on projects.id=tasks.Projectid limit 20');
+        //$data['data'] = Task::where('tasks.Active',1)->offset(00)->take(2)->select('tasks.*')->whereNotNull('projectid')->get();
         //$data['data'] = Client::where('Active',1)->get();
         //$data['tablecaption'] = ['Active','Status','Task Name','Finish Date','Project Name'];
         //foreach($data['data'] as $d) {
@@ -83,7 +84,6 @@ class TaskController extends MainController
         //} 
         //$data['data'] = Client::Get();
         //$data['data'] = DB::table('clients')->where('Active',1)->get();
-        dump($data['data']);
         return view("list_task", $data);
     }
 

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Project;
+use App\Models\Client;
 
 class ProjectController extends MainController
 {
@@ -74,7 +75,7 @@ class ProjectController extends MainController
         $data =[];
         $data['data'] = Project::leftJoin('clients','clients.id','=','projects.clientid')->where('projects.Active',1)->select('projects.*', 'clients.id AS clientId', 'clients.AccName AS clientName')->get();
          
-        //$data['data'] = Client::Get();
+        $data['mClient'] = Client::where('Active',1)->get();
         //$data['data'] = DB::table('clients')->where('Active',1)->get();
         return view("list_project", $data);
     }
