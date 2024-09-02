@@ -194,69 +194,64 @@
         </tr>
         </thead>
         <tbody>
-            @foreach($data as $d)
-            @php
-                $d->Active = $d->Active??0;
-                $d->Status = $d->Status??0;
-                $d->projectId = $d->projectId??0;
-            @endphp
-            <tr class="{{($d->Active==1)?'active':'notactive'}}">
-                @if($d->Active==1)
-                    <td><span class="label active">Yes</span></td>
-                @else
-                    <td><span class="label notactive">NO</span></td>
-                @endif
-                <!-- <td>
-                    @if($d->Status==0)
-                    <span class="label draft">Not started</span>
-                    @elseif($d->Status==1)
-                    <span class="label viewed">In progress </span>
-                    @elseif($d->Status==2)
-                    <span class="label sent">Complete </span>
-                    @elseif($d->Status==3)
-                    <span class="label paid">Invoiced </span>
-                    @else
-                    {{$d->statusName??''}}
-                    @endif
-                </td> -->
-                <td><a href="task/view/{{$d->id}}" >{{$d->Name??'-'}}</a></td>
-                <td>{{$d->FinishDate??'-'}}</td>
-                <td><a href="project/view/{{$d->projectId}}">{{$d->projectName??'-'}}</a></td>
-                <td>
-                    <div class="options btn-group">
-                        <a class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" href="#">
-                            <i class="fa fa-cog"></i> Options                        </a>
-                        <ul class="dropdown-menu">
-                            <li>
-                                <a href="https://demo.invoiceplane.com/clients/view/390">
-                                    <i class="fa fa-eye fa-margin"></i> View                                </a>
-                            </li>
-                            <li>
-                                <a href="https://demo.invoiceplane.com/clients/form/390">
-                                    <i class="fa fa-edit fa-margin"></i> Edit                                </a>
-                            </li>
-                            <li>
-                                <a href="#" class="client-create-quote"
-                                   data-client-id="390">
-                                    <i class="fa fa-file fa-margin"></i> Create Quote                                </a>
-                            </li>
-                            <li>
-                                <a href="#" class="client-create-invoice"
-                                   data-client-id="390">
-                                    <i class="fa fa-file-text fa-margin"></i> Create Invoice                                </a>
-                            </li>
-                            <li>
-                                <form action="https://demo.invoiceplane.com/clients/delete/390"
-                                      method="POST">
-                                    <input type="hidden" name="_ip_csrf" value="55bf919177c054f1b9cdbdea855a0517">                                    <button type="submit" class="dropdown-button"
-                                            onclick="return confirm('If you delete this client you will also delete any invoices, quotes and payments related to this client. Are you sure you want to permanently delete this client?');">
-                                        <i class="fa fa-trash-o fa-margin"></i> Delete                                    </button>
-                                </form>
-                            </li>
-                        </ul>
-                    </div>
-                </td>
-            </tr>
+            <?php #dd($data);?>
+            @foreach($data as $dt)
+                    <tr>
+                        <td>
+                            @if($dt->Active==1)
+                                <span class="label active">Yes</span>
+                            @else
+                                <span class="label notactive">NO</span>
+                            @endif
+                        </td>
+                        <td>
+                            @if($dt->Status==0)
+                                <span class="label draft">Not started</span>
+                            @elseif($dt->Status==1)
+                                <span class="label viewed">In progress </span>
+                            @elseif($dt->Status==2)
+                                <span class="label sent">Complete </span>
+                            @elseif($dt->Status==3)
+                                <span class="label paid">Invoiced </span>
+                            @else
+                                {{$dt->statusName??''}}
+                            @endif
+                        </td>
+                        <td><a href="task/view/{{$dt->id??00}}" >{{$dt->TaskName??'-'}}</a></td>
+                        <td>{{$dt->FinishDate??'-'}}</td>
+                        <td><a href="project/view/1234">{{$dt->ProjectName??'-'}}</a></td>
+                        <td>
+                            <div class="options btn-group">
+                                <a class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" href="#">
+                                    <i class="fa fa-cog"></i> Options                        </a>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <a href="clients/view/390">
+                                            <i class="fa fa-eye fa-margin"></i> View                                </a>
+                                    </li>
+                                    <li>
+                                        <a href="clients/form/390">
+                                            <i class="fa fa-edit fa-margin"></i> Edit                                </a>
+                                    </li>
+                                    <li>
+                                        <a href="#" class="client-create-quote"
+                                        data-client-id="390">
+                                            <i class="fa fa-file fa-margin"></i> Create Quote                                </a>
+                                    </li>
+                                    <li>
+                                        <a href="#" class="client-create-invoice" data-client-id="390">
+                                            <i class="fa fa-file-text fa-margin"></i> Create Invoice                                </a>
+                                    </li>
+                                    <li>
+                                        <form action="client/delete/390" method="POST">
+                                            <input type="hidden" name="_ip_csrf" value="55bf919177c054f1b9cdbdea855a0517">
+                                            <button type="submit" class="dropdown-button" onclick=""><i class="fa fa-trash-o fa-margin"></i> Delete </button>
+                                        </form>
+                                    </li>
+                                </ul>
+                            </div>
+                        </td>
+                </tr>
             @endforeach
             </tbody>
     </table>
