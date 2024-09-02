@@ -1,0 +1,19 @@
+DELIMITER $$
+
+USE `invplane`$$
+
+DROP VIEW IF EXISTS `tasklist`$$
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `tasklist` AS (
+select
+  `tasks`.`Status`     AS `Status`,
+  `tasks`.`Name`       AS `TaskName`,
+  `tasks`.`FinishDate` AS `FinishDate`,
+  `projects`.`id`      AS `ProjectId`,
+  `projects`.`Name`    AS `ProjectName`
+from (`tasks`
+   left join `projects`
+     on (`projects`.`id` = `tasks`.`Projectid`))
+limit 20)$$
+
+DELIMITER ;

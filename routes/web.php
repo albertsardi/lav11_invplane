@@ -15,7 +15,7 @@ use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ReportController;
 
 //API route
-//include('api.php');
+include('api.php');
 
 
 /*

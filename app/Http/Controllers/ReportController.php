@@ -54,6 +54,7 @@ class ReportController extends Controller
         return Storage::disk('public')->download($documentFileName, 'Request', $header); //
     }
 
+    // http://localhost/lav11_invplanePdf/invoice/generate_pdf/1234
     public function generatePDF($id) {
         //return "report generate $id";
         $mpdf = new PDF;
