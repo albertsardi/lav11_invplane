@@ -190,19 +190,20 @@
                 <th>Price</th>
                 <th>Product Unit</th>
                 <th>Tax Rate</th>
-                                <th>Options</th>
+                <th>Options</th>
             </tr>
             </thead>
 
             <tbody>
-                            <tr>
-                    <td></td>
-                    <td></td>
-                    <td>Mixer 2 Ch + Speaker 2 1000W</td>
-                    <td></td>
-                    <td class="amount">$750,00</td>
-                    <td></td>
-                    <td>None</td>
+                @foreach($data as $d)
+                <tr>
+                    <td>{{$d->Category??''}}</td>
+                    <td>{{$d->Code??''}}</td>
+                    <td>{{$d->Name??''}}</td>
+                    <td>{{$d->Description??''}}</td>
+                    <td class="amount">{{$d->SellPrice??'-'}}</td>
+                    <td>{{$d->UOM??'-'}}</td>
+                    <td>{{$d->TaxRate??'None'}}</td>
                                         <td>
                         <div class="options btn-group">
                             <a class="btn btn-default btn-sm dropdown-toggle"
@@ -225,6 +226,7 @@
                         </div>
                     </td>
                 </tr>
+                @endforeach
                             <tr>
                     <td></td>
                     <td>10</td>
