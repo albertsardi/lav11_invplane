@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\Project;
 use App\Models\Client;
 
-class ProjectController extends MainController
+class ProjectController extends Controller
 {
     // fview / orm edit
     public function rules() {
@@ -21,13 +21,13 @@ class ProjectController extends MainController
         // return "$formtype - $id";
         $data =[];
         $data['data'] = DB::table('projects')->where('id', $id)->first();
-        //$data['mClient'] = DB::table('clients')->select('AccCode as id','AccName as Name')->orderBy('AccName','ASC')->get();
+        $data['mClient'] = DB::table('Clients')->select('AccCode as id','AccName as Name')->orderBy('AccName','ASC')->get();
         // $data['mProv'] = $OpenApi->IndoProvince();
-        $data = $this->createSelection($data, ['client']);
-        dump($data);
+        //$data = $this->createSelection($data, ['client']);
+        //dd($data);
         
         $data['formtype'] = ($id==''?'create':'update');
-        //dump($data);
+        //dd($data);
         //$m = new Project;
         //dump($m->fillable);
         return view("form_project", $data);
@@ -106,7 +106,7 @@ class ProjectController extends MainController
         $input = $req->getContent();
         $input = $req->all();
 
-        //dd($input);
+        dump($input);
 
         // validation 
         // $validate = $req->validate([
@@ -114,12 +114,23 @@ class ProjectController extends MainController
         //     'AccName' => 'required|max:255',
         // ]);
 
-        $m = Project::where('id',$id);
         
+        
+        //get Fillable
         $m0 = new Project();
         $v = $m0->getFillable();
         $fillable = app(Project::class)->getFillable();
-        //dd($v);
+
+        //update by id, save using manual karena fill able tidak jalan
+        $m = Project::find($id);
+        $m->Name = $input['Name']??'';
+        $client = Client::where('AccCode', $input['AccCode'])->first();
+        $clientid = $client->id ?? 0;
+        $m->clientid = $clientid;
+        $m->AccName = $input['AccName']??'';
+        $m->Active = $input['Active']??'';
+        $m->save();
+        return redirect('/projects/view/'.$id)->with('success', 'Berhasil simpan data');
 
         //save using manual karena fill able tidak jalan
         // $m = Project::where('id',$id);
