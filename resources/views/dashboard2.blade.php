@@ -807,19 +807,19 @@
                                     <tr>
                                         <td>
                                             @if($t->Status==0)
-                                            <span class="label draft">Not started</span>
+                                                <span class="label draft">Not started</span>
                                             @elseif($t->Status==1)
-                                            <span class="label viewed">In progress </span>
+                                                <span class="label viewed">In progress </span>
                                             @elseif($t->Status==2)
-                                            <span class="label sent">Complete </span>
+                                                <span class="label sent">Complete </span>
                                             @elseif($t->Status==3)
-                                            <span class="label paid">Invoiced </span>
+                                                <span class="label paid">Invoiced </span>
                                             @else
-                                            {{$t->statusName}}
+                                                {{$t->statusName}}
                                             @endif
                                         </td>
                                         <td>
-                                            <a href="/tasks/form/{{$t->id}}">{{$t->Name}}</a>
+                                            <a href="{{ url('/tasks/form/'.$t->id??'') }}">{{$t->Name}}</a>
                                         <td>
                                             <span class="font-overdue">{{$t->FinishDate}}</span>                                    
                                         </td>
