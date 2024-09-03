@@ -271,9 +271,9 @@
 </script>
 
 @if($formtype='update')
-    <form method="post" action="/tasks/update/{{$data->id??''}}">
+    <form method="post" action="{{ url('/tasks/save/'.$data->id??'') }} ">
 @else
-    <form method="post" action="/tasks/create/}}">
+    <form method="post" action="{{ url('/tasks/save/') }}">
 @endif
 	@csrf
     <!-- <input type="hidden" name="_ip_csrf"
@@ -319,6 +319,11 @@
                         </div>
 
                         <div class="form-group">
+                            <label for="client_surname">Name</label>
+                            <input name="Name" type="text" class="form-control"  value="{{$data->Name??''}}">
+                        </div>
+
+                        <div class="form-group">
                             <label for="client_surname">Finish Date</label>
                             <input name="FinishDate" type="text" class="form-control"  value="{{$data->FinishDate??''}}">
                         </div>
@@ -327,11 +332,11 @@
                             <label for="client_surname">Project Name</label>
                             <!-- <input name="Projectid" type="text" class="form-control"  value="{{$data->Projectid??''}}"> -->
                             <select name="Projectid" id="client_language" class="form-control simple-select">
-                                @foreach(json_decode($mProject) as $m)
+                                @foreach($mProject as $m)
                                     @php
                                         $select=($data->Projectid==$m->id)?'selected':'';
                                     @endphp
-                                    <option value="{{$m->id}} {{$select}}">{{$m->Name}}</option>
+                                    <option value="{{$m->id}}" {{$select}}>{{$m->Name}}</option>
                                 @endforeach
                             </select>
                                 

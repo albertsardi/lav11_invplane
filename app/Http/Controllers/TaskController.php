@@ -22,7 +22,7 @@ class TaskController extends MainController
         $data =[];
         $data['data'] = DB::table('tasks')->where('id', $id)->first();
         // $data['mClients'] = DB::table('clients')->where('Active', 1)->select('AccCode','AccName')->get();
-        // $data['mProject'] = DB::table('projects')->select('id','Name')->get();
+        $data['mProject'] = DB::table('projects')->select('id','Name')->get();
         $data = $this->createSelection($data, ['client','project']);
         
         $data['formtype'] = ($id==''?'create':'update');
@@ -110,7 +110,7 @@ class TaskController extends MainController
         //Cient::reguard();
     }
 
-    public function update($id, Request $req) {
+    public function save($id, Request $req) {
         $input = $req->getContent();
         $input = $req->all();
 
@@ -122,17 +122,33 @@ class TaskController extends MainController
         //     'AccName' => 'required|max:255',
         // ]);
 
-        //$m = Task::where('id',$id);
-        $m = Task::findOrFail($id);
-        $m->FinishDate = $req->input('FinishDate');
-        $m->Projectid = $req->input('Projectid');
-        $m->save();
-        
-        // $m0 = new Task();
-        // $v = $m0->getFillable();
-        //$fillable = app(Task::class)->getFillable();
-        //dd($v);
-        //dd($fillable);
+        //update by id, save using manual karena fill able tidak jalan
+        if ($id=='') {
+            //create new with Id generate
+            $m = new Task;
+            $m->Status = 1;
+            $m->Name = $input['Name']??'';
+            $m->FinishDate = $input['FinishDate']??'';
+            $m->Projectid = $input['Projectid']??0;
+            $m->Active = $input['Active']??1;
+            $m->save();
+            $id = $m->id??0;
+        } else {
+            //update  by id
+            $m = Task::find($id);
+            $m->Status = 1;
+            $m->Name = $input['Name']??'';
+            $m->FinishDate = $input['FinishDate']??'';
+            $m->Projectid = $input['Projectid']??0;
+            $m->Active = $input['Active']??1;
+            //$client = Client::where('AccCode', $input['AccCode'])->first();
+            //$clientid = $client->id ?? 0;
+            // $m->clientid = $clientid;
+            // $m->AccName = $input['AccName']??'';
+            // $m->Active = $input['Active']??'';
+            $m->save();
+        }
+        return redirect('/tasks/view/'.$id)->with('success', 'Berhasil simpan data');
 
         //save using manual karena fill able tidak jalan
         // $m = Project::where('id',$id);
@@ -143,21 +159,11 @@ class TaskController extends MainController
 
         //save using custom fillable
         //$fillable = ['Name','AccName'];
-        /*
         $newinput = $this->getfill($input, $fillable);
-        $newinput = [
-            'FinishDate' => $req->input('FinishDate'),
-            'Projectid' => $req->input('Projectid'),
-        ];
-        
         dump($newinput);
         $m->update($newinput);
-        */
         //return 'data save..';
-        return redirect( url('/tasks/form/'.$id) )->with('success', 'Berhasil simpan data');
-
-
-        
+        return redirect('/projects/view/'.$id)->with('success', 'Berhasil simpan data');
     }
 
     function getfill($input, $fill) {

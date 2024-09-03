@@ -122,9 +122,9 @@
 </script>
 
 @if($formtype='update')
-    <form method="post" action="/projects/update/{{$data->id??''}}">
+    <form method="post" action="{{ url('/projects/update/'.$data->id??'') }} ">
 @else
-    <form method="post" action="/projects/create/}}">
+    <form method="post" action="{{ url('/projects/create/') }}">
 @endif
 	@csrf
     <!-- <input type="hidden" name="_ip_csrf"
@@ -177,12 +177,16 @@
                         <div class="form-group no-margin">
                             <label for="client_language">Client Name</label>
                             <select name="AccCode" id="client_language" class="form-control simple-select">
+                                
+                                @if(!empty($mClient))
                                 @foreach($mClient as $m)
                                     @php
-                                        $select=($data->AccCode==$m->id)?'selected':'';
+                                        //dd($data);
+                                        $select=($data->clientid==$m->id)?'selected':'';
                                     @endphp
                                     <option value="{{$m->id}} {{$select}}">{{$m->Name}}</option>
                                 @endforeach
+                                @endif
                             </select>
                         </div>
 
