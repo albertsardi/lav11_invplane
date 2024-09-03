@@ -339,9 +339,12 @@
 
         </div>
         <div class="modal-footer">
-            <form action="https://demo.invoiceplane.com/quotes/delete/918"
-                  method="POST">
-                <input type="hidden" name="_ip_csrf" value="55bf919177c054f1b9cdbdea855a0517">
+        @if($formtype='update')
+            <form method="post" action="{{ url('/quotation/update/'.$data->id??'') }} ">
+        @else
+            <form method="post" action="{{ url('/quotation/create/') }}">
+        @endif
+	            @csrf
                 <div class="btn-group">
                     <button type="submit" class="btn btn-danger">
                         <i class="fa fa-trash-o fa-margin"></i> Confirm deletion                    </button>

@@ -104,7 +104,7 @@ Route::prefix('tasks')->group(function () {
     // http://localhost/lav9Invplane/quotation/edit/1718
     //Route::get('/edit/{id}', 'App\Http\Controllers\QuoteController@edit');
     // Route::create('/create', [ClientController::class, 'create']);
-    Route::post('/update/{id}', [TaskController::class, 'update']);
+    Route::post('/save/{id?}', [TaskController::class, 'save']);
 });
 
 //Products

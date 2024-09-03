@@ -122,9 +122,9 @@
 </script>
 
 @if($formtype='update')
-    <form method="post" action="/projects/update/{{$data->id??''}}">
+    <form method="post" action="{{ url('/payment/update/'.$data->id??'') }} ">
 @else
-    <form method="post" action="/projects/create/}}">
+    <form method="post" action="{{ url('/payment/create/') }}">
 @endif
 	@csrf
     <!-- <input type="hidden" name="_ip_csrf"
@@ -146,8 +146,7 @@
     <div id="content">
 
         
-        <input class="hidden" name="is_update" type="hidden"
-            value="0"        >
+        <input class="hidden" name="is_update" type="hidden" value="0"        >
 
         <div class="row">
             <div class="col-xs-12 col-sm-12">
@@ -329,7 +328,7 @@
 
                 </div>
 
-            </div>
+            </div> 
         </div>
 
         

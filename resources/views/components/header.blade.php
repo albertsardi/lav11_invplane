@@ -26,3 +26,6 @@
 <![endif]-->
 
 <script src="https://demo.invoiceplane.com/assets/core/js/dependencies.min.js?v=1.6.1"></script>
+
+<!-- datatables -->
+<script src="{{asset('/assets/Datatables/fdataTables.js') }}"></script>

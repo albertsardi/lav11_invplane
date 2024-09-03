@@ -1,0 +1,6 @@
+# for test Accept-Datetime: using vscode HTTP CLIENT
+
+GET http://localhost/lav11_invplanePdf/api/datatables/products
+
+###
+GET http://localhost/lav11_invplanePdf/api/datatables/projects
