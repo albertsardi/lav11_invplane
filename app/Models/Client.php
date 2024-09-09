@@ -10,8 +10,8 @@ use Illuminate\Support\Facades\DB;
 class Client extends Model
 {
   protected $table = 'clients';
-  protected $primaryKey = 'AccCode';
-  protected $keyType = 'string';
+  //protected $primaryKey = 'AccCode';
+  //protected $keyType = 'string';
   protected $fillable= [
               'AccCode',
               'AccName',
@@ -52,5 +52,11 @@ class Client extends Model
   public static function Balance($acccode) {
     $salesTot =  DB::table('invoice')->where('AccCode', $acccode)->sum('Total');
     return $salesTot;
+  }
+
+  public static function getId($acccode) {
+    $data = Client::where('AccCode', $acccode)->first();
+    $out = $data->id??0;
+    return $out;
   }
 }

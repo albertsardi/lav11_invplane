@@ -33,6 +33,9 @@ include('api.php');
 Route::any('/', 'App\Http\Controllers\AppController@dashboard');
 Route::get('/dashboard', 'App\Http\Controllers\AppController@dashboard');
 
+Route::get('/login', [AppCOntroller::class,'login']);
+Route::post('/checklogin', [AppController::class,'checklogin']);
+
 //test pdf
 Route::get('/testpdf', [ReportController::class, 'testpdf']);
 
@@ -80,7 +83,7 @@ Route::prefix('clients')->group(function () {
     // http://localhost/lav9Invplane/quotation/edit/1718
     //Route::get('/edit/{id}', 'App\Http\Controllers\QuoteController@edit');
     // Route::create('/create', [ClientController::class, 'create']);
-    Route::post('/update/{id}', [ClientController::class, 'update']);
+    Route::post('/save/{id}', [ClientController::class, 'update']);
 });
 
 //Projects
@@ -120,10 +123,10 @@ Route::prefix('products')->group(function () {
 //Payment
 Route::prefix('payment')->group(function () {
     Route::get('/list', [PaymentController::class, 'list']);
-    Route::get('/{formtype}/{id}', [PaymentController::class, 'view']);
+    Route::get('/{formtype}/{id?}', [PaymentController::class, 'view']);
     // http://localhost/lav9Invplane/quotation/edit/1718
     //Route::get('/edit/{id}', 'App\Http\Controllers\QuoteController@edit');
     // Route::create('/create', [ClientController::class, 'create']);
-    Route::post('/update/{id}', [PaymentController::class, 'update']);
+    Route::post('/save/{id?}', [PaymentController::class, 'save']);
 });
 

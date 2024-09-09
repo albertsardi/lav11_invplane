@@ -92,7 +92,9 @@
             </button>
         </div>
 
+        @include('components.helperSelect')
         @include('components.menubar2')
+        
     </div>
 </nav>
 
@@ -101,12 +103,13 @@
 
         @if(session('success'))
         <div class="alert alert-success" role="alert">
-            A simple success alert—check it out!
+            Data Saved.
         </div>
         @endif
         @if(session('fail'))
         <div class="alert alert-danger" role="alert">
-            A simple danger alert—check it out!
+            Data cannot save.
+            reason session('fail')
         </div>
         @endif
 
@@ -121,10 +124,11 @@
     });
 </script>
 
-@if($formtype='update')
-    <form method="post" action="{{ url('/payment/update/'.$data->id??'') }} ">
+
+@if($formtype=='update')
+    <form method="post" action="{{ url('/payment/save/'.$data->id??'') }} ">
 @else
-    <form method="post" action="{{ url('/payment/create/') }}">
+    <form method="post" action="{{ url('/payment/save/') }}">
 @endif
 	@csrf
     <!-- <input type="hidden" name="_ip_csrf"
@@ -168,40 +172,40 @@
                             <input id="id" name="id" type="text" class="form-control" readonly value="{{$data->id??''}}">
                         </div>
 
-                    <div class="form-group">
-                            <label for="">Project Name</label>
-                            <input id="client_surname" name="Name" type="text" class="form-control" value="{{$data->Name??''}}">
+                        <div class="form-group">
+                            <label for="">TransNo</label>
+                            <input id="client_surname" name="TransNo" type="text" class="form-control" readonly value="{{$data->TransNo??''}}">
                         </div>
 
                         <div class="form-group">
-                            <label for="">Invoice</label>
-                            <input id="client_surname" name="InvNo" type="text" class="form-control" value="{{$data->InvNo??''}}">
+                            <label for="">Outstanding Invoice</label>
+                            {!! select('InvNo', $mInvoice, $data->InvNo??'') !!}
                         </div>
 
                         <div class="form-group">
                             <label for="">Date</label>
-                            <input id="client_surname" name="TransDate" type="text" class="form-control" value="{{$data->Name??''}}">
+                            <input id="client_surname" name="TransDate" type="text" class="form-control" value="{{$data->TransDate??''}}">
                         </div>
 
                         <div class="form-group">
                             <label for="">Amount</label>
-                            <input id="client_surname" name="Amount" type="numeric" class="form-control" value="{{$data->AmountPaid??0}}">
+                            <input name="AmountPaid" type="numeric" class="form-control" value="{{$data->AmountPaid??0}}">
+                        </div>
+
+                        <div class="form-group no-margin">
+                            <label for="client_language">Payment Method</label>
+                            {!! select('PaymentType', $mPaymentType, $data->PaymentType??'') !!}
+                            </select>
                         </div>
 
                         <div class="form-group">
                             <label for="">Note</label>
-                            <input id="client_surname" name="Memo" type="text" class="form-control" value="{{$data->Name??''}}">
+                            <input id="client_surname" name="Memo" type="text" class="form-control" value="{{$data->Memo??''}}">
                         </div>
 
                         <div class="form-group no-margin">
                             <label for="client_language">Client Name</label>
                             <select name="PaymentType" id="client_language" class="form-control simple-select">
-                            @foreach(($mPaymentType) as $m)
-                                    @php
-                                        $select=($data->AccCode==$m['id'])?'selected':'';
-                                    @endphp
-                                    <option value="{{$m['id']}} {{$select}}">{{$m['Name']}}</option>
-                                @endforeach
                             </select>
                         </div>
 
@@ -335,6 +339,8 @@
             </div>
 			<button type="submit">Submit</button>
 </form>
+
 @stop
+
     
 

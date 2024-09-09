@@ -181,7 +181,6 @@
                                 @if(!empty($mClient))
                                 @foreach($mClient as $m)
                                     @php
-                                        //dd($data);
                                         $select=($data->clientid==$m->id)?'selected':'';
                                     @endphp
                                     <option value="{{$m->id}} {{$select}}">{{$m->Name}}</option>

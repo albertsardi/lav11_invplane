@@ -266,7 +266,7 @@
                                     </td>
                                     <td>{{$q->TransDate??''}}</td>
                                     <td><a href="quotation/view/{{$q->id}}">{{$q->TransNo??''}}</a></td>
-                                    <td><a href="clients/view/{{$q->AccCode??''}}">{{$q->AccName??''}}</a>                                </td>
+                                    <td><a href="clients/view/{{$q->clientId??''}}">{{$q->AccName??''}}</a>                                </td>
                                     <td class="amount">Rp. {{$q->Total??0}}</td>
                                     <td style="text-align: center;"><a href="quotation/generate_pdf/{{$q->id}}" title="Download PDF"><i class="fa fa-file-pdf-o"></i></a></td>
                                 </tr>
@@ -510,7 +510,7 @@
                                         <span class="">{{$i->TransDate}}</span>
                                     </td>
                                     <td><a href="invoices/view/{{$i->id}}">{{$i->TransNo}}</a></td>
-                                    <td><a href="/clients/view/{{$i->AccCode}}">{{$i->AccName}}</a></td>
+                                    <td><a href="/clients/view/{{$i->clientId}}">{{$i->AccName}}</a></td>
                                     <td class="amount">Rp. {{$i->Total ?? 0}}</td>
                                     <td style="text-align: center;"><a href="invoice/generate_pdf/{{$i->id}}" title="Download PDF"><i class="fa fa-file-pdf-o"></i></a></td>
                                 </tr>
@@ -758,9 +758,9 @@
                                 @foreach($project as $p)
                                     <tr>
                                         <td>
-                                            <a href="projects/view/{{$p->id}}">{{$p->Name}}</a>                                    </td>
+                                            <a href="{{ url('projects/view/'.$p->id) }}">{{$p->Name}}</a>                                    </td>
                                         <td>
-                                            <a href="clients/view/289">{{$p->AccName}}</a>                                    </td>
+                                            <a href="{{ url('clients/view/'.$p->clientid) }}">{{$p->AccName}}</a>                                    </td>
                                     </tr>
                                 @endforeach
                                 <tr>

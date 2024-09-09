@@ -5,22 +5,42 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Payment;
+use App\Models\PaymentARAP;
 use App\Models\Invoice;
 use App\Models\Options;
+use App\Helpers\formHelper;
 
 class PaymentController extends MainController
 {
     // fview / orm edit
     function view($formtype, $id='') {
-        $OpenApi = new OpenapiController();
+        //return "payment $id";
+        //$OpenApi = new OpenapiController();
         $data =[];
         // $data['data'] = Client::all();
         if ($id!='') $data['data'] = Payment::findOrFail($id);
+        if(!empty($data['data'])) {
+            $arap = PaymentARAP::where('TransNo', 'AR.240004')->first();
+            //dd($arap);
+            $data['data']->AmountPaid = 1234567890; //$arap->AmountPaid ?? 0;
+        } 
+        //$data['data']->AmountPaid = PaymentARAP::where('TransNo', $data['data']->TransNo)->first()->AmountPaid??0; 
         //$data = $this->createSelection($data, ['gender','clientas']);
         // $data['address'] = DB::table('masteraccountaddr')->where('AccCode', $id)->where('defaddr', 1)->first();
         // $data['mCustomer'] = [];//DB::table('masteraccount')->where('AccType','C')->select('AccCode','AccName')->orderBy('AccCode','ASC')->get();
-        // $data['mSupplier'] = [];//DB::table('masteraccount')->where('AccType','S')->select('AccCode','AccName')->orderBy('AccCode','ASC')->get();
-        // $data['mProv'] = $OpenApi->IndoProvince();
+        $data['mInvoice'] = [];
+        $inv = Invoice::whereRaw('Total>TotalPaid+FirstpaymentAmount')->select('TransNo',"AccName")->orderBy('TransNo','ASC')->get();
+        foreach($inv as $d) {
+            $inv = Invoice::getStatus($d->InvNo);
+            $bal = $inv['Outstanding']??0;
+            //if($bal>0) {
+                $data['mInvoice'][] = [
+                    'id' => $d->TransNo,
+                    'Name' => $d->TransNo. ' '.$d->TransDate. ' outstanding='. $bal,
+                ];
+            //}
+        }
+         // $data['mProv'] = $OpenApi->IndoProvince();
         // $data['mCountry'] = $OpenApi->WorldCountry('asia');
         // $data['mGender'] = [
         //     ['id'=> 'M', 'name'=>'Male'],
@@ -32,6 +52,7 @@ class PaymentController extends MainController
         //     ['id'=> 'S', 'name'=>'as Supplier'],
         // ];
         $data['mPaymentType'] = Options::GetData('paymenttype');
+        //$data['mPaymentType'] = DB::table('options')->where('opttype','paymenttype')->select('Code','Name')->get();
 
         $data['formtype'] = ($id==''?'create':'update');
         dump($data);
@@ -40,12 +61,6 @@ class PaymentController extends MainController
         // if(str_contains($_SERVER['REQUEST_URI'], 'customer/edit')) $jr='customer';
 	    // if(str_contains($_SERVER['REQUEST_URI'], 'supplier/edit')) $jr='supplier';
     
-        $data = [
-            'jr' => $jr, 'id' => $id,
-            'caption' => $this->makeCaption($jr, $id),
-            //'user' => ['Code'=>'123']
-        ];
-
         
 
         // $data = array_merge($data,[
@@ -64,15 +79,6 @@ class PaymentController extends MainController
         //     'select' => $this->selectData(['selCustomerSupplierCategory', 'selSalesman', 'selPriceLevel']),
         // ]);
 
-        // get data
-        $res = CustomerSupplier::getdata($jr, $id);
-        if(!empty($res->data)) {
-            $data['data'] = $res->data;
-            $data['mOrder'] = Order::where('AccCode',$res->data->AccCode)->get();
-        }
-
-        
-        return view("form_client", $data);
     }
 
     public function list() {
@@ -92,45 +98,64 @@ class PaymentController extends MainController
         return view("list_payment", $data);
     }
 
-    public function create(Request $req) {
+    public function save(Request $req, $id='') {
         $input = $req->getContent();
         $input = $req->all();
-        unset($input['_token']);
-        unset($input['is_update']);
-        dump($input);
-        Client::unguard();
-        if ($input['id']=='') {
-            //create new
-            logger('create new');
-            $m = new Client;
-            $m = $m->save($input);
-        } else {
-            //update
-            logger('update');
-            $m = Client::where('id',$id);
-            $m->create($input);
-        }
-        Cient::reguard();
-    }
+    
+        //dd($input);
+    
+        // validation 
+        // $validate = $req->validate([
+        //     'Name' => 'required',
+        //     'AccName' => 'required|max:255',
+        // ]);
+    
+        //update by id, save using manual karena fill able tidak jalan
+        if ($id=='') {
+            //create new with Id generate
+            $m = new Payment;
+            $transno = $this->transNewNo('AR'); //'AR.NEW';
+            //dd($transno);
+            //$transno = 'AR.NEW';
+            $m->TransNo = $transno;
+            $m->Transdate = $input['TransDate']??'';
+            $m->AccCode = $input['FinishDate']??'';
+            $m->AccName = $input['Projectid']??0;
+            $m->Payment = 'CASH';
+            $m->Memo = $input['Memo']??'';
+            $m->save();
+            $id = $m->id??0;
+            //dd($id);
 
-    public function update($id, Request $req) {
-        $input = $req->getContent();
-        $input = $req->all();
-        unset($input['_token']);
-        unset($input['is_update']);
-        dump($input);
-        Client::unguard();
-        if ($input['id']=='') {
-            //create new
-            logger('create new');
-            $m = new Client;
-            $m = $m->save($input);
-        } else {
-            //update
-            logger('update');
-            $m = Client::where('id',$id);
-            $m->create($input);
+            $arap = PaymentARAP::where('TransNo', $transno)->first();
+            if($arap===null) {//if not exist
+                $m = new PaymentARAP;
+                $m->TransNo = $transno;
+                $m->InvNo = $input['InvNo']??'';
+                $m->AmountPaid = $input['AmountPaid']??0;
+                $m->AmountAdj = 0;
+                $m->Memo = $input['Memo']??'';
+                $m->save();
+            } else {
+            //update  by id
+                $arap->AmountPaid = $input['AmountPaid']??0;
+                $arap->AmountAdj = 0;
+                $arap->Memo = $input['Memo']??'';
+                $arap->save();
+            }
+            
+
+
+            
+            //$client = Client::where('AccCode', $input['AccCode'])->first();
+            //$clientid = $client->id ?? 0;
+            // $m->clientid = $clientid;
+            // $m->AccName = $input['AccName']??'';
+            // $m->Active = $input['Active']??'';
+            //$m->save();
         }
-        Cient::reguard();
+        return redirect('/payment/view/'.$id)->with('success', 'Berhasil simpan data');
     }
+    
 }
+

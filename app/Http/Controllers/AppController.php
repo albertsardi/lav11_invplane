@@ -6,10 +6,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Arr;
 use App\Http\Model\Common;
-use App\Http\Model\User;
 use App\Http\Model\Parameter;
 use App\Http\Model\Company;
+use App\Models\Client;
 use App\Models\Task;
+use App\Models\User;
 use Session;
 use HTML;
 
@@ -94,7 +95,8 @@ class AppController extends Controller
     }
     $data['invoice'] = DB::table('invoice')->leftJoin('masterstatus','invoice.Status','=','masterstatus.id')->orderBy('TransDate','DESC')->take($limit)->select('invoice.*','masterstatus.id as StatusID','masterstatus.Name as statusName')->get();
     foreach($data['invoice'] as $d) {
-        $d->clientId = Client::getId($d->AccCode);
+        //$d->clientId = Client::getId($d->AccCode);
+        $d->clientId = 123; //Client::getId($d->AccCode);
     }
     $data['project'] = DB::table('projects')->orderBy('projects.id','DESC')->take($limit)->get();
     dump($data);
@@ -345,18 +347,29 @@ function login(Request $req) {
     return view('login', $data);
 }
 function checklogin(Request $req) {
-   session_start();
+   //return dd('checkLogin');
+    session_start();
+
    //Session::flush();
-   $user = User::GetByLoginPassword($req->user, $req->password);
-//    if ($req->user=='admin' &&  $req->password=='123') {
-//         Session::put('user','12345'); //debug
-//    }
-    $user = $user->data;
-    if (!empty($user)) {
+   $input = $req->getContent();
+   $input = $req->all();
+    
+    // dd($input);
+   $user = User::GetByLoginPassword($input['username'], $input['password']);
+   //dump($user);
+    // if ($req->user=='admin' &&  $req->password=='123') {
+    //      Session::put('user','12345'); //debug
+    //      dd($user);
+    //      return redirect('/dashboard');
+
+    // }
+    if (($user->exists)) {
         //return $user;
         Session::put('user', $user); 
+        return redirect('/dashboard');
+    } else {
+        return redirect('/login');
     }
-   return redirect('/');
 }
 function logout() {
     session_start();

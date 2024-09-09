@@ -111,9 +111,9 @@
 </script>
 
 @if($formtype='update')
-    <form method="post" action="clients/update/{{$data->id??''}}">
+    <form method="post" action="{{ url('clients/save/'.$data->id??'') }}">
 @else
-    <form method="post" action="clients/create/}}">
+    <form method="post" action="{{ url('clients/save/') }}">
 @endif
 	@csrf
     <!-- <input type="hidden" name="_ip_csrf"
@@ -135,19 +135,18 @@
     <div id="content">
 
         <div class="alert alert-success" role="alert">
-            A simple success alert—check it out!
+            Data Saved.
         </div>
 
         
-        <input class="hidden" name="is_update" type="hidden"
-            value="0"        >
+        <input class="hidden" name="is_update" type="hidden" value="0"        >
 
         <div class="row">
             <div class="col-xs-12 col-sm-6">
 
                 <div class="panel panel-default">
                     <div class="panel-heading form-inline clearfix">
-                        Personal Information
+                        Personal Informationxx
                         <div class="pull-right">
                             <label for="client_active" class="control-label">
                                 Active <input id="client_active" name="Active" type="checkbox" value="1" checked="checked">
@@ -177,8 +176,11 @@
                                 Client as                            </label>
                             <select name="AccType" id="client_language" class="form-control simple-select">
                                 <option value="system">Use System language</option>
-                                @foreach (json_decode($mClientas) as $m)
-                                <option value="{{$m->id??''}}">{{$m->name??''}}</option>
+                                @foreach ($mClientas as $m)
+                                    @php
+                                        $select=($data->AccType==$m['id'])?'selected':'';
+                                    @endphp
+                                    <option value="{{$m['id']??''}}" {{$select}}>{{$m['name']??''}}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -234,7 +236,7 @@
                             <label for="client_zip">Zip Code</label>
 
                             <div class="controls">
-                                <input type="text" name="Zip" id="client_zip" class="form-control" value="{{$address->Zip??''}}">
+                                <input type="text" name="ZipCode" class="form-control" value="{{$data->ZipCode??''}}">
                             </div>
                         </div>
 
@@ -261,7 +263,7 @@
                             <label for="client_phone">Phone Number</label>
 
                             <div class="controls">
-                                <input type="text" name="client_phone" id="client_phone" class="form-control" value="{{$address->Phone??''}}">
+                                <input type="text" name="PhoneNo" class="form-control" value="{{$data->PhoneNo??''}}">
                             </div>
                         </div>
 
@@ -285,7 +287,7 @@
                             <label for="client_email">Email Address</label>
 
                             <div class="controls">
-                                <input type="text" name="client_email" id="client_email" class="form-control" value="{{$data->Email??''}}">
+                                <input type="text" name="Email" class="form-control" value="{{$data->Email??''}}">
                             </div>
                         </div>
 
@@ -293,7 +295,7 @@
                             <label for="client_web">Web Address</label>
 
                             <div class="controls">
-                                <input type="text" name="client_web" id="client_web" class="form-control"
+                                <input type="text" name="WebAddress" class="form-control"
                                        value="{{$data->WebAddress??''}}">
                             </div>
                         </div>
@@ -322,7 +324,7 @@
 					<div class="form-group has-feedback">
                             <label for="client_birthdate">Contach Person Name</label>
                             <div class="input-group">
-                                <input type="text" name="ContactPerson" id="" class="form-control" value="{{$data->ContactPerson??''}}">
+                                <input type="text" name="ContactPerson" class="form-control" value="{{$data->ContactPerson??''}}">
                                 
                             </span>
                             </div>
@@ -330,9 +332,12 @@
                         <div class="form-group">
                             <label for="client_gender">Gender</label>
                             <div class="controls">
-                                <select name='client_gender_test'  >
-                                @foreach (json(decode($mGender) as $m)
-                                    <option value="{{$m->id??''}}">{{$m->name??''}}</option>
+                                <select name='Gender'  >
+                                @foreach ($mGender as $m)
+                                    @php
+                                        $select=($data->Gender==$m['id'])?'selected':'';
+                                    @endphp
+                                    <option value="{{$m['id']??''}}" {{$select}}>{{$m['name']??''}}</option>
                                 @endforeach
                                 </select>
                             </div>
@@ -368,8 +373,8 @@
                             <label for="client_vat_id">Tax Number</label>
 
                             <div class="controls">
-                                <input type="text" name="TaxCode" id="client_vat_id" class="form-control"
-                                       value="{{$data->Taxno??''}}">
+                                <input type="text" name="TaxNo" class="form-control"
+                                       value="{{$data->TaxNo??''}}">
                             </div>
                         </div>
 
@@ -409,6 +414,12 @@
                    value="">
                     </div>
     </div>
+
+    
+            
+        </div>
+
+        
                                                                                                     <div class="form-group">
         
                 
@@ -418,6 +429,23 @@
                     </div>
                 </div>
             </div>
+            </div>
+            <div class="col-xs-12 col-sm-6">
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">Memo</div>
+
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <label for="client_vat_id">Memo</label>
+
+                            <div class="controls">
+                                <input type="text" name="Memo" class="form-control"
+                                       value="{{$data->Memo??''}}">
+                            </div>
+                        </div>
+                </div>
+
             </div>
 			<button type="submit">Submit</button>
 </form>

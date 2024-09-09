@@ -33,14 +33,15 @@
 </p>
 </div>
 </div>
-<form action="#" class="signin-form">
+<form method="post" action="{{url('checklogin')}}" class="signin-form">
+@csrf
 <div class="form-group mb-3">
 <label class="label" for="name">Username</label>
-<input type="text" class="form-control" placeholder="Username" required>
+<input name="username" type="text" class="form-control" placeholder="Username" required>
 </div>
 <div class="form-group mb-3">
 <label class="label" for="password">Password</label>
-<input type="password" class="form-control" placeholder="Password" required>
+<input name="password" type="password" class="form-control" placeholder="Password" required>
 </div>
 <div class="form-group">
 <button type="submit" class="form-control btn btn-primary rounded submit px-3">Sign In</button>
@@ -57,7 +58,7 @@
 </div>
 </div>
 </form>
-<p class="text-center">Not a member? <a data-toggle="tab" href="#signup">Sign Up</a></p>
+<p class="text-center">Not a member? <a data-toggle="tab" href="login">{{url('login')}}</a></p>
 </div>
 </div>
 </div>

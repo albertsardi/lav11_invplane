@@ -21,7 +21,7 @@
                         <i class="fa fa-file-text fa-margin"></i>
                         <span class="hidden-xs">Create Invoice</span>
                     </a>
-                    <a href="https://demo.invoiceplane.com/payments/form" class="btn btn-default">
+                    <a href="payment/form" class="btn btn-default">
                         <i class="fa fa-credit-card fa-margin"></i>
                         <span class="hidden-xs">Enter Payment</span>
                     </a>

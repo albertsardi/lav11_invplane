@@ -10,6 +10,7 @@ use Illuminate\Notifications\Notifiable;
 class User extends Authenticatable
 {
     use HasFactory, Notifiable;
+    protected $table = 'users';
 
     /**
      * The attributes that are mass assignable.
@@ -43,5 +44,11 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    protected function GetByLoginPassword($login, $pass)
+    {
+        $user = User::where('username', $login)->where('password', $pass)->first();
+        return $user;
     }
 }

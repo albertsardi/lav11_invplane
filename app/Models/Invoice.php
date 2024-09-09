@@ -58,7 +58,7 @@ class Invoice extends Model
 	public static function getStatus($invno) {
 		$inv = Invoice::where('TransNo', $invno)->first();
 		$total = $inv['Total']??0;
-		$paid = ($inv['FirstPaymentAmount']??0)+Payment::where('InvNo',$invno)->sum('AmountPaid');
+		$paid = ($inv['FirstPaymentAmount']??0)+PaymentARAP::where('InvNo',$invno)->sum('AmountPaid');
 		$outstanding = $total - $paid;
 		$out = [
 			'InvAmount' 	=> $total,

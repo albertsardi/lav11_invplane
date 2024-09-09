@@ -14,7 +14,8 @@ class ClientController extends MainController
         $OpenApi = new OpenapiController();
         $data =[];
         // $data['data'] = Client::all();
-        $data['data'] = Client::where('AccCode', $id)->first();
+        //$data['data'] = Client::where('AccCode', $id)->first();
+        $data['data'] = Client::where('id', $id)->first();
         $data = $this->createSelection($data, ['gender','clientas']);
         // $data['address'] = DB::table('masteraccountaddr')->where('AccCode', $id)->where('defaddr', 1)->first();
         // $data['mCustomer'] = [];//DB::table('masteraccount')->where('AccType','C')->select('AccCode','AccName')->orderBy('AccCode','ASC')->get();
@@ -87,45 +88,76 @@ class ClientController extends MainController
         return view("list_client", $data);
     }
 
-    public function create(Request $req) {
+    public function save($id, Request $req) {
         $input = $req->getContent();
         $input = $req->all();
-        unset($input['_token']);
-        unset($input['is_update']);
-        dump($input);
-        Client::unguard();
-        if ($input['id']=='') {
-            //create new
-            logger('create new');
-            $m = new Client;
-            $m = $m->save($input);
+    
+        dd($input);
+    
+        // validation 
+        // $validate = $req->validate([
+        //     'Name' => 'required',
+        //     'AccName' => 'required|max:255',
+        // ]);
+    
+        //update by id, save using manual karena fill able tidak jalan
+        if ($id=='') {
+            //create new with Id generate
+            $m = new client;
+            $m->Status = 1;
+            $m->Name = $input['Name']??'';
+            $m->FinishDate = $input['FinishDate']??'';
+            $m->Projectid = $input['Projectid']??0;
+            $m->Active = $input['Active']??1;
+            $m->save();
+            $id = $m->id??0;
         } else {
-            //update
-            logger('update');
-            $m = Client::where('id',$id);
-            $m->create($input);
+            //update  by id
+            $m = Client::find($id);
+            $m->AccCode = 1;
+            $m->AccName = $input['Name']??'';
+            $m->Category = $input['Category']??'';
+            $m->Subcategory = $input['SubCategory']??'';
+            $m->Salesman = $input['Salesman']??'';
+            $m->CreditLimit = $input['CreditLimit']??'';
+            $m->CreditActive = $input['CreditActive']??'';
+            $m->Warning = $input['Warning']??'';
+            $m->Unlimit = $input['Unlimit']??'';
+            $m->Combine = $input['Combine']??'';
+            $m->TaxNo = $input['TaxNo']??'';
+            $m->TaxName = $input['TaxName']??'';
+            $m->TaxAddr = $input['TaxAddr']??'';
+            $m->PaymentAddr = $input['PaymentAddr']??'';
+            $m->Email = $input['Email']??'';
+            $m->Area2 = $input['Area2']??'';
+            $m->PriceChannel = $input['PriceChannel']??'';
+            $m->AccNo = $input['AccNo']??'';
+            $m->Memo = $input['Memo']??'';
+            $m->AccType = $input['AccTYpe']??'';
+            $m->Active = $input['Active']??1;
+            $m->Phone= $input['Phone']??'';
+            $m->Language = $input['Language']??'';
+            $m->Address1 = $input['Address1']??'';
+            $m->Address2 = $input['Address2']??'';
+            $m->City = $input['City']??'';
+            $m->State = $input['State']??'';
+            $m->ZipCode = $input['ZipCode']??'';
+            $m->Country = $input['Country']??'';
+            $m->PhoneNo = $input['PhoneNo']??'';
+            $m->FaxNo = $input['FaxNo']??'';
+            $m->MobileNo = $input['MobileNo']??'';
+            $m->WebAddress = $input['WebAddress']??'';
+            $m->Gender = $input['Gender']??'';
+            $m->BirthDate = $input['BirthDate']??'';
+            $m->Vat = $input['Vat']??'';
+            $m->TaxCode = $input['TaxCode']??'';
+            //$client = Client::where('AccCode', $input['AccCode'])->first();
+            //$clientid = $client->id ?? 0;
+            // $m->clientid = $clientid;
+            // $m->AccName = $input['AccName']??'';
+            // $m->Active = $input['Active']??'';
+            $m->save();
         }
-        Cient::reguard();
-    }
-
-    public function update($id, Request $req) {
-        $input = $req->getContent();
-        $input = $req->all();
-        unset($input['_token']);
-        unset($input['is_update']);
-        dump($input);
-        Client::unguard();
-        if ($input['id']=='') {
-            //create new
-            logger('create new');
-            $m = new Client;
-            $m = $m->save($input);
-        } else {
-            //update
-            logger('update');
-            $m = Client::where('id',$id);
-            $m->create($input);
-        }
-        Cient::reguard();
+        return redirect('/client/view/'.$id)->with('success', 'Berhasil simpan data');
     }
 }
