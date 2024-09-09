@@ -89,9 +89,15 @@ class AppController extends Controller
     // ];
 
     $data['quotation'] = DB::table('quotation')->leftJoin('masterstatus','quotation.Status','=','masterstatus.id')->orderBy('TransDate','DESC')->select('quotation.*','masterstatus.id as StatusID','masterstatus.Name as statusName')->take($limit)->get();
+    foreach($data['quotation'] as $d) {
+        $d->clientId = Client::getId($d->AccCode);
+    }
     $data['invoice'] = DB::table('invoice')->leftJoin('masterstatus','invoice.Status','=','masterstatus.id')->orderBy('TransDate','DESC')->take($limit)->select('invoice.*','masterstatus.id as StatusID','masterstatus.Name as statusName')->get();
+    foreach($data['invoice'] as $d) {
+        $d->clientId = Client::getId($d->AccCode);
+    }
     $data['project'] = DB::table('projects')->orderBy('projects.id','DESC')->take($limit)->get();
-    //dd($data['quotation']);
+    dump($data);
     // select * from tasks
     //join projects on projects.id=tasks.ProjectID
     //$data['task'] = DB::table('tasks')->leftJoin('projects','projects.id','=','tasks.ProjectID')->leftJoin('mastertaskstatus','mastertaskstatus.id','=','tasks.Status')->orderBy('tasks.id','ASC')->take($limit)->select('tasks.*','projects.Name as ProjectName','mastertaskstatus.Name as taskName')->get();
@@ -331,11 +337,12 @@ function expenselist($yr=null) {
 function login(Request $req) {
     $data = [];
 
+    //return 'login';
     //if(isset($req)) return dd($req);
     //if(!empty($_POST)) return dd($_POST);
     //if(!empty($req->user)) return dd($req); //redirect('dashboard');
     //if ($req->user=='admin') return redirect('/');
-    return view('login2', $data);
+    return view('login', $data);
 }
 function checklogin(Request $req) {
    session_start();
