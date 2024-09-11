@@ -93,13 +93,12 @@ class AppController extends Controller
     foreach($data['quotation'] as $d) {
         $d->clientId = Client::getId($d->AccCode);
     }
-    $data['invoice'] = DB::table('invoice')->leftJoin('masterstatus','invoice.Status','=','masterstatus.id')->orderBy('TransDate','DESC')->take($limit)->select('invoice.*','masterstatus.id as StatusID','masterstatus.Name as statusName')->get();
+    $data['invoice'] = DB::table('invoice')->leftJoin('masterstatus','masterstatus.id','=','invoice.Status')->select('invoice.*','masterstatus.id AS statusId','masterstatus.Name AS statusName')->take(10)->get();
     foreach($data['invoice'] as $d) {
-        //$d->clientId = Client::getId($d->AccCode);
-        $d->clientId = 123; //Client::getId($d->AccCode);
+        $d->clientId = Client::getId($d->AccCode);
+        //$d->clientId = 123; //Client::getId($d->AccCode);
     }
-    $data['project'] = DB::table('projects')->orderBy('projects.id','DESC')->take($limit)->get();
-    dump($data);
+    $data['project'] = DB::table('projects')->leftJoin('clients','clients.id','=','projects.clientid')->select('Name','projects.Active','projects.id','clients.id as clientid', 'clients.AccName as clientName')->take(10)->get();
     // select * from tasks
     //join projects on projects.id=tasks.ProjectID
     //$data['task'] = DB::table('tasks')->leftJoin('projects','projects.id','=','tasks.ProjectID')->leftJoin('mastertaskstatus','mastertaskstatus.id','=','tasks.Status')->orderBy('tasks.id','ASC')->take($limit)->select('tasks.*','projects.Name as ProjectName','mastertaskstatus.Name as taskName')->get();

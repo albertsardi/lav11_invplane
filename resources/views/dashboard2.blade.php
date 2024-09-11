@@ -757,10 +757,11 @@
                             @if(!empty($project))
                                 @foreach($project as $p)
                                     <tr>
+                                        <?php #dump($p);?>
                                         <td>
                                             <a href="{{ url('projects/view/'.$p->id) }}">{{$p->Name}}</a>                                    </td>
                                         <td>
-                                            <a href="{{ url('clients/view/'.$p->clientid) }}">{{$p->AccName}}</a>                                    </td>
+                                            <a href="{{ url('clients/view/'.$p->clientid) }}">{{$p->clientName??''}}</a>                                    </td>
                                     </tr>
                                 @endforeach
                                 <tr>
@@ -817,6 +818,7 @@
                                             @else
                                                 {{$t->statusName}}
                                             @endif
+                                            <?php #dump($t);?>
                                         </td>
                                         <td>
                                             <a href="{{ url('/tasks/form/'.$t->id??'') }}">{{$t->Name}}</a>
@@ -824,7 +826,7 @@
                                             <span class="font-overdue">{{$t->FinishDate}}</span>                                    
                                         </td>
                                         <td>
-                                            <a href="/projects/view/11">{{$t->ProjectName}}</a>                                    
+                                            <a href="{{ url('projects/view/'.$t->ProjectId)}} ">{{$t->ProjectName}}</a>                                    
                                         </td>
                                     </tr>
                                     @endforeach    

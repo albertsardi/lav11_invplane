@@ -4,3 +4,11 @@ composer dump-autoload
 
 #invoice plane wiki manual
 https://wiki.invoiceplane.com/en/1.6/modules/payments
+
+#invoicelist
+SELECT invoice.*,masterstatus.Name AS statusName FROM invoice
+LEFT JOIN masterstatus ON masterstatus.id=invoice.Status
+
+#projectlist
+select Name,projects.Active,projects.id,clients.id as clientId, clients.AccName as clientName from projects
+left join clients on clients.id=projects.clientid

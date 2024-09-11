@@ -18,7 +18,7 @@ class ProjectController extends Controller
     }
 
     public function view($formtype, $id='') {
-        // return "$formtype - $id";
+        //return "$formtype - $id";
         $data =[];
         $data['data'] = DB::table('projects')->where('id', $id)->first();
         $data['mClient'] = DB::table('Clients')->select('AccCode as id','AccName as Name')->orderBy('AccName','ASC')->get();
