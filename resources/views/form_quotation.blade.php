@@ -2,9 +2,12 @@
 
 @section('js')
 <!-- section js -->
+<script lang="javascript" src="http://localhost/lav11_invplanePdf/resources/js/editgrid.js"></script>
 <!-- use version 0.20.2 -->
 <script lang="javascript" src="https://cdn.jsdelivr.net/npm/handsontable/dist/handsontable.full.min.js"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/handsontable/dist/handsontable.full.min.css" type="text/css" />
+<!-- use bootbox -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/6.0.0/bootbox.min.js" integrity="sha512-oVbWSv2O4y1UzvExJMHaHcaib4wsBMS5tEP3/YkMP6GmkwRJAa79Jwsv+Y/w7w2Vb/98/Xhvck10LyJweB8Jsw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script>
     Dropzone.autoDiscover = false;
 
@@ -121,10 +124,14 @@
                 payment_cf_exist: payment_cf_exist
             });
         });
-
+        
+        $('#cmAddNew').click(function(){
+            alert('cmAddNew click');
+        })
         
 
     });
+    
 </script>
 @stop
 
@@ -288,6 +295,9 @@
             if ($('#quote_discount_amount').val().length > 0) {
                 $('#quote_discount_percent').prop('disabled', true);
             }
+            $('#cmAddNew').click(function () {
+                alert('add new line')
+            });
         });
         $('#quote_discount_amount').keyup(function () {
             if (this.value.length > 0) {
@@ -303,6 +313,8 @@
                 $('#quote_discount_amount').prop('disabled', false);
             }
         });
+
+        
 
                     function UpR(k) {
               var parent = k.parents('.item');
@@ -320,11 +332,49 @@
             $(document).on('click', '.down', function () {
               DownR($(this));
             });
-            });
-        $('#cmAddNew').click(function () {
-            console.log('add new line')
-            window.open('https://demo.invoiceplane.com/quotes/generate_pdf/918', '_blank');
+           
+    });
+
+    function row_edit(id,row) {
+        var rowdata = row.data('rowdata');
+        console.log(rowdata.ProductCode);
+        $('input[name=id]').val(rowdata.id);
+        $("input[name='ProductCode']").val(rowdata.ProductCode);
+        $('input[name=UOM]').val('rowdata.UOM');
+        $('input[name=Qty]').val(rowdata.Qty);
+        $('input[name=Price]').val(rowdata.Price);
+        $('input[name=Amount]').val(rowdata.Amount);
+        alert('row2 edit '+id);
+        
+        var form = $('#modal-quotation-row-edit').html();
+        
+        box = bootbox.dialog({
+            message: form, 
+            title:'',
+            bittons:{},
+            show:false,
         });
+
+        //on show modal fill form
+        box.on("shown.bs.modal", function() {
+            //alert('it worked!');
+            $('input[name=id]').val(rowdata.id);
+            $("input[name='ProductCode']").val(rowdata.ProductCode);
+            $('input[name=UOM]').val(rowdata.UOM);
+            $('input[name=Qty]').val(rowdata.Qty);
+            $('input[name=Price]').val(rowdata.Price);
+            $('input[name=Amount]').val(rowdata.Amount);
+        });
+
+        box.modal('show');
+
+    }
+    function row_delete(id) {
+        //alert('row2 delete '+id);
+        bootbox.alert('row delete '+id);
+    }
+    
+        
 </script>
 
 <div id="delete-quote" class="modal modal-lg" role="dialog" aria-labelledby="modal_delete_quote" aria-hidden="true">
@@ -339,12 +389,9 @@
 
         </div>
         <div class="modal-footer">
-        @if($formtype='update')
-            <form method="post" action="{{ url('/quotation/update/'.$data->id??'') }} ">
-        @else
-            <form method="post" action="{{ url('/quotation/create/') }}">
-        @endif
-	            @csrf
+            <form action="https://demo.invoiceplane.com/quotes/delete/918"
+                  method="POST">
+                <input type="hidden" name="_ip_csrf" value="55bf919177c054f1b9cdbdea855a0517">
                 <div class="btn-group">
                     <button type="submit" class="btn btn-danger">
                         <i class="fa fa-trash-o fa-margin"></i> Confirm deletion                    </button>
@@ -503,7 +550,7 @@
 </div>
 
 <div id="headerbar">
-    <h1 class="headerbar-title">Quote #{{$data->TransNo ??''}}</h1>
+    <h1 class="headerbar-title">Form Quote #{{$data->TransNo ??''}}</h1>
 
     <div class="headerbar-item pull-right">
         <div class="btn-group btn-group-sm">
@@ -548,8 +595,7 @@
         </div>
 
         <a href="#" class="btn btn-success btn-sm ajax-loader" id="btn_save_quote">
-            <i class="fa fa-check"></i>
-            Save        </a>
+            <i class="fa fa-check"></i>Edit</a>
     </div>
 
 </div>
@@ -641,30 +687,21 @@
                 <div class="col-xs-12 col-sm-6 col-md-7">
                     <div class="details-box">
                         <div class="row">
-
                             <div class="col-xs-12 col-md-6">
 
                                 <div class="quote-properties">
                                     <label for="quote_number">Quote #</label>
-                                    <input type="text" id="quote_number" class="form-control input-sm" value="{{$data->TransNo??''}}">
+                                    <input type="text" id="quote_number" class="form-control input-sm bold" disabled value="{{$data->TransNo??''}}">
                                 </div>
                                 <div class="quote-properties has-feedback">
-                                    <label for="quote_date_created">Date</label>
-                                    <div class="input-group">
-                                        <input name="quote_date_created" id="quote_date_created" class="form-control input-sm datepicker" value="07/06/2024"/>
-                                        <span class="input-group-addon"><i class="fa fa-calendar fa-fw"></i></span>
+                                    <label for="quote_date_created">Date :</label>
+                                    <input type="text" id="quote_number" class="form-control input-sm bold" disabled value="{{$data->TransDate??''}}">
                                     </div>
                                 </div>
                                 <div class="quote-properties has-feedback">
-                                    <label for="quote_date_expires">
-                                        Expires                                    </label>
+                                    <label for="quote_date_expires">Expires</label>
                                     <div class="input-group">
-                                        <input name="quote_date_expires" id="quote_date_expires"
-                                               class="form-control input-sm datepicker"
-                                               value="07/21/2024">
-                                        <span class="input-group-addon">
-                                            <i class="fa fa-calendar fa-fw"></i>
-                                        </span>
+                                        <input type="text" class="form-control input-sm bold" disabled value="17/21/2024">
                                     </div>
                                 </div>
 
@@ -676,34 +713,11 @@
                                 <div class="quote-properties">
                                     <label for="quote_status_id">
                                         Status                                    </label>
-                                    <select name="quote_status_id" id="quote_status_id"
-                                            class="form-control input-sm simple-select" data-minimum-results-for-search="Infinity">
-                                                                                    <option value="1"
-                                                    selected="selected"
-                                                >
-                                                Draft                                            </option>
-                                                                                    <option value="2"
-                                                    >
-                                                Sent                                            </option>
-                                                                                    <option value="3"
-                                                    >
-                                                Viewed                                            </option>
-                                                                                    <option value="4"
-                                                    >
-                                                Approved                                            </option>
-                                                                                    <option value="5"
-                                                    >
-                                                Rejected                                            </option>
-                                                                                    <option value="6"
-                                                    >
-                                                Canceled                                            </option>
-                                                                            </select>
+                                        <input type="text" class="form-control input-sm" disabled value="17/21/2024">
                                 </div>
                                 <div class="quote-properties">
-                                    <label for="quote_password">
-                                        Quote PDF password (optional)                                    </label>
-                                    <input type="text" id="quote_password" class="form-control input-sm"
-                                           value="12345">
+                                    <label for="quote_password">Quote PDF password (optional)</label>
+                                    <input type="text" class="form-control input-sm" disabled value="12345">
                                 </div>
 
                                 
@@ -718,9 +732,37 @@
 
         <div class="row">
             [table]-using hansontable
-            <?php dump($detail);?>
-            <div id="example"></div>
-            </div>
+            <table class="table">
+            <thead>
+                <tr>
+                <th scope="col">#</th>
+                <th scope="col">Product</th>
+                <th scope="col">Unit</th>
+                <th scope="col">Qty</th>
+                <th scope="col">Price</th>
+                <th scope="col">Amount</th>
+                <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+            <?php #dump($detail);?>
+            @foreach($detail as $no=>$d)
+                <tr>
+                <th scope="row">{{$no+1}}</th>
+                <td>{{$d->ProductCode??''}}</td> <!-- product -->
+                <td>{{$d->UOM??''}}</td> <!-- unit -->
+                <td>{{$d->Qty??''}}</td> <!-- qty -->
+                <td>{{$d->Price??''}}</td> <!-- price -->
+                <td>{{$d->Amount??''}}</td> <!-- amount -->
+                <td class="">
+                    <button class='btn btn-success' data-rowdata='{{ json_encode($d) }}' onclick='row_edit({{$d->id}}, $(this))' ><i class="fa fa-pencil" aria-hidden="true"></i></button>
+                    <button class='btn btn-danger' onclick='row_delete({{$d->id}})'><i class="fa fa-window-close" aria-hidden="true"></i></button>
+                </td>
+                </tr>
+            @endforeach
+            </tbody>
+            </table>
+        </div>
 
 <br/>
 
@@ -735,10 +777,15 @@
     <div class="col-xs-12 visible-xs visible-sm"><br></div>
 
     <div class="col-xs-12 col-md-6 col-md-offset-2 col-lg-4 col-lg-offset-4">
+        @php
+            $taxrate=11;
+            $taxamount = $subtotal*$taxrate/100;
+            $total = $subtotal + $taxamount;
+        @endphp
         <table class="table table-bordered text-right">
             <tr>
                 <td style="width: 40%;">Subtotal</td>
-                <td style="width: 60%;"class="amount">$0,00</td>
+                <td style="width: 60%;"class="amount">{{$subtotal??0}}</td>
             </tr>
             <tr>
                 <td>Item Tax</td>
@@ -746,7 +793,7 @@
             </tr>
             <tr>
                 <td>Quote Tax</td>
-                <td>$0,00</td>
+                <td>{{$taxamount}}</td>
             </tr>
             <tr>
                 <td class="td-vert-middle">Discount</td>
@@ -773,7 +820,7 @@
             </tr>
             <tr>
                 <td><b>Total</b></td>
-                <td class="amount"><b>$0,00</b></td>
+                <td class="amount"><b>{{$total??0}}</b></td>
             </tr>
         </table>
     </div>
@@ -1026,6 +1073,11 @@
             <span aria-hidden="true"><i class="fa fa-close"></i></span>
         </button>
     </div>
+</div>
+
+<!-- modal placeholder -->
+<div class ="d-none">
+    @include('components.modal.quotation_rowEdit')
 </div>
 
 <script defer src="https://demo.invoiceplane.com/assets/core/js/scripts.js"></script>
