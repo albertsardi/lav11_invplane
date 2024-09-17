@@ -2,9 +2,12 @@
 
 @section('js')
 <!-- section js -->
+<script lang="javascript" src="http://localhost/lav11_invplanePdf/resources/js/editgrid.js"></script>
 <!-- use version 0.20.2 -->
 <script lang="javascript" src="https://cdn.jsdelivr.net/npm/handsontable/dist/handsontable.full.min.js"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/handsontable/dist/handsontable.full.min.css" type="text/css" />
+<!-- use bootbox -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/6.0.0/bootbox.min.js" integrity="sha512-oVbWSv2O4y1UzvExJMHaHcaib4wsBMS5tEP3/YkMP6GmkwRJAa79Jwsv+Y/w7w2Vb/98/Xhvck10LyJweB8Jsw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script>
     Dropzone.autoDiscover = false;
 
@@ -121,10 +124,21 @@
                 payment_cf_exist: payment_cf_exist
             });
         });
-
+        
+        $('#cmAddNew').click(function(){
+            alert('cmAddNew click');
+        })
         
 
     });
+    function row_edit(id) {
+        //alert('row2 edit '+id)
+        var form = $('#modal_rowForm').html()
+        bootbox.alert(form, function(){
+            var username = form.find('input[name=usernameInput]').val();
+            console.log(username);
+        });
+    }
 </script>
 @stop
 
@@ -288,6 +302,9 @@
             if ($('#quote_discount_amount').val().length > 0) {
                 $('#quote_discount_percent').prop('disabled', true);
             }
+            $('#cmAddNew').click(function () {
+                alert('add new line')
+            });
         });
         $('#quote_discount_amount').keyup(function () {
             if (this.value.length > 0) {
@@ -303,6 +320,8 @@
                 $('#quote_discount_amount').prop('disabled', false);
             }
         });
+
+        
 
                     function UpR(k) {
               var parent = k.parents('.item');
@@ -320,11 +339,22 @@
             $(document).on('click', '.down', function () {
               DownR($(this));
             });
-            });
-        $('#cmAddNew').click(function () {
-            console.log('add new line')
-            window.open('https://demo.invoiceplane.com/quotes/generate_pdf/918', '_blank');
-        });
+           
+    });
+
+    function row_edit(id) {
+        alert('row2 edit '+id);
+        var form = $('#modal-quotation-row-edit').html();
+        bootbox.confirm(form, function(result){
+            alert(result);
+        })
+    }
+    function row_delete(id) {
+        //alert('row2 delete '+id);
+        bootbox.alert('row delete '+id);
+    }
+    
+        
 </script>
 
 <div id="delete-quote" class="modal modal-lg" role="dialog" aria-labelledby="modal_delete_quote" aria-hidden="true">
@@ -682,7 +712,6 @@
 
         <div class="row">
             [table]-using hansontable
-            <?php dump($detail);?>
             <table class="table">
             <thead>
                 <tr>
@@ -692,17 +721,23 @@
                 <th scope="col">Qty</th>
                 <th scope="col">Price</th>
                 <th scope="col">Amount</th>
+                <th scope="col"></th>
                 </tr>
             </thead>
             <tbody>
+            <?php dump($detail);?>
             @foreach($detail as $no=>$d)
                 <tr>
                 <th scope="row">{{$no+1}}</th>
-                <td>{{$d[1]}}</td> <!-- product -->
-                <td>{{$d[2]}}</td> <!-- unit -->
-                <td>{{$d[3]}}</td> <!-- qty -->
-                <td>{{$d[4]}}</td> <!-- price -->
-                <td>{{$d[6]}}</td> <!-- amount -->
+                <td>{{$d->ProductCode??''}}</td> <!-- product -->
+                <td>{{$d->UOM??''}}</td> <!-- unit -->
+                <td>{{$d->Qty??''}}</td> <!-- qty -->
+                <td>{{$d->Price??''}}</td> <!-- price -->
+                <td>{{$d->Amount??''}}</td> <!-- amount -->
+                <td class="">
+                    <button class='btn btn-success' onclick='row_edit({{$d->id}})'><i class="fa fa-pencil" aria-hidden="true"></i></button>
+                    <button class='btn btn-danger' onclick='row_delete({{$d->id}})'><i class="fa fa-window-close" aria-hidden="true"></i></button>
+                </td>
                 </tr>
             @endforeach
             </tbody>
@@ -1018,6 +1053,11 @@
             <span aria-hidden="true"><i class="fa fa-close"></i></span>
         </button>
     </div>
+</div>
+
+<!-- modal placeholder -->
+<div class ="d-none">
+    @include('components.modal.quotation_rowEdit')
 </div>
 
 <script defer src="https://demo.invoiceplane.com/assets/core/js/scripts.js"></script>

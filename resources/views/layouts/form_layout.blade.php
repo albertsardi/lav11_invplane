@@ -3,7 +3,7 @@
 <html class="no-js" lang="en"> <!--<![endif]-->
 
 <head>
-    <title>{{$title}}</title>
+    <title>{{$title??'no-title'}}</title>
 
 @include('components.header')
     

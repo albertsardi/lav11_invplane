@@ -17,21 +17,34 @@ class QuoteController extends MainController
   public function view($formtype, $id='') {
     //return 'view '.$id;
 
-    $data['data'] = DB::table('quotation')->first();
-    $transno = $data['data']->TransNo; 
-    $transno = 'DO.1800011'; //debug
-    // dd($data['head']->TransNo);
-    $detail = DB::table('transdetail')->where('TransNo',$transno)->orderBy('id','ASC')->select('ProductCode','ProductName','UOM','Qty','Price','Qty','id')->get();
-    $subtotal=0;
-    foreach($detail as $d) {
-        $d->Qty = abs($d->Qty);
-        $d->Amount = abs($d->Qty) * $d->Price; 
-        $subtotal = $subtotal + $d->Amount;
+    if ($id!='') {
+      $data['data'] = DB::table('quotation')->find($id);
+      //return dd($data['data']);
+      $transno = $data['data']->TransNo; 
+      //dd($transno);
+      //$transno = 'DO.1800011'; //debug
+      // dd($data['head']->TransNo);
+      $detail = DB::table('transdetail')->where('TransNo',$transno)->orderBy('id','ASC')->select('ProductCode','ProductName','UOM','Qty','Price','Qty','id')->get();
+      //dump($detail);
+      $subtotal = 0;
+      if (!empty($detail)) {
+        //$data['detail'] = $detail; 
+        $subtotal=0;
+        foreach($detail as $d) {
+          $d->Qty = abs($d->Qty);
+          $d->Amount = abs(intval($d->Qty)) * intval($d->Price); 
+          $subtotal += $d->Amount;
+        }
+      } else {
+        $data['detail'] = [];
+      }
+      
+      //dd($detail);
+      $data['detail'] = $detail;
+      $data['subtotal'] = $subtotal;
+    } else {
+      // create new
     }
-    $detail = $this->array_value($detail);
-    //dd($detail);
-    $data['detail']=$detail;
-    $data['subtotal']=$subtotal;
     if ($formtype=='form') return view('form_quotation', $data);
     if ($formtype=='view') return view('view_quotation', $data);
     return abort(404);

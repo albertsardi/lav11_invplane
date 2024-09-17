@@ -5,6 +5,8 @@
     color:#77B632;
   }
 </style>
+<?php #dd($data);?>
+<?php #dd($data->detail);?>
 <section class="py-3 py-md-5">
   <div class="container">
     <div class="row justify-content-center">
@@ -21,12 +23,7 @@
           <div class="col-12">
             <h4>From</h4>
             <address>
-              <strong>BootstrapBrain</strong><br>
-              875 N Coast Hwybr<br>
-              Laguna Beach, California, 92651<br>
-              United States<br>
-              Phone: (949) 494-7695<br>
-              Email: email@domain.com
+              {!! $from !!}
             </address>
           </div>
         </div>
@@ -34,28 +31,24 @@
           <div class="col-12 col-sm-6 col-md-8">
             <h4>Bill To</h4>
             <address>
-              <strong>Mason Carter</strong><br>
-              7657 NW Prairie View Rd<br>
-              Kansas City, Mississippi, 64151<br>
-              United States<br>
-              Phone: (816) 741-5790<br>
-              Email: email@client.com
+              {!! $to !!}
             </address>
           </div>
           <div class="col-12 col-sm-6 col-md-4">
+            <?php #dd($data)?>
             <h4 class="row">
               <span class="col-6 text-green">Invoice #</span>
-              <span class="col-6 text-sm-end text-green">INT-001</span>
+              <span class="col-6 text-sm-end text-green">{{$data->TransNo}}INT-001</span>
             </h4>
             <div class="row">
               <span class="col-6">Account</span>
-              <span class="col-6 text-sm-end">786-54984</span>
+              <span class="col-6 text-sm-end">{{$data->account->AccCode??''}}</span>
               <span class="col-6">Order ID</span>
-              <span class="col-6 text-sm-end">#9742</span>
+              <span class="col-6 text-sm-end">#{{$data->OrderNo??''}}</span>
               <span class="col-6">Invoice Date</span>
-              <span class="col-6 text-sm-end">12/10/2025</span>
+              <span class="col-6 text-sm-end">{{date_create($data->TransDate,'d/m/Y') }}</span>
               <span class="col-6">Due Date</span>
-              <span class="col-6 text-sm-end">18/12/2025</span>
+              <span class="col-6 text-sm-end">{{date_create($data->DueDate,'d/m/Y') }}</span>
             </div>
           </div>
         </div>
@@ -67,50 +60,44 @@
                   <tr>
                     <th scope="col" class="text-uppercase">Qty</th>
                     <th scope="col" class="text-uppercase">Product</th>
-                    <th scope="col" class="text-uppercase text-end">Unit Price</th>
-                    <th scope="col" class="text-uppercase text-end">Amount</th>
+                    <th scope="col" class="text-uppercase text-right">Unit Price</th>
+                    <th scope="col" class="text-uppercase text-right">Amount</th>
                   </tr>
                 </thead>
+                <?php #dd($table);?>
                 <tbody class="table-group-divider">
+                  @foreach($data->detail as $t)
+
+                  <?php 
+                    $product = ($t->ProductCode??'').' - '.($t->ProductName??'')
+                  ?>
                   <tr>
-                    <th scope="row">2</th>
-                    <td>Console - Bootstrap Admin Template</td>
-                    <td class="text-end">75</td>
-                    <td class="text-end">150</td>
+                    <th scope="row">{{$t->Qty??''}}</th>
+                    <td>{{$product??''}}</td>
+                    <td class="text-right">{{$t->Price??''}}</td>
+                    <td class="text-right">{{$t->Amount??''}}</td>
                   </tr>
-                  <tr>
-                    <th scope="row">1</th>
-                    <td>Planet - Bootstrap Blog Template</td>
-                    <td class="text-end">29</td>
-                    <td class="text-end">29</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">4</th>
-                    <td>Hello - Bootstrap Business Template</td>
-                    <td class="text-end">32</td>
-                    <td class="text-end">128</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">1</th>
-                    <td>Palette - Bootstrap Startup Template</td>
-                    <td class="text-end">55</td>
-                    <td class="text-end">55</td>
-                  </tr>
+                  @endforeach
                   <tr>
                     <td colspan="3" class="text-end">Subtotal</td>
-                    <td class="text-end">362</td>
+                    <td class="text-end">{{$subtotal??0}}</td>
                   </tr>
                   <tr>
+                    <?php
+                      $tax = .05 * $subtotal;
+                      $shipping = 15;
+                      $total = $subtotal + $tax + $shipping;
+                    ?>
                     <td colspan="3" class="text-end">VAT (5%)</td>
-                    <td class="text-end">18.1</td>
+                    <td class="text-end">{{$tax}}</td>
                   </tr>
                   <tr>
                     <td colspan="3" class="text-end">Shipping</td>
-                    <td class="text-end">15</td>
+                    <td class="text-end">{{$shipping??0}}</td>
                   </tr>
                   <tr>
                     <th scope="row" colspan="3" class="text-uppercase text-end">Total</th>
-                    <td class="text-end">$495.1</td>
+                    <td class="text-end">{{$total??0}}</td>
                   </tr>
                 </tbody>
               </table>
