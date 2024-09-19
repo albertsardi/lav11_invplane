@@ -41,10 +41,9 @@
     </div>
 </div>
 
-
+@yield('js2')
 </body>
 </html>
 
 
-<script>
 

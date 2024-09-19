@@ -54,6 +54,7 @@ Route::prefix('test')->group(function($e) {
 Route::prefix('quotation')->group(function () {
     // http://localhost/lav9Invplane/quotation/view/1718
     Route::get('/list', [QuoteController::class, 'list']);
+    Route::get('/datatable/{transno}', [QuoteController::class, 'datatable']);
     //Route::get('/{formtype}/{id}', 'App\Http\Controllers\QuoteController@view');
     Route::get('/generate_pdf/{id}', [ReportController::class, 'generatePDF']);
     Route::get('/{formtype}/{id}', [QuoteController::class, 'view']);

@@ -45,7 +45,7 @@ class QuoteController extends MainController
     } else {
       // create new
     }
-    if ($formtype=='form') return view('form_quotation', $data);
+    if ($formtype=='form') return view('form_quotation2', $data);
     if ($formtype=='view') return view('view_quotation', $data);
     return abort(404);
   }
@@ -60,10 +60,41 @@ class QuoteController extends MainController
     //$data['data'] = Client::Get();
     //$data['data'] = DB::table('clients')->where('Active',1)->get();
     return view("list_quote", $data);
-}
+  }
 
   public function generatePDF($id) {
     return "generate $id";
+  }
+
+  
+  public function datatable($transno) {
+    $detail = DB::table('transdetail')->where('TransNo', $transno)->orderBy('id','ASC')->select('ProductCode','ProductName','UOM','Qty','Price','Qty','id')->get();
+    if (!empty($detail)) {
+      
+      $out = '';
+      foreach($detail as $no=>$d) {
+        $no=$no+1;
+        $out .= "<tr>
+                <th scope='row'>$no</th>
+                <td>$d->ProductCode</td>
+                <td>$d->UOM</td>
+                <td>$d->Qty</td>
+                <td>$d->Price</td>
+                <td>".($d->Amount??0)."</td>
+                <td class=''>
+                    <button class='btn btn-success' data-rowdata='".json_encode($d)."' onclick='row_edit({{$d->id}}, $(this))' ><i class='fa fa-pencil' aria-hidden='true'></i></button>
+                    <button class='btn btn-danger' onclick='row_delete({{$d->id}})'><i class='fa fa-window-close' aria-hidden='true'></i></button>
+                </td>
+                </tr>";
+      }
+        
+      return $out;
+    } else {
+      return "<td colspan=6>no data</td>"."<td class=''>
+                    <button class='btn btn-success' data-rowdata='{{ json_encode($d) }}' onclick='row_edit({{$d->id}}, $(this))' ><i class='fa fa-pencil' aria-hidden='true'></i></button>
+                    <button class='btn btn-danger' onclick='row_delete({{$d->id}})'><i class='fa fa-window-close' aria-hidden='true'></i></button>
+                </td>";
+    }
   }
 
   
