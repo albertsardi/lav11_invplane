@@ -574,7 +574,7 @@
             </ul>
         </div>
 
-        <a href="#" class="btn btn-success btn-sm ajax-loader" id="btn_save_quote">
+        <a href="{{url('quotation/form/'.$data->id)}}" class="btn btn-success btn-sm ajax-loader" id="btn_save_quote">
             <i class="fa fa-check"></i>Edit</a>
     </div>
 

@@ -4,3 +4,15 @@ GET http://localhost/lav11_invplanePdf/api/datatables/products
 
 ###
 GET http://localhost/lav11_invplanePdf/api/datatables/projects
+
+###
+POST http://localhost/lav11_invplanePdf/api/quotation/detail/save/QE.1800785
+Content-Type: application/json
+{
+    "ProductCode": "ProductCode",
+    "ProductName": "ProductName",
+    "UOM":'unit',
+    "Qty": 12345,
+    "Price": 456000,
+    "TransNo: 'QE.1800785',
+}

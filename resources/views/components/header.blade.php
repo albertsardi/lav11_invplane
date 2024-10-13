@@ -4,8 +4,6 @@
 <meta name="robots" content="NOINDEX,NOFOLLOW">
 
 <link rel="icon" type="image/png" href="http://localhost:82/assets/images/favicon.ico">
-<!-- jQuery -->
-<script src="{{asset('/assets/js/jquery-3.7.1.min.js') }}" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <link rel="stylesheet" href="http://localhost/lav11_invplanePdf/public/assets/css/bootstrap.min.css">
 <!-- <link rel="stylesheet" href="{{url('/assets/css/bootstrap.min.css') }}"> -->
 
@@ -17,6 +15,9 @@
 <!-- <link rel="stylesheet" href="http://localhost/lav9Invplane/assets/css/style.css?v=1.6.1"> -->
 <link href="{{ asset('assets/fontAwesome-4.7/css/font-awesome.min.css') }}" rel="stylesheet" type="text/css" >
 <!-- <link rel="icon" type="image/png" href="{{ asset('/assets/images/favicon.ico') }}"> -->
+<!-- select2  -->
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
     <link rel="stylesheet" href="{{asset('/assets/css/monospace.css?v=1.6.1') }}">
 
@@ -26,7 +27,7 @@
 <script src="https://demo.invoiceplane.com/assets/core/js/legacy.min.js?v=1.6.1"></script>
 <![endif]-->
 
-<!-- <script src="https://demo.invoiceplane.com/assets/core/js/dependencies.min.js?v=1.6.1"></script> -->
+<script src="https://demo.invoiceplane.com/assets/core/js/dependencies.min.js?v=1.6.1"></script>
 
 <!-- datatables -->
-<script src="{{asset('/assets/Datatables/dataTables.js') }}"></script>
+<script src="{{asset('/assets/Datatables/fdataTables.js') }}"></script>

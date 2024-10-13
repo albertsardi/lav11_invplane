@@ -2,29 +2,29 @@
 
 @section('js')
 <!-- section js -->
-<!-- <script lang="javascript" src="http://localhost/lav11_invplanePdf/resources/js/editgrid.js"></script> -->
+<script lang="javascript" src="http://localhost/lav11_invplanePdf/resources/js/editgrid.js"></script>
 <!-- use version 0.20.2 -->
 <script lang="javascript" src="https://cdn.jsdelivr.net/npm/handsontable/dist/handsontable.full.min.js"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/handsontable/dist/handsontable.full.min.css" type="text/css" />
 <!-- jQuery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"  crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-JobWAqYk5CSjWuVV3mxgS+MmccJqkrBaDhk8SKS1BW+71dJ9gzascwzW85UwGhxiSyR7Pxhu50k+Nl3+o5I49A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <!-- use bootbox -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/6.0.0/bootbox.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/6.0.0/bootbox.min.js" integrity="sha512-oVbWSv2O4y1UzvExJMHaHcaib4wsBMS5tEP3/YkMP6GmkwRJAa79Jwsv+Y/w7w2Vb/98/Xhvck10LyJweB8Jsw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script>
-    // Dropzone.autoDiscover = false;
+    Dropzone.autoDiscover = false;
 
     
     //$(function () {
     $(document).ready(function(){
         //$('.nav-tabs').tab();
         //$('.tip').tooltip();
-        // if (jQuery) {  
-        //        // jQuery is loaded  
-        //        alert("jQuery running!");
-        //      } else {
-        //        // jQuery is not loaded
-        //        alert("jQuery not Work");
-        //      }
+        if (jQuery) {  
+               // jQuery is loaded  
+               alert("jQuery running!");
+             } else {
+               // jQuery is not loaded
+               alert("jQuery not Work");
+             }
 
         
 
@@ -40,21 +40,9 @@
         //         payment_cf_exist: payment_cf_exist
         //     });
         // });
-    });
-    
-</script>
-@stop
-
-@section('js')
-    <script>
-    //$(function () {
-    $(document).ready(function(){
-        // $(document).on('click', '.btn_add_product', function () {
-        //     alert('cmAddNew 4 click');
-        // });
         
-        $('button#cmAddProductBaruXX').click(function(){
-            alert('cmAddNew 3y click');
+        $('#cmAddProductBaru').click(function(){
+            alert('cmAddNew 3 click');
             // $.ajax({
             //     url: 'http://localhost/lav11_invplanePdf/quotation/datatable/QE.1800785',
             //     context:document.body
@@ -65,14 +53,19 @@
             // })
         //var datatable = await fetch('http://localhost/lav11_invplanePdf/quotation/datatable/QE.1800785', method:'GET');
         // console.log(datatable);
-            var datatable = '<tr><td>col1</td><td>col2</td><td>col3</td><td>col4</td></tr>';
-            $('#grid tbody').append(datatable);
+        // var datatable = '<tr><td>col1</td><td>col2</td><td>col3</td><td>col4</td></tr>';
+        // $('#grid').append(datatable);
         })
 
         $('#cmAddNew').click(function(){
             alert('cmAddNew ');
         })
+
+        
+        
+
     });
+    
 </script>
 @stop
 
@@ -125,6 +118,97 @@
     </ul>
 </div>
     <div id="main-content">
+        <script>
+
+        $(document).ready(function () {
+            if ($('#quote_discount_percent').val().length > 0) {
+                $('#quote_discount_amount').prop('disabled', true);
+            }
+            if ($('#quote_discount_amount').val().length > 0) {
+                $('#quote_discount_percent').prop('disabled', true);
+            }
+            $('#cmAddNew').click(function () {
+                alert('add new line 1')
+            });
+        });
+        $('#quote_discount_amount').keyup(function () {
+            if (this.value.length > 0) {
+                $('#quote_discount_percent').prop('disabled', true);
+            } else {
+                $('#quote_discount_percent').prop('disabled', false);
+            }
+        });
+        $('#quote_discount_percent').keyup(function () {
+            if (this.value.length > 0) {
+                $('#quote_discount_amount').prop('disabled', true);
+            } else {
+                $('#quote_discount_amount').prop('disabled', false);
+            }
+        });
+
+        
+
+                    function UpR(k) {
+              var parent = k.parents('.item');
+              var pos = parent.prev();
+              parent.insertBefore(pos);
+            }
+            function DownR(k) {
+              var parent = k.parents('.item');
+              var pos = parent.next();
+              parent.insertAfter(pos);
+            }
+            $(document).on('click', '.up', function () {
+              UpR($(this));
+            });
+            $(document).on('click', '.down', function () {
+              DownR($(this));
+            });
+           
+    });
+
+    function row_edit(id,row) {
+        var rowdata = row.data('rowdata');
+        console.log(rowdata.ProductCode);
+        $('input[name=id]').val(rowdata.id);
+        $("input[name='ProductCode']").val(rowdata.ProductCode);
+        $('input[name=UOM]').val('rowdata.UOM');
+        $('input[name=Qty]').val(rowdata.Qty);
+        $('input[name=Price]').val(rowdata.Price);
+        $('input[name=Amount]').val(rowdata.Amount);
+        alert('row2 edit '+id);
+        
+        var form = $('#modal-quotation-row-edit').html();
+        
+        box = bootbox.dialog({
+            message: form, 
+            title:'',
+            bittons:{},
+            show:false,
+        });
+
+        //on show modal fill form
+        box.on("shown.bs.modal", function() {
+            //alert('it worked!');
+            $('input[name=id]').val(rowdata.id);
+            $("input[name='ProductCode']").val(rowdata.ProductCode);
+            $('input[name=UOM]').val(rowdata.UOM);
+            $('input[name=Qty]').val(rowdata.Qty);
+            $('input[name=Price]').val(rowdata.Price);
+            $('input[name=Amount]').val(rowdata.Amount);
+        });
+
+        box.modal('show');
+
+    }
+    function row_delete(id) {
+        //alert('row2 delete '+id);
+        bootbox.alert('row delete '+id);
+    }
+    
+        
+</script>
+
 <div id="delete-quote" class="modal modal-lg" role="dialog" aria-labelledby="modal_delete_quote" aria-hidden="true">
     <div class="modal-content">
         <div class="modal-header">
@@ -151,7 +235,23 @@
     </div>
 
 </div>
-
+<script>
+    $(function () {
+        $('#quote_tax_submit').click(function () {
+            $.post("https://demo.invoiceplane.com/quotes/ajax/save_quote_tax_rate", {
+                    quote_id: 918,
+                    tax_rate_id: $('#tax_rate_id').val(),
+                    include_item_tax: $('#include_item_tax').val()
+                },
+                function (data) {
+                                        var response = JSON.parse(data);
+                    if (response.success === 1) {
+                        window.location = "https://demo.invoiceplane.com/quotes/view/" + 918;
+                    }
+                });
+        });
+    });
+</script>
 
 <div id="add-quote-tax" class="modal modal-lg" role="dialog" aria-labelledby="modal_add_quote_tax" aria-hidden="true">
     <form class="modal-content">
@@ -651,7 +751,138 @@
     </div>
 </div>
 
+<script>
+    function getIcon(fullname) {
+        var fileFormat = fullname.match(/\.([A-z0-9]{1,5})$/);
+        if (fileFormat) {
+            fileFormat = fileFormat[1];
+        }
+        else {
+            fileFormat = '';
+        }
 
+        var fileIcon = 'default';
+
+        switch (fileFormat) {
+            case 'pdf':
+                fileIcon = 'file-pdf';
+                break;
+
+            case 'mp3':
+            case 'wav':
+            case 'ogg':
+                fileIcon = 'file-audio';
+                break;
+
+            case 'doc':
+            case 'docx':
+            case 'odt':
+                fileIcon = 'file-document';
+                break;
+
+            case 'xls':
+            case 'xlsx':
+            case 'ods':
+                fileIcon = 'file-spreadsheet';
+                break;
+
+            case 'ppt':
+            case 'pptx':
+            case 'odp':
+                fileIcon = 'file-presentation';
+                break;
+        }
+        return fileIcon;
+    }
+
+    // Get the template HTML and remove it from the document
+    var previewNode = document.querySelector('#template');
+    previewNode.id = '';
+    var previewTemplate = previewNode.parentNode.innerHTML;
+    previewNode.parentNode.removeChild(previewNode);
+
+    var myDropzone = new Dropzone(document.body, { // Make the whole body a dropzone
+        url: 'https://demo.invoiceplane.com/upload/upload_file/390/97ueNaImspH0KlTASvnC2jYyXFwB4hJq',
+        params: {
+            '_ip_csrf': Cookies.get('ip_csrf_cookie'),
+        },
+        thumbnailWidth: 80,
+        thumbnailHeight: 80,
+        parallelUploads: 20,
+        uploadMultiple: false,
+        previewTemplate: previewTemplate,
+        autoQueue: true, // Make sure the files aren't queued until manually added
+        previewsContainer: '#previews', // Define the container to display the previews
+        clickable: '.fileinput-button', // Define the element that should be used as click trigger to select files.
+        init: function () {
+            thisDropzone = this;
+            $.getJSON('https://demo.invoiceplane.com/upload/upload_file/390/97ueNaImspH0KlTASvnC2jYyXFwB4hJq',
+                function (data) {
+                    $.each(data, function (index, val) {
+                        var mockFile = {fullname: val.fullname, size: val.size, name: val.name};
+
+                        thisDropzone.options.addedfile.call(thisDropzone, mockFile);
+                        createDownloadButton(mockFile, 'https://demo.invoiceplane.com/upload/get_file/' + val.fullname);
+
+                        if (val.fullname.match(/\.(jpg|jpeg|png|gif)$/)) {
+                            thisDropzone.options.thumbnail.call(thisDropzone, mockFile,
+                                'https://demo.invoiceplane.com/upload/get_file/' + val.fullname);
+                        }
+                        else {
+                            thisDropzone.options.thumbnail.call(thisDropzone, mockFile,
+                                'https://demo.invoiceplane.com/assets/default/img/favicon.png');
+                        }
+
+                        thisDropzone.emit('complete', mockFile);
+                        thisDropzone.emit('success', mockFile);
+                    });
+                });
+        },
+    });
+
+    myDropzone.on('addedfile', function (file) {
+        myDropzone.emit('thumbnail', file, 'https://demo.invoiceplane.com/assets/default/img/favicon.png');
+        createDownloadButton(file, 'https://demo.invoiceplane.com/upload/get_file/97ueNaImspH0KlTASvnC2jYyXFwB4hJq_' +
+            file.name.replace(/\s+/g, '_'));
+    });
+
+    // Update the total progress bar
+    myDropzone.on('totaluploadprogress', function (progress) {
+        document.querySelector('#total-progress .progress-bar').style.width = progress + '%';
+    });
+
+    myDropzone.on('sending', function (file) {
+        // Show the total progress bar when upload starts
+        document.querySelector('#total-progress').style.opacity = '1';
+    });
+
+    // Hide the total progress bar when nothing's uploading anymore
+    myDropzone.on('queuecomplete', function (progress) {
+        document.querySelector('#total-progress').style.opacity = '0';
+    });
+
+    myDropzone.on('removedfile', function (file) {
+        $.post({
+            url: 'https://demo.invoiceplane.com/upload/delete_file/97ueNaImspH0KlTASvnC2jYyXFwB4hJq',
+            data: {
+                name: file.name,
+                _ip_csrf: Cookies.get('ip_csrf_cookie')
+            }
+        });
+    });
+
+    function createDownloadButton(file, fileUrl) {
+        var downloadButtonList = file.previewElement.querySelectorAll('[data-dz-download]');
+        for (var $i = 0; $i < downloadButtonList.length; $i++) {
+            downloadButtonList[$i].addEventListener('click', function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+                location.href = fileUrl;
+                return false;
+            });
+        }
+    }
+</script>
     </div>
 
 </div>
@@ -680,55 +911,7 @@
 <div class ="d-none">
     @include('components.modal.quotation_rowEdit')
 </div>
-@stop
 
+// <script defer src="https://demo.invoiceplane.com/assets/core/js/scripts.js"></script>
 
-@section('js2')
-<script type="text/javascript">
-    $(document).ready(function(){
-        $('button#cmAddNew').click(function(){
-            alert('cmAddNew ');
-        })
-        //$('.nav-tabs').tab();
-        //$('.tip').tooltip();
-        
-
-        
-
-        // $(document).on('click', '.invoice-add-payment', function () {
-        //     var invoice_id = $(this).data('invoice-id');
-        //     var invoice_balance = $(this).data('invoice-balance');
-        //     var invoice_payment_method = $(this).data('invoice-payment-method');
-        //     var payment_cf_exist =  $(this).data('payment-cf-exist');
-        //     $('#modal-placeholder').load("https://demo.invoiceplane.com/payments/ajax/modal_add_payment", {
-        //         invoice_id: invoice_id,
-        //         invoice_balance: invoice_balance,
-        //         invoice_payment_method: invoice_payment_method,
-        //         payment_cf_exist: payment_cf_exist
-        //     });
-        // });
-        //$(document).on('click', '.btn_add_product', function () {
-            //alert('cmAddNew 4 click');
-        //});
-        
-        $('button#cmAddProductBaru').click(function(){
-            alert('cmAddNew 3x click');
-            // $.ajax({
-            //     url: 'http://localhost/lav11_invplanePdf/quotation/datatable/QE.1800785',
-            //     context:document.body
-            // })
-            // .done(function(datatable){
-            //     alert(datatable)
-            //     $('table tbody').html(datatable);
-            // })
-        //var datatable = await fetch('http://localhost/lav11_invplanePdf/quotation/datatable/QE.1800785', method:'GET');
-        // console.log(datatable);
-            alert('add new line');
-            var datatable = '<tr><td>col1</td><td>col2</td><td>col3</td><td>col4</td></tr>';
-            $('#grid tbody').append(datatable);
-        })
-
-        
-    });
-</script>
 @stop

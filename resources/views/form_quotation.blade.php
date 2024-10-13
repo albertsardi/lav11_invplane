@@ -12,6 +12,7 @@
     Dropzone.autoDiscover = false;
 
     
+    
     $(function () {
         //$('.nav-tabs').tab();
         //$('.tip').tooltip();
@@ -295,9 +296,7 @@
             if ($('#quote_discount_amount').val().length > 0) {
                 $('#quote_discount_percent').prop('disabled', true);
             }
-            $('#cmAddNew').click(function () {
-                alert('add new line')
-            });
+            
         });
         $('#quote_discount_amount').keyup(function () {
             if (this.value.length > 0) {
@@ -732,7 +731,7 @@
 
         <div class="row">
             [table]-using hansontable
-            <table class="table">
+            <table id='grid' class="table">
             <thead>
                 <tr>
                 <th scope="col">#</th>
@@ -746,20 +745,7 @@
             </thead>
             <tbody>
             <?php #dump($detail);?>
-            @foreach($detail as $no=>$d)
-                <tr>
-                <th scope="row">{{$no+1}}</th>
-                <td>{{$d->ProductCode??''}}</td> <!-- product -->
-                <td>{{$d->UOM??''}}</td> <!-- unit -->
-                <td>{{$d->Qty??''}}</td> <!-- qty -->
-                <td>{{$d->Price??''}}</td> <!-- price -->
-                <td>{{$d->Amount??''}}</td> <!-- amount -->
-                <td class="">
-                    <button class='btn btn-success' data-rowdata='{{ json_encode($d) }}' onclick='row_edit({{$d->id}}, $(this))' ><i class="fa fa-pencil" aria-hidden="true"></i></button>
-                    <button class='btn btn-danger' onclick='row_delete({{$d->id}})'><i class="fa fa-window-close" aria-hidden="true"></i></button>
-                </td>
-                </tr>
-            @endforeach
+            
             </tbody>
             </table>
         </div>
@@ -1079,7 +1065,149 @@
 <div class ="d-none">
     @include('components.modal.quotation_rowEdit')
 </div>
+@stop
 
-<script defer src="https://demo.invoiceplane.com/assets/core/js/scripts.js"></script>
+@section('js2')
+<script>
+    var box = {}
+    function refreshGrid(detail) {
+        var griddata = `<tbody>`
+        var no=1
+        detail.forEach((row)=>{
+        griddata += `<tr>`
+        griddata += `<th scope='row'>${no}</th>
+                <td>${row.ProductCode}|${row.ProductName}</td>
+                <td>${row.UOM}</td>
+                <td>${row.Qty}</td>
+                <td>${row.Price}</td>
+                <td>${row.Amount}</td>
+                <td class=''>
+                    <button class='cmEdit btn btn-success' data-line=1 data-rowdata='{&quot;ProductCode&quot;:&quot;420&quot;,&quot;ProductName&quot;:&quot;Pk Envio&quot;,&quot;UOM&quot;:&quot;pack&quot;,&quot;Qty&quot;:45,&quot;Price&quot;:&quot;7000.00&quot;,&quot;id&quot;:1,&quot;Amount&quot;:315000}'  ><i class="fa fa-pencil" aria-hidden="true"></i></button>
+                    <button class='cmDelete btn btn-danger'><i class="fa fa-window-close" aria-hidden="true"></i></button>
+                </td>
+            </tr>`;
+        no++
+        });
+        //console.log(griddata);alert('loading data');
+        $('#grid tbody').replaceWith(griddata);
+    }
+    function addRow(){
+        alert('add row');
+        
+        console.log(detail)
+        var newRow={}
+        //newRow.ProductCode = $("input[name='ProductCode']").val()
+        //newRow.ProductCode = $( "#ProductCode option:selected" ).text();
+        newRow.ProductCode = $("select[name='ProductCode']").val();
+        alert(newRow.ProductCode)
+        //newRow.ProductName = $("#ProductCode").val()
+        newRow.UOM = $("input[name='Unit']").val()
+        newRow.Qty = $("input[name='Qty']").val()
+        newRow.Price = $("input[name='Price']").val()
+        newRow.Amount = $("input[name='Amount']").val()
+        newRow.Ucost = $("input[name='Cost']").val()
+        
+        detail.push(newRow)
+        console.log(detail)
+        refreshGrid(detail)
+        box.modal('hide');
+        
+    }
+    
+    // init grid
+    var detail = {!! $detail !!} 
+    refreshGrid(detail);
 
+    //init select2
+    console.log('init select2')
+    const sel = document.querySelector("select");
+        sel.addEventListener("change", () => {
+            alert('select Product change')
+    });
+
+
+    function selProduct_Change() {
+        console.log('123product change')
+        //Use $option (with the "$") to see that the variable is a jQuery object
+        var $option = $('#Product').find('option:selected');
+        //Added with the EDIT
+        var value = $option.val();//to get content of "value" attrib
+        var text = $option.text();//to get <option>Text</option> content
+        console.log([value,text])
+        console.log($('#Product').val())
+    }
+    
+
+                
+    
+                            
+    
+   
+   $(document).ready(function() {
+        $('#cmAddNew').click(function () {
+            //alert('add new line');
+            var form = $('#modal-quotation-row-edit').html();
+            box = bootbox.dialog({
+                message: form, 
+                title:'input new line',
+                bittons:{},
+                show:true,
+                callback:function(result){
+                    console.log(result)
+                    alert(result);    
+                }
+            });
+            $('#Product').select2();
+
+            
+        });
+
+        $('.cmAddRow').click(function () {
+            alert('add new row');
+        });
+
+        $(".cmEdit").click(function() {
+            var line = $(this).data('line');
+            alert('cmEdit '+line);
+            //var rowdata = $(this).data('rowdata');
+            rowdata = detail[line];
+            console.log(rowdata);
+            $('input[name=id]').val('rowdata.id');
+            $("input[name='ProductCode']").val('rowdata.ProductCode');
+            $('input[name=UOM]').val('rowdata.UOM');
+            $('input[name=Qty]').val('rowdata.Qty');
+            $('input[name=Price]').val('rowdata.Price');
+            $('input[name=Amount]').val('rowdata.Amount');
+            //var id= 123;
+            //alert('row2 edit '+id);
+        
+            var form = $('#modal-quotation-row-edit').html();
+        
+            box = bootbox.dialog({
+                message: form, 
+                title:'',
+                bittons:{},
+                show:false,
+            });
+
+            //on show modal fill form
+            box.on("shown.bs.modal", function() {
+                //alert('it worked!');
+                $('input[name=id]').val(rowdata.id);
+                $("input[name='ProductCode']").val(rowdata.ProductCode);
+                $('input[name=UOM]').val(rowdata.UOM);
+                $('input[name=Qty]').val(rowdata.Qty);
+                $('input[name=Price]').val(rowdata.Price);
+                $('input[name=Amount]').val(rowdata.Amount);
+            });
+
+            box.modal('show');
+        })
+
+        $(".cmDelete").click(function() {
+            alert('cmDelete');
+        })
+   });
+
+</script>
 @stop
